@@ -23,13 +23,9 @@ public class Order {
 		refreshDiscount();
 	}
 	
-	public boolean addPizza(Pizza pizza) {
-		if (pizzaList.size() < MAX_NUMBER_OF_PIZZAS) {
-			pizzaList.add(pizza);
-			refreshDiscount();
-			return true;
-		}
-		return false;
+	public void addPizza(Pizza pizza) {
+		pizzaList.add(pizza);
+		refreshDiscount();
 	}
 	
 	public boolean deletePizza(int id) {

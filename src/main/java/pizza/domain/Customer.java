@@ -34,11 +34,11 @@ public class Customer {
 		this.accumulativeCard = accumulativeCard;
 	}
 
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 

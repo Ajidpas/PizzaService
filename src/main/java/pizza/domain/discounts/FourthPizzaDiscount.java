@@ -12,7 +12,6 @@ public class FourthPizzaDiscount implements Discount {
 		this.order = order;
 	}
 
-	@Override
 	public double getDiscount() {
 		if (order.getPizzaList().size() >= 4) {
 			return getBiggestPricePizza() * 30 / 100;
