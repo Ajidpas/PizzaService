@@ -2,8 +2,10 @@ package pizza.repository.pizza;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import pizza.domain.Pizza;
 import pizza.repository.PizzaRepository;
+import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 
 public class InMemPizzaRepository implements PizzaRepository {
 
@@ -14,8 +16,13 @@ public class InMemPizzaRepository implements PizzaRepository {
 		init();
 	}
 
-	public Pizza getPizzaByID(int id) {
-		return allPizzas.get(id - 1);
+	public Pizza getPizzaByID(int id) throws NoSuchPizzaException {
+		int index = id - 1;
+		if (index >= 0 && index < allPizzas.size()) {
+			return allPizzas.get(id - 1);
+		} else {
+			throw new NoSuchPizzaException();
+		}
 	}
 
 	private void init() {

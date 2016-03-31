@@ -9,6 +9,7 @@ import pizza.repository.OrderRepository;
 import pizza.repository.PizzaRepository;
 import pizza.repository.order.InMemOrderRepository;
 import pizza.repository.pizza.InMemPizzaRepository;
+import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 import pizza.service.OrderService;
 
 public class SimpleOrderService implements OrderService {
@@ -22,24 +23,35 @@ public class SimpleOrderService implements OrderService {
 	private OrderRepository orderRepository = new InMemOrderRepository();
 
 	public Order placeNewOrder(Customer customer, Integer ... pizzasID) {
+		Order newOrder = null;
 		if (pizzasID.length >= 1 || pizzasID.length <= 10) {
-			List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
-	        Order newOrder = createOrder(customer, pizzas);
-	        orderRepository.saveOrder(newOrder);  // set Order Id and save Order to in-memory list
-	        return newOrder;
+			List<Pizza> pizzas;
+			try {
+				pizzas = pizzasByArrOfId(pizzasID);
+				newOrder = createOrder(customer, pizzas);
+		        orderRepository.saveOrder(newOrder);  // set Order Id and save Order to in-memory list
+			} catch (NoSuchPizzaException e) {
+				System.out.println(e.toString());
+			}
 		}
-		return null;
+		return newOrder;
 	}
 	
 	public boolean addPizzaIntoOrder(Order order, Integer ... pizzasID) {
 		if (order != null) {
 			int orderPizzas = order.getPizzaList().size();
 			if (pizzasID.length + orderPizzas <= 10) {
-				List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
-				for (Pizza pizza : pizzas) {
-					order.addPizza(pizza);
+				List<Pizza> pizzas;
+				try {
+					pizzas = pizzasByArrOfId(pizzasID);
+					for (Pizza pizza : pizzas) {
+						order.addPizza(pizza);
+					}
+					return true;
+				} catch (NoSuchPizzaException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				return true;
 			}
 		}
 		return false;
@@ -49,17 +61,22 @@ public class SimpleOrderService implements OrderService {
 		 if (order != null) {
 			 int orderPizzas = order.getPizzaList().size();
 			 if (orderPizzas - pizzasID.length >= 1) {
-				 List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
-				 for (Pizza pizza : pizzas) {
-					 order.deletePizza(pizza.getId());	 
-				 }
-				 return true;
+				 List<Pizza> pizzas;
+				try {
+					pizzas = pizzasByArrOfId(pizzasID);
+					for (Pizza pizza : pizzas) {
+						order.deletePizza(pizza.getId());	 
+					}
+					return true;
+				} catch (NoSuchPizzaException e) {
+					e.printStackTrace();
+				}
 			 }
 		 }
 		 return false;
 	}
 
-	private List<Pizza> pizzasByArrOfId(Integer... pizzasID) {
+	private List<Pizza> pizzasByArrOfId(Integer... pizzasID) throws NoSuchPizzaException {
 		List<Pizza> pizzas = new ArrayList<Pizza>();
         for (Integer id : pizzasID) { 
                 pizzas.add(pizzaRepository.getPizzaByID(id));  // get Pizza from predifined in-memory list
