@@ -6,9 +6,40 @@ public class Customer {
 	
 	private String name;
 	
-	public Customer(int id, String name) {
+	private Address address;
+	
+	private AccumulativeCard accumulativeCard;
+	
+	private Customer(int id, String name) {
 		this.id = id;
 		this.name = name;
+	}
+	
+	public Customer(int id, String name, Address address) {
+		this(id, name);
+		this.address = address;
+	}
+	
+	public Customer(int id, String name, String city, String street, 
+			String house, String flat) {
+		this(id, name);
+		this.address = new Address(city, street, house, flat);
+	}
+
+	public AccumulativeCard getAccumulativeCard() {
+		return accumulativeCard;
+	}
+
+	public void setAccumulativeCard(AccumulativeCard accumulativeCard) {
+		this.accumulativeCard = accumulativeCard;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public int getId() {

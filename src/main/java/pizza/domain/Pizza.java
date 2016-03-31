@@ -1,21 +1,16 @@
 package pizza.domain;
 
-import java.math.BigDecimal;
-
-import pizza.repository.pizza.PizzaType;
-
 public class Pizza {
 
 	private int id;
-	
+
 	private String name;
-	
-	private BigDecimal price;
-	
+
+	private double price;
+
 	private PizzaType type;
 
-	public Pizza(int id, String name, BigDecimal price, PizzaType type) {
-		super();
+	public Pizza(int id, String name, double price, PizzaType type) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -38,11 +33,11 @@ public class Pizza {
 		this.name = name;
 	}
 
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
@@ -53,4 +48,12 @@ public class Pizza {
 	public void setType(PizzaType type) {
 		this.type = type;
 	}
+	
+	public static enum PizzaType {
+		VEGETARIAN,
+		SEA,
+		MEAT,
+		VGETABLES
+	}
+	
 }

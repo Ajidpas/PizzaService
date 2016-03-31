@@ -1,6 +1,5 @@
 package pizza.repository.pizza;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import pizza.domain.Pizza;
@@ -20,9 +19,10 @@ public class InMemPizzaRepository implements PizzaRepository {
 	}
 
 	private void init() {
-		allPizzas.add(new Pizza(1, "BigPizza", BigDecimal.ONE, PizzaType.MEAT)); //$NON-NLS-1$
-		allPizzas.add(new Pizza(2, "SmallPizza", BigDecimal.TEN, PizzaType.MEAT)); //$NON-NLS-1$
-		allPizzas.add(new Pizza(3, "MediumPizza", BigDecimal.valueOf(20.0), PizzaType.MEAT)); //$NON-NLS-1$
+		allPizzas.add(new Pizza(1, "BigPizza", 1.0, Pizza.PizzaType.MEAT)); //$NON-NLS-1$
+		allPizzas.add(new Pizza(2, "SmallPizza", 10.0, Pizza.PizzaType.VEGETARIAN)); //$NON-NLS-1$
+		allPizzas.add(new Pizza(3, "MediumPizza", 20.0, Pizza.PizzaType.SEA)); //$NON-NLS-1$
+		allPizzas.add(new Pizza(4, "HugePizza", 40.0, Pizza.PizzaType.VGETABLES)); //$NON-NLS-1$
 	}
 
 }
