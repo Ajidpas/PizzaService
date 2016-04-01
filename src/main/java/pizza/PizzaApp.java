@@ -2,6 +2,7 @@ package pizza;
 
 import pizza.domain.Customer;
 import pizza.domain.Order;
+import pizza.infrastructure.ServiceLocator;
 import pizza.service.OrderService;
 import pizza.service.simple.SimpleOrderService;
 import pizza.view.View;
@@ -14,7 +15,7 @@ public class PizzaApp {
 	public static void main(String[] args) {
 		Customer customer = new Customer(1, "Vasya", "Kiev", "Chervonoarmiyska", "3", "10"); //$NON-NLS-1$
 		Order order;
-		OrderService orderService = new SimpleOrderService();
+		OrderService orderService = (OrderService) ServiceLocator.getInstance().lookup("orderService");
 		order = orderService.placeNewOrder(customer, 1, 2, 3);
 		view.printMessage(order.toString());
 	}

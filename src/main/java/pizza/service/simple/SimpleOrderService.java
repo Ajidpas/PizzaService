@@ -5,6 +5,7 @@ import java.util.List;
 import pizza.domain.Customer;
 import pizza.domain.Order;
 import pizza.domain.Pizza;
+import pizza.infrastructure.ServiceLocator;
 import pizza.repository.OrderRepository;
 import pizza.repository.PizzaRepository;
 import pizza.repository.order.InMemOrderRepository;
@@ -17,10 +18,14 @@ public class SimpleOrderService implements OrderService {
 	private static final int MIN_NUMBER_OF_PIZZAS = 1;
 	
 	private static final int MAX_NUMBER_OF_PIZZAS = 10;
+	
+	private ServiceLocator locator = ServiceLocator.getInstance();
 
-	private PizzaRepository pizzaRepository = new InMemPizzaRepository();
+	private PizzaRepository pizzaRepository = 
+			(PizzaRepository) locator.lookup("pizzaRepository");
 
-	private OrderRepository orderRepository = new InMemOrderRepository();
+	private OrderRepository orderRepository = 
+			(OrderRepository) locator.lookup("orderRepository");
 
 	public Order placeNewOrder(Customer customer, Integer ... pizzasID) {
 		Order newOrder = null;

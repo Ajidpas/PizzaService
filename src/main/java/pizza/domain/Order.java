@@ -1,5 +1,6 @@
 package pizza.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pizza.domain.discounts.FourthPizzaDiscount;
@@ -18,7 +19,8 @@ public class Order {
 	
 	public Order(Customer customer, List<Pizza> pizzas) {
 		this.customer = customer;
-		this.pizzaList = pizzas;
+		pizzaList = new ArrayList();
+		pizzaList.addAll(pizzas);
 		status = OrderStatus.NEW;
 		refreshDiscount();
 	}
@@ -29,7 +31,7 @@ public class Order {
 	}
 	
 	public boolean deletePizza(int id) {
-		if (pizzaList.size() > 1) {
+		if (pizzaList.size() >= 1) {
 			for (Pizza pizza : pizzaList) {
 				if (pizza.getId() == id) {
 					pizzaList.remove(pizza);
