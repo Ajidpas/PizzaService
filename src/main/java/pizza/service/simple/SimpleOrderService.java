@@ -21,11 +21,11 @@ public class SimpleOrderService implements OrderService {
 	
 	private ServiceLocator locator = ServiceLocator.getInstance();
 
-	private PizzaRepository pizzaRepository = 
-			(PizzaRepository) locator.lookup("pizzaRepository");
+	private PizzaRepository pizzaRepository; 
+//	= (PizzaRepository) locator.lookup("pizzaRepository");
 
-	private OrderRepository orderRepository = 
-			(OrderRepository) locator.lookup("orderRepository");
+	private OrderRepository orderRepository; 
+//			= (OrderRepository) locator.lookup("orderRepository");
 
 	public Order placeNewOrder(Customer customer, Integer ... pizzasID) {
 		Order newOrder = null;
@@ -42,6 +42,12 @@ public class SimpleOrderService implements OrderService {
 		return newOrder;
 	}
 	
+	public SimpleOrderService(PizzaRepository pizzaRepository, OrderRepository orderRepository) {
+		super();
+		this.pizzaRepository = pizzaRepository;
+		this.orderRepository = orderRepository;
+	}
+
 	public boolean addPizzaIntoOrder(Order order, Integer ... pizzasID) {
 		if (order != null) {
 			int orderPizzas = order.getPizzaList().size();
