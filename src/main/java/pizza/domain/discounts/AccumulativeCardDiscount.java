@@ -9,8 +9,8 @@ public class AccumulativeCardDiscount implements Discount {
 
 	public double getDiscount(Order order) {
 		Customer customer = order.getCustomer();
-		AccumulativeCard card = customer.getAccumulativeCard(); // Demetry rule!
-		if (card != null) {
+		if (customer.isAccumulativeCard()) {
+			AccumulativeCard card = customer.getAccumulativeCard(); // Demetry rule!
 			double cardMoney = card.getMoney();
 			double orderPrice = order.getOrderPrice();
 			if (cardMoney / 10 < orderPrice * 30 / 100) {

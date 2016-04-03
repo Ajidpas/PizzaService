@@ -20,13 +20,15 @@ public enum EnumStatusState implements StatusState {
 	
 	IN_PROGRESS {
 
-		public StatusState doAction(Order order) {
+		public StatusState doAction(Order order) throws NullOrderStatusException {
 			StatusState status = order.getStatus();
 			if (status == EnumStatusState.NEW) {
 				order.setStatus(this);
 				return this;
-			} else {
+			} else if (order.isStatus()) {
 				return status;
+			} else {
+				throw new NullOrderStatusException();
 			}
 		}
 
@@ -34,13 +36,15 @@ public enum EnumStatusState implements StatusState {
 	
 	DONE {
 		
-		public StatusState doAction(Order order) {
+		public StatusState doAction(Order order) throws NullOrderStatusException {
 			StatusState status = order.getStatus();
 			if (status == EnumStatusState.IN_PROGRESS) {
 				order.setStatus(this);
 				return this;
-			} else {
+			} else if (order.isStatus()) {
 				return status;
+			} else {
+				throw new NullOrderStatusException();
 			}
 		}
 
@@ -48,13 +52,15 @@ public enum EnumStatusState implements StatusState {
 	
 	CANCELED {
 
-		public StatusState doAction(Order order) {
+		public StatusState doAction(Order order) throws NullOrderStatusException {
 			StatusState status = order.getStatus();
 			if (status == EnumStatusState.IN_PROGRESS) {
 				order.setStatus(this);
 				return this;
-			} else {
+			} else if (order.isStatus()) {
 				return status;
+			} else {
+				throw new NullOrderStatusException();
 			}
 		}
 		

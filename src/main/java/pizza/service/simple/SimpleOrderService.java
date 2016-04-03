@@ -8,6 +8,7 @@ import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
 import pizza.domain.order.StatusState;
 import pizza.domain.order.status.EnumStatusState;
+import pizza.domain.order.status.NullOrderStatusException;
 import pizza.repository.OrderRepository;
 import pizza.repository.PizzaRepository;
 import pizza.repository.order.InMemOrderRepository;
@@ -47,10 +48,14 @@ public class SimpleOrderService implements OrderService {
 		List<Pizza> pizzas;
 		pizzas = pizzasByArrOfId(pizzasID);
 		newOrder = createOrder(customer, pizzas);
-		if (status.doAction(newOrder) == EnumStatusState.NEW) {
-			orderRepository.saveOrder(newOrder);  // set Order Id and save Order to in-memory list
-		} else {
-			throw new WrongStatusException();
+		try {
+			if (status.doAction(newOrder) == EnumStatusState.NEW) {
+				orderRepository.saveOrder(newOrder);  // set Order Id and save Order to in-memory list
+			} else {
+				throw new WrongStatusException();
+			}
+		} catch (NullOrderStatusException exept) {
+			// this exception will never occur 
 		}
 		return newOrder;
 	}
@@ -106,7 +111,8 @@ public class SimpleOrderService implements OrderService {
 	}
 	
 	public StatusState confirmOrderByUser(Order order) 
-			throws WrongStatusException, EmptyOrderException {
+			throws WrongStatusException, EmptyOrderException, 
+			NullOrderStatusException {
 		if (order.getPizzaList().size() == 0) {
 			throw new EmptyOrderException();
 		}
@@ -118,7 +124,8 @@ public class SimpleOrderService implements OrderService {
 		return resultStatus;
 	}
 	
-	public StatusState confirmOrderByAdmin(Order order) throws WrongStatusException {
+	public StatusState confirmOrderByAdmin(Order order) throws WrongStatusException, 
+			NullOrderStatusException {
 		StatusState status = EnumStatusState.DONE;
 		StatusState resultStatus = status.doAction(order);
 		if (resultStatus != EnumStatusState.DONE) {
@@ -127,7 +134,8 @@ public class SimpleOrderService implements OrderService {
 		return resultStatus;
 	}
 	
-	public StatusState cancelOrder(Order order) throws WrongStatusException {
+	public StatusState cancelOrder(Order order) throws WrongStatusException, 
+			NullOrderStatusException {
 		StatusState status = EnumStatusState.CANCELED;
 		StatusState resultStatus = status.doAction(order);
 		if (resultStatus != EnumStatusState.CANCELED) {

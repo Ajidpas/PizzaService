@@ -26,7 +26,9 @@ public class Order {
 	}
 
 	public void addPizza(Pizza pizza) {
-		pizzaList.add(pizza);
+		if (pizza != null) {
+			pizzaList.add(pizza);
+		}
 	}
 	
 	public boolean deletePizza(int id) {
