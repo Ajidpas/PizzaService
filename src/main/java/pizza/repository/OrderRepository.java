@@ -1,6 +1,6 @@
 package pizza.repository;
 
-import pizza.domain.Order;
+import pizza.domain.order.Order;
 
 public interface OrderRepository {
 

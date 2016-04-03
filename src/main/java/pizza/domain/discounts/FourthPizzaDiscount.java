@@ -1,28 +1,25 @@
 package pizza.domain.discounts;
 
+import java.util.List;
+
 import pizza.domain.Discount;
-import pizza.domain.Order;
 import pizza.domain.Pizza;
+import pizza.domain.order.Order;
 
 public class FourthPizzaDiscount implements Discount {
-	
-	protected Order order;
 
-	public FourthPizzaDiscount(Order order) {
-		this.order = order;
-	}
-
-	public double getDiscount() {
-		if (order.getPizzaList().size() >= 4) {
-			return getBiggestPricePizza() * 30 / 100;
+	public double getDiscount(Order order) {
+		List<Pizza> pizzas = order.getPizzaList();
+		if (pizzas.size() >= 4) {
+			return getBiggestPricePizza(pizzas) * 30 / 100;
 		} else {
 			return 0;
 		}
 	}
 
-	private double getBiggestPricePizza() {
+	private double getBiggestPricePizza(List<Pizza> pizzas) {
 		double biggerPrice = 0;
-		for (Pizza pizza : order.getPizzaList()) {
+		for (Pizza pizza : pizzas) {
 			double pizzaPrice = pizza.getPrice();
 			if (biggerPrice < pizzaPrice) {
 				biggerPrice = pizzaPrice;

@@ -1,12 +1,15 @@
-package pizza.domain;
+package pizza.domain.customer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Customer {
 	
 	private int id;
 	
 	private String name;
-	
-	private Address address;
+
+	private List<Address> addresses;
 	
 	private AccumulativeCard accumulativeCard;
 	
@@ -17,13 +20,19 @@ public class Customer {
 	
 	public Customer(int id, String name, Address address) {
 		this(id, name);
-		this.address = address;
+		addresses = new ArrayList<Address>();
+		addresses.add(address);
 	}
 	
 	public Customer(int id, String name, String city, String street, 
 			String house, String flat) {
 		this(id, name);
-		this.address = new Address(city, street, house, flat);
+		addresses = new ArrayList<Address>();
+		addresses.add(new Address(city, street, house, flat));
+	}
+	
+	public boolean isAccumulativeCard() {
+		return accumulativeCard != null;
 	}
 
 	public AccumulativeCard getAccumulativeCard() {
@@ -34,12 +43,12 @@ public class Customer {
 		this.accumulativeCard = accumulativeCard;
 	}
 
-	public Address getAddress() {
-		return address;
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
 	public int getId() {

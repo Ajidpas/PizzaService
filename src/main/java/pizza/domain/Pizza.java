@@ -53,7 +53,7 @@ public class Pizza {
 		VEGETARIAN,
 		SEA,
 		MEAT,
-		VGETABLES
+		VEGETABLES
 	}
 	
 }

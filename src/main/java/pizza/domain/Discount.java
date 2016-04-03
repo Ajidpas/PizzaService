@@ -1,7 +1,9 @@
 package pizza.domain;
 
+import pizza.domain.order.Order;
+
 public interface Discount {
 	
-	double getDiscount();
+	double getDiscount(Order order);
 
 }

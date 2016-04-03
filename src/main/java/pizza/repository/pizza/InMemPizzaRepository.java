@@ -29,7 +29,7 @@ public class InMemPizzaRepository implements PizzaRepository {
 		allPizzas.add(new Pizza(1, "BigPizza", 1.0, Pizza.PizzaType.MEAT)); //$NON-NLS-1$
 		allPizzas.add(new Pizza(2, "SmallPizza", 10.0, Pizza.PizzaType.VEGETARIAN)); //$NON-NLS-1$
 		allPizzas.add(new Pizza(3, "MediumPizza", 20.0, Pizza.PizzaType.SEA)); //$NON-NLS-1$
-		allPizzas.add(new Pizza(4, "HugePizza", 40.0, Pizza.PizzaType.VGETABLES)); //$NON-NLS-1$
+		allPizzas.add(new Pizza(4, "HugePizza", 40.0, Pizza.PizzaType.VEGETABLES)); //$NON-NLS-1$
 	}
 
 }
