@@ -4,15 +4,16 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import pizza.domain.Discount;
 import pizza.domain.Pizza;
 import pizza.domain.Pizza.PizzaType;
 import pizza.domain.customer.Customer;
+import pizza.domain.discountprovider.Discount;
+import pizza.domain.discountprovider.discounts.FourthPizzaDiscount;
 import pizza.domain.order.Order;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
-import pizza.service.simple.SimpleOrderService;
-import pizza.service.simple.exceptions.NotSupportedPizzasNumberException;
-import pizza.service.simple.exceptions.WrongStatusException;
+import pizza.service.orderservice.SimpleOrderService;
+import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
+import pizza.service.orderservice.exceptions.WrongStatusException;
 
 public class FourthPizzaDiscountTest {
 	

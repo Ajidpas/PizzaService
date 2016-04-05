@@ -1,10 +1,11 @@
-package pizza.service.simple;
+package pizza.service.orderservice;
 
 import java.util.ArrayList;
 import java.util.List;
-import pizza.domain.Discount;
+
 import pizza.domain.Pizza;
 import pizza.domain.customer.Customer;
+import pizza.domain.discountprovider.Discount;
 import pizza.domain.order.Order;
 import pizza.domain.order.StatusState;
 import pizza.domain.order.status.EnumStatusState;
@@ -15,9 +16,10 @@ import pizza.repository.order.InMemOrderRepository;
 import pizza.repository.pizza.InMemPizzaRepository;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 import pizza.service.OrderService;
-import pizza.service.simple.exceptions.EmptyOrderException;
-import pizza.service.simple.exceptions.NotSupportedPizzasNumberException;
-import pizza.service.simple.exceptions.WrongStatusException;
+import pizza.service.discountservice.SimpleDiscountService;
+import pizza.service.orderservice.exceptions.EmptyOrderException;
+import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
+import pizza.service.orderservice.exceptions.WrongStatusException;
 
 public class SimpleOrderService implements OrderService {
 	
@@ -29,12 +31,12 @@ public class SimpleOrderService implements OrderService {
 
 	private OrderRepository orderRepository;
 	
-	private DiscountService discountService;
+	private SimpleDiscountService discountService;
 	
 	public SimpleOrderService() {
 		pizzaRepository = new InMemPizzaRepository();
 		orderRepository = new InMemOrderRepository();
-		discountService = new DiscountService();
+		discountService = new SimpleDiscountService();
 	}
 
 	public Order placeNewOrder(Customer customer, Integer ... pizzasID) 

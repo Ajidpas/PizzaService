@@ -3,9 +3,11 @@ package pizza.domain.customer;
 import java.util.ArrayList;
 import java.util.List;
 
+import pizza.domain.AccumulativeCard;
+
 public class Customer {
 	
-	private int id;
+	private long id;
 	
 	private String name;
 
@@ -13,7 +15,7 @@ public class Customer {
 	
 	private AccumulativeCard accumulativeCard;
 	
-	private Customer(int id, String name) {
+	private Customer(long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -51,11 +53,11 @@ public class Customer {
 		this.addresses = addresses;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

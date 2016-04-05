@@ -1,4 +1,4 @@
-package pizza.service.simple.exceptions;
+package pizza.service.orderservice.exceptions;
 
 public class NotSupportedPizzasNumberException extends Exception {
 	

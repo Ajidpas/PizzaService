@@ -1,21 +1,22 @@
-package pizza.service.simple;
+package pizza.service.discountservice;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import pizza.domain.Discount;
-import pizza.domain.discounts.AccumulativeCardDiscount;
-import pizza.domain.discounts.FourthPizzaDiscount;
+import pizza.domain.discountprovider.Discount;
+import pizza.domain.discountprovider.DiscountProvider;
+import pizza.domain.discountprovider.discounts.AccumulativeCardDiscount;
+import pizza.domain.discountprovider.discounts.FourthPizzaDiscount;
 import pizza.domain.order.Order;
+import pizza.service.DiscountService;
 
-public class DiscountService {
+public class SimpleDiscountService implements DiscountService {
 	
-	List<Discount> discountList;
+	private List<Discount> discountList;
 	
-	{
-		discountList = new ArrayList<Discount>();
-		discountList.add(new AccumulativeCardDiscount());
-		discountList.add(new FourthPizzaDiscount());
+	public SimpleDiscountService() {
+		DiscountProvider discountProvider = new DiscountProvider();
+		discountList = discountProvider.getDiscountList();
 	}
 	
 	public double getDiscount(Order order) {

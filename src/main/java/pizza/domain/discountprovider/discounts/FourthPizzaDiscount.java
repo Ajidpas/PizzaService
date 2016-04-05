@@ -1,9 +1,9 @@
-package pizza.domain.discounts;
+package pizza.domain.discountprovider.discounts;
 
 import java.util.List;
 
-import pizza.domain.Discount;
 import pizza.domain.Pizza;
+import pizza.domain.discountprovider.Discount;
 import pizza.domain.order.Order;
 
 public class FourthPizzaDiscount implements Discount {

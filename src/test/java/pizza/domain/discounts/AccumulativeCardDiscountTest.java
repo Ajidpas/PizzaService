@@ -4,14 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import pizza.domain.Discount;
-import pizza.domain.customer.AccumulativeCard;
+import pizza.domain.AccumulativeCard;
 import pizza.domain.customer.Customer;
+import pizza.domain.discountprovider.Discount;
+import pizza.domain.discountprovider.discounts.AccumulativeCardDiscount;
 import pizza.domain.order.Order;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
-import pizza.service.simple.SimpleOrderService;
-import pizza.service.simple.exceptions.NotSupportedPizzasNumberException;
-import pizza.service.simple.exceptions.WrongStatusException;
+import pizza.service.orderservice.SimpleOrderService;
+import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
+import pizza.service.orderservice.exceptions.WrongStatusException;
 
 public class AccumulativeCardDiscountTest {
 	

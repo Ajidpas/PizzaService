@@ -7,7 +7,7 @@ import org.junit.Test;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
-import pizza.service.simple.exceptions.NotSupportedPizzasNumberException;
+import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 
 public class SimpleOrderServiceTest {
 	

@@ -1,4 +1,4 @@
-package pizza.domain;
+package pizza.domain.discountprovider;
 
 import pizza.domain.order.Order;
 

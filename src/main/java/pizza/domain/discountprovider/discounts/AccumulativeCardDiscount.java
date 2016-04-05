@@ -1,8 +1,8 @@
-package pizza.domain.discounts;
+package pizza.domain.discountprovider.discounts;
 
-import pizza.domain.Discount;
-import pizza.domain.customer.AccumulativeCard;
+import pizza.domain.AccumulativeCard;
 import pizza.domain.customer.Customer;
+import pizza.domain.discountprovider.Discount;
 import pizza.domain.order.Order;
 
 public class AccumulativeCardDiscount implements Discount {

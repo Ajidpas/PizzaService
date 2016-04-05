@@ -4,9 +4,9 @@ import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 import pizza.service.OrderService;
-import pizza.service.simple.SimpleOrderService;
-import pizza.service.simple.exceptions.NotSupportedPizzasNumberException;
-import pizza.service.simple.exceptions.WrongStatusException;
+import pizza.service.orderservice.SimpleOrderService;
+import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
+import pizza.service.orderservice.exceptions.WrongStatusException;
 import pizza.view.View;
 import pizza.view.console.ConsoleView;
 

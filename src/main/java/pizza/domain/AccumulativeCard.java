@@ -1,20 +1,20 @@
-package pizza.domain.customer;
+package pizza.domain;
 
 public class AccumulativeCard {
 	
-	private int id;
+	private long id;
 
 	private double money;
 	
-	public AccumulativeCard(int id) {
+	public AccumulativeCard(long id) {
 		this.id = id;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
