@@ -5,9 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import pizza.domain.AccumulativeCard;
+import pizza.domain.Discount;
 import pizza.domain.customer.Customer;
-import pizza.domain.discountprovider.Discount;
-import pizza.domain.discountprovider.discounts.AccumulativeCardDiscount;
 import pizza.domain.order.Order;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 import pizza.service.orderservice.SimpleOrderService;
@@ -15,8 +14,6 @@ import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 import pizza.service.orderservice.exceptions.WrongStatusException;
 
 public class AccumulativeCardDiscountTest {
-	
-	private Discount discount = new AccumulativeCardDiscount();
 	
 	private SimpleOrderService service = new SimpleOrderService();
 	
@@ -26,16 +23,18 @@ public class AccumulativeCardDiscountTest {
 	public void testGetDiscount() throws NotSupportedPizzasNumberException, NoSuchPizzaException, WrongStatusException {
 		Order order = service.placeNewOrder(customer, 1, 2, 3);
 		
+		Discount discount = new AccumulativeCardDiscount(null, order);
+		
 		// accumulative card is null
 		double expected = 0; 
-		double result = discount.getDiscount(order);
+		double result = discount.getDiscount();
 		assertEquals(expected, result, 0.0001);
 		
 		// accumulative card exists but there are no money
 		AccumulativeCard card = new AccumulativeCard(123);
-		customer.setAccumulativeCard(card);
+		discount = new AccumulativeCardDiscount(card, order);
 		expected = 0;
-		result = discount.getDiscount(order);
+		result = discount.getDiscount();
 		assertEquals(expected, result, 0.0001);
 		
 		// let's put money into the accumulative card less then 300% of the order price
@@ -43,14 +42,14 @@ public class AccumulativeCardDiscountTest {
 		double money = order.getOrderPrice() * 2; // 200%
 		card.setMoney(money);
 		expected = card.getMoney() / 10; // because this value is less then 30% of order price
-		result = discount.getDiscount(order);
+		result = discount.getDiscount();
 		assertEquals(expected, result, 0.0001);
 		
 		// let's put some money into the card that sum will be more then 300% of the order price
 		money = order.getOrderPrice() * 5; // 500%
 		card.addMoney(money);
 		expected = order.getOrderPrice() *30 / 100; // because 30% of card money is bigger then 10% of order price
-		result = discount.getDiscount(order);
+		result = discount.getDiscount();
 		assertEquals(expected, result, 0.0001);
 	}
 

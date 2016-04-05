@@ -18,4 +18,8 @@ public class InMemCardRepository implements CardRepository {
 		return card.getId();
 	}
 
+	public List<AccumulativeCard> getAllCards() {
+		return cards;
+	}
+
 }

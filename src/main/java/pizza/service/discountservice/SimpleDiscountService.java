@@ -1,52 +1,42 @@
 package pizza.service.discountservice;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import pizza.domain.discountprovider.Discount;
-import pizza.domain.discountprovider.DiscountProvider;
-import pizza.domain.discountprovider.discounts.AccumulativeCardDiscount;
-import pizza.domain.discountprovider.discounts.FourthPizzaDiscount;
+import pizza.domain.Discount;
 import pizza.domain.order.Order;
+import pizza.repository.DiscountRepository;
+import pizza.repository.discounts.InMemDiscountRepository;
 import pizza.service.DiscountService;
 
 public class SimpleDiscountService implements DiscountService {
 	
+	private DiscountProvider discountProvider;
+	
 	private List<Discount> discountList;
 	
-	public SimpleDiscountService() {
-		DiscountProvider discountProvider = new DiscountProvider();
+	public SimpleDiscountService(Order order) {
+		discountProvider = new DiscountProvider(order);
 		discountList = discountProvider.getDiscountList();
 	}
 	
-	public double getDiscount(Order order) {
-		List<Discount> orderDiscounts = getOrderDiscounts(order);
+	public double getDiscount() {
 		double entireDiscount = 0;
-		for (Discount discount : orderDiscounts) {
-			entireDiscount += discount.getDiscount(order);
-		}
-		return entireDiscount;
-	}
-	
-	public List<Discount> getOrderDiscounts(Order order) {
-		List<Discount> orderDiscounts = new ArrayList<Discount>();
 		for (Discount discount : discountList) {
-			if (discount.getDiscount(order) > 0) {
-				orderDiscounts.add(discount);
-			}
-		}
-		return orderDiscounts;
-	}
-	
-	public double saveDiscounts(Order order) {
-		List<Discount> orderDiscounts = getOrderDiscounts(order);
-		double entireDiscount = 0;
-		order.cleanDiscounts();
-		for (Discount discount : orderDiscounts) {
-			entireDiscount += discount.getDiscount(order);
-			order.addDiscount(discount);
+			entireDiscount += discount.getDiscount();
 		}
 		return entireDiscount;
+	}
+	
+	public List<Discount> getOrderDiscounts() {
+		return discountList;
+	}
+
+	public int saveDiscounts() {
+		DiscountRepository repository = new InMemDiscountRepository();
+		for (Discount discount : discountList) {
+			repository.saveDiscount(discount);
+		}
+		return discountList.size();
 	}
 
 }

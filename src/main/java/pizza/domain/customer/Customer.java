@@ -13,8 +13,6 @@ public class Customer {
 
 	private List<Address> addresses;
 	
-	private AccumulativeCard accumulativeCard;
-	
 	private Customer(long id, String name) {
 		this.id = id;
 		this.name = name;
@@ -31,18 +29,6 @@ public class Customer {
 		this(id, name);
 		addresses = new ArrayList<Address>();
 		addresses.add(new Address(city, street, house, flat));
-	}
-	
-	public boolean isAccumulativeCard() {
-		return accumulativeCard != null;
-	}
-
-	public AccumulativeCard getAccumulativeCard() {
-		return accumulativeCard;
-	}
-
-	public void setAccumulativeCard(AccumulativeCard accumulativeCard) {
-		this.accumulativeCard = accumulativeCard;
 	}
 
 	public List<Address> getAddresses() {

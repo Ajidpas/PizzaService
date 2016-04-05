@@ -3,9 +3,9 @@ package pizza.service.orderservice;
 import java.util.ArrayList;
 import java.util.List;
 
+import pizza.domain.Discount;
 import pizza.domain.Pizza;
 import pizza.domain.customer.Customer;
-import pizza.domain.discountprovider.Discount;
 import pizza.domain.order.Order;
 import pizza.domain.order.StatusState;
 import pizza.domain.order.status.EnumStatusState;
@@ -15,6 +15,7 @@ import pizza.repository.PizzaRepository;
 import pizza.repository.order.InMemOrderRepository;
 import pizza.repository.pizza.InMemPizzaRepository;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
+import pizza.service.DiscountService;
 import pizza.service.OrderService;
 import pizza.service.discountservice.SimpleDiscountService;
 import pizza.service.orderservice.exceptions.EmptyOrderException;
@@ -31,12 +32,11 @@ public class SimpleOrderService implements OrderService {
 
 	private OrderRepository orderRepository;
 	
-	private SimpleDiscountService discountService;
+	private DiscountService discountService;
 	
 	public SimpleOrderService() {
 		pizzaRepository = new InMemPizzaRepository();
 		orderRepository = new InMemOrderRepository();
-		discountService = new SimpleDiscountService();
 	}
 
 	public Order placeNewOrder(Customer customer, Integer ... pizzasID) 
@@ -105,11 +105,13 @@ public class SimpleOrderService implements OrderService {
 	}
 	
 	public double getOrderDiscount(Order order) {
-		return discountService.getDiscount(order);
+		discountService = new SimpleDiscountService(order);
+		return discountService.getDiscount();
 	}
 	
 	public List<Discount> getOrderDiscounts(Order order) {
-		return discountService.getOrderDiscounts(order);
+		discountService = new SimpleDiscountService(order);
+		return discountService.getOrderDiscounts();
 	}
 	
 	public StatusState confirmOrderByUser(Order order) 

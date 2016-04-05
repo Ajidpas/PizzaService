@@ -3,9 +3,9 @@ package pizza.domain.order;
 import java.util.ArrayList;
 import java.util.List;
 
+import pizza.domain.Discount;
 import pizza.domain.Pizza;
 import pizza.domain.customer.Customer;
-import pizza.domain.discountprovider.Discount;
 import pizza.domain.order.status.EnumStatusState;
 
 public class Order {
