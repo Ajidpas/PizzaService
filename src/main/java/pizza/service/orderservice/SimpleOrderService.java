@@ -40,66 +40,68 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	public Order placeNewOrder(Customer customer, Integer ... pizzasID) 
-			throws NotSupportedPizzasNumberException, NoSuchPizzaException, WrongStatusException {
-		if (pizzasID.length <= MIN_NUMBER_OF_PIZZAS 
-				|| pizzasID.length >= MAX_NUMBER_OF_PIZZAS) {
+			throws NotSupportedPizzasNumberException, NoSuchPizzaException {
+		checkPizzasNumber(pizzasID.length);
+		StatusState status = EnumStatusState.NEW;
+		List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
+		Order newOrder = createOrder(customer, pizzas);
+		orderRepository.saveOrder(newOrder);  // set Order Id and save Order to in-memory list
+		return newOrder;
+	}
+
+	private void checkPizzasNumber(Integer pizzasnumber) throws NotSupportedPizzasNumberException {
+		if (pizzasnumber <= MIN_NUMBER_OF_PIZZAS 
+				|| pizzasnumber >= MAX_NUMBER_OF_PIZZAS) {
 			throw new NotSupportedPizzasNumberException();
 		}
-		Order newOrder;
-		StatusState status = EnumStatusState.NEW;
-		List<Pizza> pizzas;
-		pizzas = pizzasByArrOfId(pizzasID);
-		newOrder = createOrder(customer, pizzas);
-		try {
-			if (status.doAction(newOrder) == EnumStatusState.NEW) {
-				orderRepository.saveOrder(newOrder);  // set Order Id and save Order to in-memory list
-			} else {
-				throw new WrongStatusException();
-			}
-		} catch (NullOrderStatusException exept) {
-			// this exception will never occur 
-		}
+	}
+	
+	private List<Pizza> pizzasByArrOfId(Integer... pizzasID) throws NoSuchPizzaException {
+		List<Pizza> pizzas = new ArrayList<Pizza>();
+        for (Integer id : pizzasID) { 
+                pizzas.add(pizzaRepository.getPizzaByID(id));  // get Pizza from predifined in-memory list
+        }
+		return pizzas;
+	}
+
+	private Order createOrder(Customer customer, List<Pizza> pizzas) {
+		Order newOrder = new Order(customer, pizzas); // change to create order
 		return newOrder;
 	}
 	
-	public boolean addPizzasIntoOrder(Order order, Integer ... pizzasID) {
-		if (order != null) {
-			int orderPizzas = order.getPizzaList().size();
-			if (pizzasID.length + orderPizzas <= 10) {
-				List<Pizza> pizzas;
-				try {
-					pizzas = pizzasByArrOfId(pizzasID);
-					for (Pizza pizza : pizzas) {
-						order.addPizza(pizza);
-					}
-					return true;
-				} catch (NoSuchPizzaException e) {
-					e.printStackTrace();
-				}
+	public boolean addPizzasIntoOrder(Order order, Integer ... pizzasID) 
+			throws WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
+		checkOrderStatus(order, EnumStatusState.NEW);
+		int orderPizzas = order.getPizzaList().size();
+		int allPizzas = pizzasID.length + orderPizzas;
+		checkPizzasNumber(allPizzas);
+		List<Pizza> pizzas;
+		pizzas = pizzasByArrOfId(pizzasID);
+		for (Pizza pizza : pizzas) {
+			order.addPizza(pizza);
+		}
+		return true;
+	}
+
+	private void checkOrderStatus(Order order, StatusState status) throws WrongStatusException {
+		if (order.getStatus() == status) {
+			throw new WrongStatusException();
+		}
+	}
+	
+	public boolean deletePizzasFromOrder(Order order, Integer ... pizzasID) throws NoSuchPizzaException {
+		int orderPizzas = order.getPizzaList().size();
+		if (orderPizzas - pizzasID.length >= 1) {
+			List<Pizza> pizzas;
+			pizzas = pizzasByArrOfId(pizzasID);
+			for (Pizza pizza : pizzas) {
+				order.deletePizza(pizza.getId());	 
 			}
+			return true;
 		}
 		return false;
 	}
-	
-	public boolean deletePizzasFromOrder(Order order, Integer ... pizzasID) {
-		 if (order != null) {
-			 int orderPizzas = order.getPizzaList().size();
-			 if (orderPizzas - pizzasID.length >= 1) {
-				 List<Pizza> pizzas;
-				try {
-					pizzas = pizzasByArrOfId(pizzasID);
-					for (Pizza pizza : pizzas) {
-						order.deletePizza(pizza.getId());	 
-					}
-					return true;
-				} catch (NoSuchPizzaException e) {
-					e.printStackTrace();
-				}
-			 }
-		 }
-		 return false;
-	}
-	
+
 	public double getOrderPrice(Order order) {
 		return order.getOrderPrice();
 	}
@@ -146,19 +148,6 @@ public class SimpleOrderService implements OrderService {
 			throw new WrongStatusException();
 		}
 		return resultStatus;
-	}
-
-	private List<Pizza> pizzasByArrOfId(Integer... pizzasID) throws NoSuchPizzaException {
-		List<Pizza> pizzas = new ArrayList<Pizza>();
-        for (Integer id : pizzasID) { 
-                pizzas.add(pizzaRepository.getPizzaByID(id));  // get Pizza from predifined in-memory list
-        }
-		return pizzas;
-	}
-
-	private Order createOrder(Customer customer, List<Pizza> pizzas) {
-		Order newOrder = new Order(customer, pizzas); // change to create order
-		return newOrder;
 	}
 
 }
