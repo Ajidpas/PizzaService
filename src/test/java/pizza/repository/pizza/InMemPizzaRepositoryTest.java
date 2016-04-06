@@ -17,12 +17,12 @@ public class InMemPizzaRepositoryTest {
 		repository.getPizzaByID(-1);
 	}
 	
-	@Test
-	public void getPizzaByIDNonException() throws NoSuchPizzaException {
-		InMemPizzaRepository repository = new InMemPizzaRepository();
-		Pizza result = repository.getPizzaByID(1);
-		Pizza nonExpected = null;
-		assertThat(result, is(not(nonExpected)));
-	}
+//	@Test
+//	public void getPizzaByIDNonException() throws NoSuchPizzaException {
+//		InMemPizzaRepository repository = new InMemPizzaRepository();
+//		Pizza result = repository.getPizzaByID(1);
+//		Pizza nonExpected = null;
+//		assertThat(result, is(not(nonExpected)));
+//	}
 
 }

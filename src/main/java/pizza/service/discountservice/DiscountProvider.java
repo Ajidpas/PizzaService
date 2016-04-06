@@ -5,27 +5,14 @@ import java.util.List;
 
 import pizza.domain.Discount;
 import pizza.domain.order.Order;
-import pizza.service.discountservice.builders.AccumulativeCarsDiscountBuilder;
+import pizza.service.discountservice.builders.AccumulativeCardDiscountBuilder;
 import pizza.service.discountservice.builders.FourthPizzaDiscountBuilder;
 
 public class DiscountProvider {
-	
+
 	private List<DiscountBuilder> discountBuilderList;
-	
-	{
-		discountBuilderList = new ArrayList<DiscountBuilder>();
-		discountBuilderList.add(new AccumulativeCarsDiscountBuilder());
-		discountBuilderList.add(new FourthPizzaDiscountBuilder());
-	}
-	
-	private Order order;
 
-	public DiscountProvider(Order order) {
-		super();
-		this.order = order;
-	}
-
-	public List<Discount> getDiscountList() {
+	public List<Discount> getDiscountList(Order order) {
 		List<Discount> discounts = new ArrayList<Discount>();
 		for (DiscountBuilder builder : discountBuilderList) {
 			Discount discount = builder.buildDiscount(order);
@@ -34,6 +21,12 @@ public class DiscountProvider {
 			}
 		}
 		return discounts;
+	}
+
+	private void createDiscounts() {
+		discountBuilderList = new ArrayList<DiscountBuilder>();
+		discountBuilderList.add(new AccumulativeCardDiscountBuilder());
+		discountBuilderList.add(new FourthPizzaDiscountBuilder());
 	}
 
 }

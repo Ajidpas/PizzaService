@@ -7,10 +7,10 @@ import pizza.domain.order.Order;
 
 public interface DiscountService {
 	
-	public double getDiscount();
+	public double getDiscount(Order order);
 	
-	public List<Discount> getOrderDiscounts();
+	public List<Discount> getOrderDiscounts(Order order);
 
-	public int saveDiscounts();
+	public int saveDiscounts(Order order);
 
 }

@@ -12,29 +12,30 @@ public class SimpleDiscountService implements DiscountService {
 	
 	private DiscountProvider discountProvider;
 	
-	private List<Discount> discountList;
+	private DiscountRepository discountRepository;
 	
-	public SimpleDiscountService(Order order) {
-		discountProvider = new DiscountProvider(order);
-		discountList = discountProvider.getDiscountList();
+	public SimpleDiscountService(DiscountProvider discountProvider, 
+			DiscountRepository discountRepository) {
+		this.discountProvider = discountProvider;
+		this.discountRepository = discountRepository;
 	}
-	
-	public double getDiscount() {
+
+	public double getDiscount(Order order) {
 		double entireDiscount = 0;
-		for (Discount discount : discountList) {
+		for (Discount discount : getOrderDiscounts(order)) {
 			entireDiscount += discount.getDiscount();
 		}
 		return entireDiscount;
 	}
-	
-	public List<Discount> getOrderDiscounts() {
-		return discountList;
+
+	public List<Discount> getOrderDiscounts(Order order) {
+		return discountProvider.getDiscountList(order);
 	}
 
-	public int saveDiscounts() {
-		DiscountRepository repository = new InMemDiscountRepository();
+	public int saveDiscounts(Order order) {
+		List<Discount> discountList = getOrderDiscounts(order);
 		for (Discount discount : discountList) {
-			repository.saveDiscount(discount);
+			discountRepository.saveDiscount(discount);
 		}
 		return discountList.size();
 	}

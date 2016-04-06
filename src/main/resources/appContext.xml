@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        
+    <bean name="pizzaRepository" class="pizza.repository.pizza.InMemPizzaRepository" init-method="cookPizzas" />
+    <bean name="orderRepository" class="pizza.repository.order.InMemOrderRepository" />
+    
+    <bean name="discountProvider" class="pizza.service.discountservice.DiscountProvider" init-method="createDiscounts"/>
+    <bean name="discountRepository" class="pizza.repository.discounts.InMemDiscountRepository" />
+    <bean name="discountService" class="pizza.service.discountservice.SimpleDiscountService" >
+    	<constructor-arg ref="discountProvider" />
+    	<constructor-arg ref="discountRepository" />
+    </bean>
+
+	<bean name="orderService" class="pizza.service.orderservice.SimpleOrderService" >
+		<constructor-arg ref="pizzaRepository" />
+		<constructor-arg ref="orderRepository" />
+		<constructor-arg ref="discountService" />
+	</bean>
+
+</beans>

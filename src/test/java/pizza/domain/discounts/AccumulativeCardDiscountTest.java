@@ -1,28 +1,31 @@
 package pizza.domain.discounts;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 
 import pizza.domain.AccumulativeCard;
 import pizza.domain.Discount;
+import pizza.domain.Pizza;
+import pizza.domain.Pizza.PizzaType;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
-import pizza.service.orderservice.SimpleOrderService;
 import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 import pizza.service.orderservice.exceptions.WrongStatusException;
 
 public class AccumulativeCardDiscountTest {
 	
-	private SimpleOrderService service = new SimpleOrderService();
-	
 	private Customer customer = new Customer(1, "Vasya", "Kiev", "Chervonoarmiyska", "3", "10");
 	
 	@Test
 	public void testGetDiscount() throws NotSupportedPizzasNumberException, NoSuchPizzaException, WrongStatusException {
-		Order order = service.placeNewOrder(customer, 1, 2, 3);
-		
+		Pizza pizza1 = new Pizza(1, "First pizza", 1000, PizzaType.MEAT);
+		Pizza pizza2 = new Pizza(2, "Second pizza", 2000, PizzaType.SEA);
+		Pizza pizza3 = new Pizza(3, "First pizza", 3000, PizzaType.VEGETABLES);
+		Order order = new Order(customer, Arrays.asList(pizza1, pizza2, pizza3));
 		Discount discount = new AccumulativeCardDiscount(null, order);
 		
 		// accumulative card is null

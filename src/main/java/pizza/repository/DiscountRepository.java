@@ -4,6 +4,6 @@ import pizza.domain.Discount;
 
 public interface DiscountRepository {
 	
-	Long saveDiscount(Discount discount);
+	Discount saveDiscount(Discount discount);
 
 }

@@ -5,6 +5,22 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>PizzaServiseProject</name>
   
+  <properties>
+  		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+
+  		<!-- spring -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java-version>1.7</java-version>
+		<org.springframework-version>4.2.4.RELEASE</org.springframework-version>
+
+		<org.aspectj-version>1.8.1</org.aspectj-version>
+		<org.slf4j-version>1.6.1</org.slf4j-version>
+
+	</properties>
+
   <dependencies>
   		<dependency>
 			<groupId>junit</groupId>
@@ -16,8 +32,20 @@
   			<artifactId>mockito-all</artifactId>
   			<version>1.10.19</version>
 		</dependency>
+
+		<!-- spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>4.2.4.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>4.2.4.RELEASE</version>
+		</dependency>
   </dependencies>
-  
+
   <reporting>
         <plugins>
             <plugin>
@@ -108,6 +136,5 @@
             
         </plugins>
     </build>
-  
   
 </project>

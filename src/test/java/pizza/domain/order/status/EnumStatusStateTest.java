@@ -3,10 +3,12 @@ package pizza.domain.order.status;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Test;
 
 import pizza.domain.Pizza;
+import pizza.domain.Pizza.PizzaType;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
 import pizza.domain.order.StatusState;
@@ -17,8 +19,6 @@ import pizza.service.orderservice.exceptions.WrongStatusException;
 
 public class EnumStatusStateTest {
 	
-	private SimpleOrderService service = new SimpleOrderService();
-	
 	private Customer customer = new Customer(1, "Vasya", "Kiev", "Chervonoarmiyska", "3", "10");
 	
 	StatusState status;
@@ -26,7 +26,10 @@ public class EnumStatusStateTest {
 	@Test
 	public void testDoAction() throws NotSupportedPizzasNumberException, 
 			NoSuchPizzaException, WrongStatusException, NullOrderStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>());
+		Pizza pizza1 = new Pizza(1, "First pizza", 1000, PizzaType.MEAT);
+		Pizza pizza2 = new Pizza(2, "Second pizza", 2000, PizzaType.SEA);
+		Pizza pizza3 = new Pizza(3, "First pizza", 3000, PizzaType.VEGETABLES);
+		Order order = new Order(customer, Arrays.asList(pizza1, pizza2, pizza3));
 		
 		// check that order has no status
 		boolean expectedFalse = false;

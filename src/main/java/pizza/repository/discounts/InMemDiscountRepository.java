@@ -10,12 +10,12 @@ public class InMemDiscountRepository implements DiscountRepository {
 	
 	private List<Discount> discounts;
 
-	public Long saveDiscount(Discount discount) {
+	public Discount saveDiscount(Discount discount) {
 		if (discounts == null) {
 			discounts = new ArrayList<Discount>();
 		}
 		discounts.add(discount);
-		return null;
+		return discount;
 	}
 
 }
