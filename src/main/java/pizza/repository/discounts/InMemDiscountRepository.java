@@ -7,7 +7,7 @@ import pizza.domain.Discount;
 import pizza.repository.DiscountRepository;
 
 public class InMemDiscountRepository implements DiscountRepository {
-	
+
 	private List<Discount> discounts;
 
 	public Discount saveDiscount(Discount discount) {
@@ -16,6 +16,13 @@ public class InMemDiscountRepository implements DiscountRepository {
 		}
 		discounts.add(discount);
 		return discount;
+	}
+	
+	public List<Discount> getAllDiscounts() {
+		if (discounts == null) {
+			discounts = new ArrayList<Discount>();
+		}
+		return discounts;
 	}
 
 }

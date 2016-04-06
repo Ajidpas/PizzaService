@@ -18,4 +18,8 @@ public class InMemOrderRepository implements OrderRepository {
 		return newOrder.getId();
 	}
 
+	public List<Order> getAllOrders() {
+		return orders;
+	}
+
 }

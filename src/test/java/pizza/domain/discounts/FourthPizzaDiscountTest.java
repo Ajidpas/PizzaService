@@ -17,9 +17,9 @@ import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 import pizza.service.orderservice.exceptions.WrongStatusException;
 
 public class FourthPizzaDiscountTest {
-	
+
 	private Customer customer = new Customer(1, "Vasya", "Kiev", "Chervonoarmiyska", "3", "10");
-	
+
 	@Test
 	public void getBiggestPricePizzaTest() throws NoSuchPizzaException, 
 			NotSupportedPizzasNumberException, WrongStatusException {
