@@ -16,12 +16,18 @@ public class InMemPizzaRepository implements PizzaRepository {
 	}
 
 	public Pizza getPizzaByID(int id) throws NoSuchPizzaException {
-		int index = id - 1;
-		if (index >= 0 && index < allPizzas.size()) {
-			return allPizzas.get(id - 1);
-		} else {
-			throw new NoSuchPizzaException();
+		for (Pizza pizza : allPizzas) {
+			if (pizza.getId() == id) {
+				return pizza;
+			}
 		}
+		throw new NoSuchPizzaException();
+//		int index = id - 1;
+//		if (index >= 0 && index < allPizzas.size()) {
+//			return allPizzas.get(id - 1);
+//		} else {
+//			throw new NoSuchPizzaException();
+//		}
 	}
 
 	private void cookPizzas() {

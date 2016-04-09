@@ -7,7 +7,16 @@
     <bean name="pizzaRepository" class="pizza.repository.pizza.InMemPizzaRepository" init-method="cookPizzas" />
     <bean name="orderRepository" class="pizza.repository.order.InMemOrderRepository" />
     
-    <bean name="discountProvider" class="pizza.service.discountservice.DiscountProvider" init-method="createDiscounts"/>
+    <bean name="cardRepository" class="pizza.repository.card.InMemCardRepository" />
+    
+    <bean name="cardService" class="pizza.service.cardservice.SimpleCardService" >
+    	<constructor-arg ref="cardRepository" />
+    </bean>
+    
+    <bean name="discountProvider" class="pizza.service.discountservice.DiscountProvider" init-method="createDiscounts">
+    	<constructor-arg ref="cardService" />
+    </bean>
+    
     <bean name="discountRepository" class="pizza.repository.discounts.InMemDiscountRepository" />
     <bean name="discountService" class="pizza.service.discountservice.SimpleDiscountService" >
     	<constructor-arg ref="discountProvider" />

@@ -14,6 +14,12 @@ public class AccumulativeCard {
 		this.id = id;
 	}
 
+	public AccumulativeCard(long id, Customer customer) {
+		super();
+		this.id = id;
+		this.customer = customer;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}

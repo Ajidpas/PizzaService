@@ -1,29 +1,30 @@
 package pizza.service.cardservice;
 
 import java.util.List;
+import java.util.Optional;
 
 import pizza.domain.AccumulativeCard;
 import pizza.domain.customer.Customer;
 import pizza.repository.CardRepository;
-import pizza.repository.card.InMemCardRepository;
 import pizza.service.CardService;
 
 public class SimpleCardService implements CardService {
 	
 	private CardRepository cardRepository;
 	
-	public SimpleCardService() {
-		cardRepository = new InMemCardRepository();
+	public SimpleCardService(CardRepository cardRepository) {
+		this.cardRepository = cardRepository;
 	}
 
-	public AccumulativeCard getCardByCustomer(Customer customer) {
+	@Override
+	public Optional<AccumulativeCard> getCardByCustomer(Customer customer) {
 		List<AccumulativeCard> cards = cardRepository.getAllCards();
 		for (AccumulativeCard card : cards) {
 			if (card.getCustomer().getId() == customer.getId()) {
-				return card;
+				return Optional.of(card);
 			}
 		}
-		return null;
+		return Optional.empty();
 	}
 
 }

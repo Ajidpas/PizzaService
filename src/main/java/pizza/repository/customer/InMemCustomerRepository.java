@@ -17,5 +17,13 @@ private List<Customer> customers;
 		customers.add(customer);
 		return customer.getId();
 	}
+
+	@Override
+	public List<Customer> getCustomers() {
+		if (customers == null) {
+			customers = new ArrayList<Customer>();
+		}
+		return customers;
+	}
 	
 }

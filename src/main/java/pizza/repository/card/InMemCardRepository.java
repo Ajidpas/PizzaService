@@ -10,10 +10,11 @@ public class InMemCardRepository implements CardRepository {
 	
 	private List<AccumulativeCard> cards;
 	
+	public InMemCardRepository() {
+		cards = new ArrayList<AccumulativeCard>();
+	}
+	
 	public Long saveCard(AccumulativeCard card) {
-		if (cards == null) {
-			cards = new ArrayList<AccumulativeCard>();
-		}
 		cards.add(card);
 		return card.getId();
 	}
