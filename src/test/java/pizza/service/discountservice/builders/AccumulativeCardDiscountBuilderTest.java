@@ -2,6 +2,7 @@ package pizza.service.discountservice.builders;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -28,12 +29,18 @@ public class AccumulativeCardDiscountBuilderTest {
 	private Customer otherCustomer = new Customer(2, "Petya", "Kharkiv", "Petrova", "7", "3");
 	
 	@Test
-	public void testBuildDiscount() {
+	public void testBuildDiscount() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		// create repository with one card with some customer
 		CardRepository cardRepository = new InMemCardRepository();
 		AccumulativeCard card = new AccumulativeCard(50, customer);
 		cardRepository.saveCard(card);
-		CardService cardService = new SimpleCardService(cardRepository);
+		CardService cardService = new SimpleCardService();
+		
+		// setting repository by reflection
+		Field repositoryField = cardService.getClass().getDeclaredField("cardRepository");
+		repositoryField.setAccessible(true);
+		repositoryField.set(cardService, cardRepository);
+		
 		DiscountBuilder discountBuilder = new AccumulativeCardDiscountBuilder(cardService);
 		
 		// create discount basis on the following order

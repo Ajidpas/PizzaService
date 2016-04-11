@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import pizza.domain.Discount;
 import pizza.domain.Pizza;
@@ -14,34 +15,28 @@ import pizza.domain.order.status.EnumStatusState;
 import pizza.domain.order.status.NullOrderStatusException;
 import pizza.repository.OrderRepository;
 import pizza.repository.PizzaRepository;
-import pizza.repository.order.InMemOrderRepository;
-import pizza.repository.pizza.InMemPizzaRepository;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 import pizza.service.DiscountService;
 import pizza.service.OrderService;
-import pizza.service.discountservice.SimpleDiscountService;
 import pizza.service.orderservice.exceptions.EmptyOrderException;
 import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 import pizza.service.orderservice.exceptions.WrongStatusException;
 
+@Service(value = "orderService")
 public class SimpleOrderService implements OrderService {
 	
 	private static final int MIN_NUMBER_OF_PIZZAS = 1;
 	
 	private static final int MAX_NUMBER_OF_PIZZAS = 10;
 
+	@Autowired
 	private PizzaRepository pizzaRepository;
 
+	@Autowired
 	private OrderRepository orderRepository;
 
+	@Autowired
 	private DiscountService discountService;
-
-	public SimpleOrderService(PizzaRepository pizzaRepository, 
-			OrderRepository orderRepository, DiscountService discountService) {
-		this.pizzaRepository = pizzaRepository;
-		this.orderRepository = orderRepository;
-		this.discountService = discountService;
-	}
 
 	@Override
 	public Order placeNewOrder(Customer customer, Integer ... pizzasID) 
@@ -76,11 +71,6 @@ public class SimpleOrderService implements OrderService {
                 pizzas.add(pizzaRepository.getPizzaByID(id));  // get Pizza from predifined in-memory list
         }
 		return pizzas;
-	}
-
-	private Order createOrder(Customer customer, List<Pizza> pizzas) {
-		Order newOrder = new Order(customer, pizzas); // change to create order
-		return newOrder;
 	}
 
 	@Override
@@ -162,6 +152,10 @@ public class SimpleOrderService implements OrderService {
 			throw new WrongStatusException();
 		}
 		return resultStatus;
+	}
+	
+	protected Order createOrder(Customer customer, List<Pizza> pizzas) {
+		return new Order(customer, pizzas);
 	}
 
 }

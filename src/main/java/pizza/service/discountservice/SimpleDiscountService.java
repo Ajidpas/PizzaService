@@ -2,23 +2,22 @@ package pizza.service.discountservice;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import pizza.domain.Discount;
 import pizza.domain.order.Order;
 import pizza.repository.DiscountRepository;
-import pizza.repository.discounts.InMemDiscountRepository;
 import pizza.service.DiscountService;
 
+@Service(value = "discountService")
 public class SimpleDiscountService implements DiscountService {
 	
+	@Autowired
 	private DiscountProvider discountProvider;
 	
+	@Autowired
 	private DiscountRepository discountRepository;
-	
-	public SimpleDiscountService(DiscountProvider discountProvider, 
-			DiscountRepository discountRepository) {
-		this.discountProvider = discountProvider;
-		this.discountRepository = discountRepository;
-	}
 
 	public double getDiscount(Order order) {
 		double entireDiscount = 0;

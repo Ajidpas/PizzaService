@@ -3,18 +3,19 @@ package pizza.service.cardservice;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import pizza.domain.AccumulativeCard;
 import pizza.domain.customer.Customer;
 import pizza.repository.CardRepository;
 import pizza.service.CardService;
 
+@Service(value = "cardService")
 public class SimpleCardService implements CardService {
 	
+	@Autowired
 	private CardRepository cardRepository;
-	
-	public SimpleCardService(CardRepository cardRepository) {
-		this.cardRepository = cardRepository;
-	}
 
 	@Override
 	public Optional<AccumulativeCard> getCardByCustomer(Customer customer) {

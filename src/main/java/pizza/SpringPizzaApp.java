@@ -12,7 +12,7 @@ import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 import pizza.service.orderservice.exceptions.WrongStatusException;
 
 public class SpringPizzaApp {
-	
+
 	public static void main(String[] args) {
 		Customer customer = new Customer(1, "Vasya", "Kiev", "Chervonoarmiyska", "3", "10");
 		ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext("appContext.xml");

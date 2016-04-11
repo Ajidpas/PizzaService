@@ -1,32 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
-        
-    <bean name="pizzaRepository" class="pizza.repository.pizza.InMemPizzaRepository" init-method="cookPizzas" />
-    <bean name="orderRepository" class="pizza.repository.order.InMemOrderRepository" />
-    
-    <bean name="cardRepository" class="pizza.repository.card.InMemCardRepository" />
-    
-    <bean name="cardService" class="pizza.service.cardservice.SimpleCardService" >
-    	<constructor-arg ref="cardRepository" />
-    </bean>
-    
-    <bean name="discountProvider" class="pizza.service.discountservice.DiscountProvider" init-method="createDiscounts">
-    	<constructor-arg ref="cardService" />
-    </bean>
-    
-    <bean name="discountRepository" class="pizza.repository.discounts.InMemDiscountRepository" />
-    <bean name="discountService" class="pizza.service.discountservice.SimpleDiscountService" >
-    	<constructor-arg ref="discountProvider" />
-    	<constructor-arg ref="discountRepository" />
-    </bean>
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+   		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<bean name="orderService" class="pizza.service.orderservice.SimpleOrderService" >
-		<constructor-arg ref="pizzaRepository" />
-		<constructor-arg ref="orderRepository" />
-		<constructor-arg ref="discountService" />
-	</bean>
+   		<context:component-scan base-package="pizza" />
 
+   		<context:annotation-config/>
+   		
 </beans>

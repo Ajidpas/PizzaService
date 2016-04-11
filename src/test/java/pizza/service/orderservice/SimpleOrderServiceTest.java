@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,10 +38,6 @@ public class SimpleOrderServiceTest {
 	
 	private Pizza pizza = new Pizza(1, "Some pizza 1", 10.0, PizzaType.MEAT);
 	
-	private static final int MIN_NUMBER_OF_PIZZAS = 1;
-	
-	private static final int MAX_NUMBER_OF_PIZZAS = 10;
-	
 	private static final int NO_PIZZA_WITH_THIS_ID = 100500;
 	
 	private static final int EXISTING_PIZZA_ID = 5;
@@ -54,11 +51,24 @@ public class SimpleOrderServiceTest {
 	@Mock
 	private DiscountService discountService;
 	
-	private OrderService service;
+	@Mock
+	private OrderService service; // wrong behavior 
 	
 	@Before
-	public void setUp() throws NoSuchPizzaException {
-		service = new SimpleOrderService(pizzaRepository, orderRepository, discountService);
+	public void setUp() throws Exception {
+		service = new SimpleOrderService();
+		
+		// set fields by reflection (instead constructor)
+		Field field = service.getClass().getDeclaredField("pizzaRepository");
+		field.setAccessible(true);
+		field.set(service, pizzaRepository);
+		field = service.getClass().getDeclaredField("orderRepository");
+		field.setAccessible(true);
+		field.set(service, orderRepository);
+		field = service.getClass().getDeclaredField("discountService");
+		field.setAccessible(true);
+		field.set(service, discountService);
+		
 		when(pizzaRepository.getPizzaByID(NO_PIZZA_WITH_THIS_ID)).thenThrow(new NoSuchPizzaException());
 		when(pizzaRepository.getPizzaByID(EXISTING_PIZZA_ID)).thenReturn(pizza);
 		when(orderRepository.saveOrder(any(Order.class))).thenReturn(null);

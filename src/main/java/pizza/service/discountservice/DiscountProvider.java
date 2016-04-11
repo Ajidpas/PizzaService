@@ -4,22 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import pizza.domain.Discount;
 import pizza.domain.order.Order;
 import pizza.service.CardService;
 import pizza.service.discountservice.builders.AccumulativeCardDiscountBuilder;
 import pizza.service.discountservice.builders.FourthPizzaDiscountBuilder;
 
+@Service(value = "discountProvider")
 public class DiscountProvider {
 
 	private List<DiscountBuilder> discountBuilderList;
-	
+
+	@Autowired
 	private CardService cardService; 
 
-	public DiscountProvider(CardService cardService) {
+	public DiscountProvider() {
 		super();
 		this.discountBuilderList = new ArrayList<DiscountBuilder>();
-		this.cardService = cardService;
 	}
 
 	public List<Discount> getDiscountList(Order order) {
@@ -33,6 +39,7 @@ public class DiscountProvider {
 		return discounts;
 	}
 
+	@PostConstruct
 	private void createDiscounts() {
 		discountBuilderList = new ArrayList<DiscountBuilder>();
 		discountBuilderList.add(new AccumulativeCardDiscountBuilder(cardService));

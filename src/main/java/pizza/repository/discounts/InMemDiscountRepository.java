@@ -3,9 +3,12 @@ package pizza.repository.discounts;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import pizza.domain.Discount;
 import pizza.repository.DiscountRepository;
 
+@Repository(value = "discountRepository")
 public class InMemDiscountRepository implements DiscountRepository {
 
 	private List<Discount> discounts;
@@ -17,7 +20,7 @@ public class InMemDiscountRepository implements DiscountRepository {
 		discounts.add(discount);
 		return discount;
 	}
-	
+
 	public List<Discount> getAllDiscounts() {
 		if (discounts == null) {
 			discounts = new ArrayList<Discount>();
