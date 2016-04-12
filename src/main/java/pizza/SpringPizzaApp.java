@@ -18,8 +18,10 @@ public class SpringPizzaApp {
 		ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext("appContext.xml");
 		OrderService orderService = (OrderService) appContext.getBean("orderService");
 		Order order = null;
+		Order order1 = null;
 		try {
 			order = orderService.placeNewOrder(customer, 1, 1, 1);
+			order1 = orderService.placeNewOrder(customer, 1);
 		} catch (NotSupportedPizzasNumberException e) {
 			e.printStackTrace();
 		} catch (NoSuchPizzaException e) {
@@ -27,7 +29,8 @@ public class SpringPizzaApp {
 		} catch (WrongStatusException e) {
 			e.printStackTrace();
 		}
-		System.out.println(order);
+		System.out.println(order.hashCode() + ": " + order);
+		System.out.println(order1.hashCode() + ": " + order1);
 		appContext.close();
 	}
 

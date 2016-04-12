@@ -1,5 +1,6 @@
 pizza\service\orderservice\SimpleOrderService.class
 pizza\service\discountservice\DiscountProvider.class
+pizza\service\orderservice\CreateOrderService.class
 pizza\domain\Discount.class
 pizza\domain\discounts\FourthPizzaDiscount.class
 pizza\domain\order\status\EnumStatusState$1.class

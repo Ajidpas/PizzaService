@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.stereotype.Component;
 
 import pizza.domain.Discount;
 import pizza.domain.Pizza;
@@ -22,11 +23,11 @@ import pizza.service.orderservice.exceptions.EmptyOrderException;
 import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 import pizza.service.orderservice.exceptions.WrongStatusException;
 
-@Service(value = "orderService")
+@Component(value = "orderService")
 public class SimpleOrderService implements OrderService {
-	
+
 	private static final int MIN_NUMBER_OF_PIZZAS = 1;
-	
+
 	private static final int MAX_NUMBER_OF_PIZZAS = 10;
 
 	@Autowired
@@ -39,13 +40,13 @@ public class SimpleOrderService implements OrderService {
 	private DiscountService discountService;
 
 	@Override
-	public Order placeNewOrder(Customer customer, Integer ... pizzasID) 
+	public Order placeNewOrder(Customer customer, Integer... pizzasID)
 			throws NotSupportedPizzasNumberException, NoSuchPizzaException {
 		checkPizzasNumber(pizzasID.length);
 		List<Pizza> pizzas = pizzasByArrOfId(pizzasID);
 		Order newOrder = createOrder(customer, pizzas);
 		setOrderStatus(newOrder);
-		orderRepository.saveOrder(newOrder);  // set Order Id and save Order to in-memory list
+		orderRepository.saveOrder(newOrder);
 		return newOrder;
 	}
 
@@ -59,22 +60,21 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	private void checkPizzasNumber(Integer pizzasnumber) throws NotSupportedPizzasNumberException {
-		if (pizzasnumber < MIN_NUMBER_OF_PIZZAS 
-				|| pizzasnumber > MAX_NUMBER_OF_PIZZAS) {
+		if (pizzasnumber < MIN_NUMBER_OF_PIZZAS || pizzasnumber > MAX_NUMBER_OF_PIZZAS) {
 			throw new NotSupportedPizzasNumberException();
 		}
 	}
 
 	private List<Pizza> pizzasByArrOfId(Integer... pizzasID) throws NoSuchPizzaException {
 		List<Pizza> pizzas = new ArrayList<Pizza>();
-        for (Integer id : pizzasID) { 
-                pizzas.add(pizzaRepository.getPizzaByID(id));  // get Pizza from predifined in-memory list
-        }
+		for (Integer id : pizzasID) {
+			pizzas.add(pizzaRepository.getPizzaByID(id));
+		}
 		return pizzas;
 	}
 
 	@Override
-	public List<Pizza> addPizzasIntoOrder(Order order, Integer ... pizzasID) 
+	public List<Pizza> addPizzasIntoOrder(Order order, Integer... pizzasID)
 			throws WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
 		checkOrderStatus(order, EnumStatusState.NEW);
 		int orderPizzas = order.getPizzaList().size();
@@ -95,7 +95,7 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public List<Integer> deletePizzasFromOrder(Order order, Integer ... pizzasID) {
+	public List<Integer> deletePizzasFromOrder(Order order, Integer... pizzasID) {
 		List<Integer> deletedPizzasId = new ArrayList<Integer>();
 		for (int id : pizzasID) {
 			if (order.deletePizza(id)) {
@@ -118,9 +118,8 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public StatusState confirmOrderByUser(Order order) 
-			throws WrongStatusException, EmptyOrderException, 
-			NullOrderStatusException {
+	public StatusState confirmOrderByUser(Order order)
+			throws WrongStatusException, EmptyOrderException, NullOrderStatusException {
 		if (order.getPizzaList().size() == 0) {
 			throw new EmptyOrderException();
 		}
@@ -133,8 +132,7 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public StatusState confirmOrderByAdmin(Order order) throws WrongStatusException, 
-			NullOrderStatusException {
+	public StatusState confirmOrderByAdmin(Order order) throws WrongStatusException, NullOrderStatusException {
 		StatusState status = EnumStatusState.DONE;
 		StatusState resultStatus = status.doAction(order);
 		if (resultStatus != EnumStatusState.DONE) {
@@ -144,8 +142,7 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public StatusState cancelOrder(Order order) throws WrongStatusException, 
-			NullOrderStatusException {
+	public StatusState cancelOrder(Order order) throws WrongStatusException, NullOrderStatusException {
 		StatusState status = EnumStatusState.CANCELED;
 		StatusState resultStatus = status.doAction(order);
 		if (resultStatus != EnumStatusState.CANCELED) {
@@ -153,9 +150,10 @@ public class SimpleOrderService implements OrderService {
 		}
 		return resultStatus;
 	}
-	
-	protected Order createOrder(Customer customer, List<Pizza> pizzas) {
-		return new Order(customer, pizzas);
-	}
 
+	@Lookup
+	public Order createOrder(Customer customer, List<Pizza> pizzas) {
+		return null;
+	}
+	
 }
