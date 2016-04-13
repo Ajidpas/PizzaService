@@ -151,8 +151,15 @@ public class SimpleOrderService implements OrderService {
 		return resultStatus;
 	}
 
-	@Lookup
 	public Order createOrder(Customer customer, List<Pizza> pizzas) {
+		Order order = createOrder();
+		order.setCustomer(customer);
+		order.setPizzaList(pizzas);
+		return order;
+	}
+	
+	@Lookup
+	public Order createOrder() {
 		return null;
 	}
 	

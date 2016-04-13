@@ -3,11 +3,17 @@ package pizza.domain.order;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+
 import pizza.domain.Discount;
 import pizza.domain.Pizza;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.status.EnumStatusState;
+import pizza.infrastructure.Domain;
 
+//@Component("order")
+@Scope("prototype")
+@Domain
 public class Order {
 	
 	private Long id;
@@ -19,6 +25,8 @@ public class Order {
 	private EnumStatusState status;
 	
 	private List<Discount> discounts;
+	
+	public Order() {}
 	
 	public Order(Customer customer, List<Pizza> pizzas) {
 		this.customer = customer;

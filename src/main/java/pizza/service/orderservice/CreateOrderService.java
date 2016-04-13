@@ -10,13 +10,13 @@ import pizza.domain.Pizza;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
 
-@Configuration(value = "orderFactory")
+//@Configuration(value = "orderFactory")
 public class CreateOrderService {
 	
-	@Bean(name = "order")
-	@Scope(value = "prototype")
-	public Order createOrder(Customer customer, List<Pizza> pizzas) {
-		return new Order(customer, pizzas);
-	}
+//	@Bean(name = "order")
+//	@Scope(value = "prototype")
+//	public Order createOrder() {
+//		return new Order();
+//	}
 
 }

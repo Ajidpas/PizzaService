@@ -15,7 +15,9 @@ public class SpringPizzaApp {
 
 	public static void main(String[] args) {
 		Customer customer = new Customer(1, "Vasya", "Kiev", "Chervonoarmiyska", "3", "10");
-		ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext("appContext.xml");
+		ConfigurableApplicationContext repositoryContext = new ClassPathXmlApplicationContext("repositoryContext.xml");
+		ConfigurableApplicationContext serviceContext = new ClassPathXmlApplicationContext(new String[]{"serviceContext.xml"}, repositoryContext);
+		ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"appContext.xml"}, serviceContext);
 		OrderService orderService = (OrderService) appContext.getBean("orderService");
 		Order order = null;
 		Order order1 = null;
@@ -31,7 +33,10 @@ public class SpringPizzaApp {
 		}
 		System.out.println(order.hashCode() + ": " + order);
 		System.out.println(order1.hashCode() + ": " + order1);
+		repositoryContext.close();
+		serviceContext.close();
 		appContext.close();
+		
 	}
 
 }

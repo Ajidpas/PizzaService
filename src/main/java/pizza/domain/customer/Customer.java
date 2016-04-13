@@ -3,15 +3,17 @@ package pizza.domain.customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import pizza.domain.AccumulativeCard;
+import org.springframework.beans.factory.FactoryBean;
 
-public class Customer {
+public class Customer implements FactoryBean<Customer>{
 	
 	private long id;
 	
 	private String name;
 
 	private List<Address> addresses;
+	
+	public Customer() {}
 	
 	private Customer(long id, String name) {
 		this.id = id;
@@ -58,6 +60,21 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", name=" + name + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+
+	@Override
+	public Customer getObject() throws Exception {
+		return new Customer(1, "Abc");
+	}
+
+	@Override
+	public Class<?> getObjectType() {
+		return Customer.class;
+	}
+
+	@Override
+	public boolean isSingleton() {
+		return false;
 	}
 
 }

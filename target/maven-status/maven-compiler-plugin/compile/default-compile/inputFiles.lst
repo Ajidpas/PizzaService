@@ -3,6 +3,7 @@ D:\Programming\Java\eclipse-jee-mars-2-win32\workspace\PizzaService(OldRealizati
 D:\Programming\Java\eclipse-jee-mars-2-win32\workspace\PizzaService(OldRealization)\src\main\java\pizza\domain\discounts\FourthPizzaDiscount.java
 D:\Programming\Java\eclipse-jee-mars-2-win32\workspace\PizzaService(OldRealization)\src\main\java\pizza\repository\customer\InMemCustomerRepository.java
 D:\Programming\Java\eclipse-jee-mars-2-win32\workspace\PizzaService(OldRealization)\src\main\java\pizza\service\DiscountService.java
+D:\Programming\Java\eclipse-jee-mars-2-win32\workspace\PizzaService(OldRealization)\src\main\java\pizza\infrastructure\Domain.java
 D:\Programming\Java\eclipse-jee-mars-2-win32\workspace\PizzaService(OldRealization)\src\main\java\pizza\domain\order\status\NullOrderStatusException.java
 D:\Programming\Java\eclipse-jee-mars-2-win32\workspace\PizzaService(OldRealization)\src\main\java\pizza\service\cardservice\SimpleCardService.java
 D:\Programming\Java\eclipse-jee-mars-2-win32\workspace\PizzaService(OldRealization)\src\main\java\pizza\service\discountservice\builders\AccumulativeCardDiscountBuilder.java
