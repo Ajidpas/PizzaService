@@ -2,8 +2,7 @@ package pizza.service.orderservice;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -15,6 +14,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import pizza.domain.Pizza;
@@ -37,7 +38,7 @@ public class SimpleOrderServiceTest {
 
 	private Customer customer = new Customer(1, "Vasya", "Kiev", "Chervonoarmiyska", "3", "10");
 	
-	private Pizza pizza = new Pizza(1, "Some pizza 1", 10.0, PizzaType.MEAT);
+	private Pizza pizza = new Pizza(EXISTING_PIZZA_ID, "Some pizza 1", 10.0, PizzaType.MEAT);
 	
 	private static final int NO_PIZZA_WITH_THIS_ID = 100500;
 	
@@ -52,23 +53,39 @@ public class SimpleOrderServiceTest {
 	@Mock
 	private DiscountService discountService;
 	
-	@Mock
-	private SimpleOrderService service; // wrong behavior 
+	@InjectMocks
+	private SimpleOrderService service;
+	
+	@Spy
+	private SimpleOrderService serviceSpy = service;
 	
 	@Before
 	public void setUp() throws Exception {
-		service = new SimpleOrderService();
+		MockitoAnnotations.initMocks(this);
+//		SimpleOrderService serviceObject = new SimpleOrderService();
+//		System.out.println(serviceObject.getClass().getFields());
+		
+//		for (Field field : service.getClass().getDeclaredFields()) {
+//			System.out.println("Field = " + field.getName());
+//		}
+		// create stub for createOrder method in the spy and test placeNewOrder method correctly
+//		when(service.createOrder()).thenReturn(new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza))));
+//		System.out.println(service.createOrder());
 		
 		// set fields by reflection (instead constructor)
-		Field field = service.getClass().getDeclaredField("pizzaRepository");
-		field.setAccessible(true);
-		field.set(service, pizzaRepository);
-		field = service.getClass().getDeclaredField("orderRepository");
-		field.setAccessible(true);
-		field.set(service, orderRepository);
-		field = service.getClass().getDeclaredField("discountService");
-		field.setAccessible(true);
-		field.set(service, discountService);
+//		Field field = serviceObject.getClass().getDeclaredField("pizzaRepository");
+//		System.out.println("Name = " + field.getName());
+//		field.setAccessible(true);
+//		field.set(service, pizzaRepository);
+//		field = service.getClass().getDeclaredField("orderRepository");
+//		field.setAccessible(true);
+//		field.set(service, orderRepository);
+//		field = service.getClass().getDeclaredField("discountService");
+//		field.setAccessible(true);
+//		field.set(service, discountService);
+//		
+		doReturn(new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)))).when(serviceSpy).createOrder();
+		doReturn(new ArrayList<Pizza>(Arrays.asList(pizza))).when(serviceSpy).pizzasByArrOfId(anyObject());
 		
 		when(pizzaRepository.getPizzaByID(NO_PIZZA_WITH_THIS_ID)).thenThrow(new NoSuchPizzaException());
 		when(pizzaRepository.getPizzaByID(EXISTING_PIZZA_ID)).thenReturn(pizza);
@@ -94,7 +111,7 @@ public class SimpleOrderServiceTest {
 	
 //	@Test
 //	public void testPlaceNewOrder() throws NoSuchPizzaException, NotSupportedPizzasNumberException, WrongStatusException {
-//		Order order = service.placeNewOrder(customer, EXISTING_PIZZA_ID);
+//		Order order = serviceSpy.placeNewOrder(customer, EXISTING_PIZZA_ID);
 //		Customer expectedCustomer = customer;
 //		Customer resultCustomer = order.getCustomer();
 //		assertEquals(expectedCustomer, resultCustomer);

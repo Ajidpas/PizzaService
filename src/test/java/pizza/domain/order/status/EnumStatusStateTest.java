@@ -33,7 +33,7 @@ public class EnumStatusStateTest {
 		
 		// check that order has no status
 		boolean expectedFalse = false;
-		boolean resultFalse = order.isStatus();
+		boolean resultFalse = order.getStatus() != null;
 		assertEquals(expectedFalse, resultFalse);
 		
 		// try to set new status

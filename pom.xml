@@ -42,6 +42,21 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>4.2.5.RELEASE</version>
 		</dependency>
+		
+		<!-- hibernate -->
+		<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.1.0.Final</version>
+        </dependency>
+        
+        <!-- mysql -->
+        <dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
+		</dependency>
+		
   </dependencies>
 
   <reporting>

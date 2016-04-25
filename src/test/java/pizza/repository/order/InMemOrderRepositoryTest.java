@@ -22,7 +22,7 @@ public class InMemOrderRepositoryTest {
 		OrderRepository orderRepository = new InMemOrderRepository();
 		Pizza pizza1 = new Pizza(1, "First pizza", 1000, PizzaType.MEAT);
 		Order newOrder = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza1)));
-		long orderId = 123;
+		int orderId = 123;
 		newOrder.setId(orderId);
 		long expected = orderId;
 		long result = orderRepository.saveOrder(newOrder);

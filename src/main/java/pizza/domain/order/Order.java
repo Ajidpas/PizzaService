@@ -1,22 +1,35 @@
 package pizza.domain.order;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.annotation.Scope;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import pizza.domain.Discount;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import pizza.domain.Pizza;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.status.EnumStatusState;
-import pizza.infrastructure.Domain;
 
-//@Component("order")
+@Component("order")
 @Scope("prototype")
-@Domain
+//@Domain
+@Entity
+@Table(name = "order", catalog = "pizza_service_jpa")
 public class Order {
 	
-	private Long id;
+	private int id;
 	
 	private Customer customer;
 	
@@ -24,7 +37,7 @@ public class Order {
 	
 	private EnumStatusState status;
 	
-	private List<Discount> discounts;
+//	private List<Discount> discounts;
 	
 	public Order() {}
 	
@@ -51,6 +64,7 @@ public class Order {
 		return false;
 	}
 
+	@Transient
 	public double getOrderPrice() {
 		double totalPrice = 0;
 		for (Pizza pizza : getPizzaList()) {
@@ -59,26 +73,31 @@ public class Order {
 		return totalPrice;
 	}
 	
-	public boolean addDiscount(Discount discount) {
-		return discounts.add(discount);
-	}
+//	public boolean addDiscount(Discount discount) {
+//		return discounts.add(discount);
+//	}
+//	
+//	public void cleanDiscounts() {
+//		discounts = new ArrayList<Discount>();
+//	}
 	
-	public void cleanDiscounts() {
-		discounts = new ArrayList<Discount>();
-	}
+//	public boolean isStatus() {
+//		return status != null;
+//	}
 	
-	public boolean isStatus() {
-		return status != null;
-	}
-
-	public Long getId() {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "order_id")
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -87,6 +106,11 @@ public class Order {
 		this.customer = customer;
 	}
 
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "order_pizza", 
+	joinColumns = @JoinColumn(name = "order_id"), 
+	inverseJoinColumns = @JoinColumn(name = "pizza_id")
+	)
 	public List<Pizza> getPizzaList() {
 		return pizzaList;
 	}
@@ -95,25 +119,25 @@ public class Order {
 		this.pizzaList = pizzaList;
 	}
 
-	public List<Discount> getDiscounts() {
-		return discounts;
-	}
+//	public List<Discount> getDiscounts() {
+//		return discounts;
+//	}
 
 	public void setStatus(EnumStatusState status) {
 		this.status = status;
 	}
 
-	public void setDiscounts(List<Discount> discounts) {
-		this.discounts = discounts;
-	}
+//	public void setDiscounts(List<Discount> discounts) {
+//		this.discounts = discounts;
+//	}
 	
 	public EnumStatusState getStatus() {
 		return status;
 	}
 
-	@Override
-	public String toString() {
-		return "Order [id=" + id + ", customer=" + customer + ", pizzaList=" + pizzaList + "]";    //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
-	}
+//	@Override
+//	public String toString() {
+//		return "Order [id=" + id + ", customer=" + customer + ", pizzaList=" + pizzaList + "]";    //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
+//	}
 
 }

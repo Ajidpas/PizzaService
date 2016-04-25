@@ -3,6 +3,8 @@ package pizza.service.orderservice;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Component;
@@ -65,7 +67,7 @@ public class SimpleOrderService implements OrderService {
 		}
 	}
 
-	private List<Pizza> pizzasByArrOfId(Integer... pizzasID) throws NoSuchPizzaException {
+	protected List<Pizza> pizzasByArrOfId(Integer... pizzasID) throws NoSuchPizzaException {
 		List<Pizza> pizzas = new ArrayList<Pizza>();
 		for (Integer id : pizzasID) {
 			pizzas.add(pizzaRepository.getPizzaByID(id));
@@ -158,8 +160,17 @@ public class SimpleOrderService implements OrderService {
 		return order;
 	}
 	
+	@SuppressWarnings({"unchecked"})
+	protected <T> T getTargetObject(Object proxy, Class<T> targetClass) throws Exception {
+	  if (AopUtils.isJdkDynamicProxy(proxy)) {
+	    return (T) ((Advised)proxy).getTargetSource().getTarget();
+	  } else {
+	    return (T) proxy; // expected to be cglib proxy then, which is simply a specialized class
+	  }
+	}
+	
 	@Lookup
-	public Order createOrder() {
+	protected Order createOrder() {
 		return null;
 	}
 	

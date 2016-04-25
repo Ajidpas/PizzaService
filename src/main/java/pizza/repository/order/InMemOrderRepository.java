@@ -18,7 +18,7 @@ public class InMemOrderRepository implements OrderRepository {
 			orders = new ArrayList<Order>();
 		}
 		orders.add(newOrder);
-		return newOrder.getId();
+		return (long) newOrder.getId();
 	}
 
 	public List<Order> getAllOrders() {

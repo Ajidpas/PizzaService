@@ -8,7 +8,7 @@ public enum EnumStatusState implements StatusState {
 	NEW {
 
 		public EnumStatusState doAction(Order order) {
-			if (!order.isStatus()) {
+			if (order.getStatus() == null) {
 				order.setStatus(this);
 				return this;
 			} else {
@@ -25,7 +25,7 @@ public enum EnumStatusState implements StatusState {
 			if (status == EnumStatusState.NEW) {
 				order.setStatus(this);
 				return this;
-			} else if (order.isStatus()) {
+			} else if (order.getStatus() != null) {
 				return status;
 			} else {
 				throw new NullOrderStatusException();
@@ -41,7 +41,7 @@ public enum EnumStatusState implements StatusState {
 			if (status == EnumStatusState.IN_PROGRESS) {
 				order.setStatus(this);
 				return this;
-			} else if (order.isStatus()) {
+			} else if (order.getStatus() != null) {
 				return status;
 			} else {
 				throw new NullOrderStatusException();
@@ -57,7 +57,7 @@ public enum EnumStatusState implements StatusState {
 			if (status == EnumStatusState.IN_PROGRESS) {
 				order.setStatus(this);
 				return this;
-			} else if (order.isStatus()) {
+			} else if (order.getStatus() != null) {
 				return status;
 			} else {
 				throw new NullOrderStatusException();

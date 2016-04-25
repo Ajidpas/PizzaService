@@ -1,7 +1,17 @@
 package pizza.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import pizza.domain.customer.Customer;
 
+@Entity
+@Table(name = "accumulative_card", catalog = "pizza_service_jpa")
 public class AccumulativeCard {
 	
 	private long id;
@@ -20,6 +30,8 @@ public class AccumulativeCard {
 		this.customer = customer;
 	}
 
+	@OneToOne
+	@JoinColumn(name = "customer_id")
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -28,6 +40,8 @@ public class AccumulativeCard {
 		this.customer = customer;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long getId() {
 		return id;
 	}

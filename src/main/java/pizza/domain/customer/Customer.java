@@ -3,16 +3,32 @@ package pizza.domain.customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.FactoryBean;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-public class Customer implements FactoryBean<Customer>{
+import pizza.domain.AccumulativeCard;
+import pizza.domain.order.Order;
+
+@Entity
+@Table(name = "customer", catalog = "pizza_service_jpa")
+public class Customer /*implements FactoryBean<Customer>*/{
 	
 	private long id;
 	
 	private String name;
+	
+	private List<Order> orders = new ArrayList<Order>();
 
 	private List<Address> addresses;
 	
+	private AccumulativeCard accumulativeCard;
+
 	public Customer() {}
 	
 	private Customer(long id, String name) {
@@ -33,6 +49,7 @@ public class Customer implements FactoryBean<Customer>{
 		addresses.add(new Address(city, street, house, flat));
 	}
 
+	@OneToMany(mappedBy="customer")
 	public List<Address> getAddresses() {
 		return addresses;
 	}
@@ -41,8 +58,29 @@ public class Customer implements FactoryBean<Customer>{
 		this.addresses = addresses;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "customer_id")
 	public long getId() {
 		return id;
+	}
+	
+	@OneToMany(mappedBy="customer")
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+	
+	@OneToOne(mappedBy = "customer")
+	public AccumulativeCard getAccumulativeCard() {
+		return accumulativeCard;
+	}
+
+	public void setAccumulativeCard(AccumulativeCard accumulativeCard) {
+		this.accumulativeCard = accumulativeCard;
 	}
 
 	public void setId(long id) {
@@ -57,24 +95,24 @@ public class Customer implements FactoryBean<Customer>{
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
-		return "Customer [id=" + id + ", name=" + name + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
-
-	@Override
-	public Customer getObject() throws Exception {
-		return new Customer(1, "Abc");
-	}
-
-	@Override
-	public Class<?> getObjectType() {
-		return Customer.class;
-	}
-
-	@Override
-	public boolean isSingleton() {
-		return false;
-	}
+//	@Override
+//	public String toString() {
+//		return "Customer [id=" + id + ", name=" + name + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+//	}
+//
+//	@Override
+//	public Customer getObject() throws Exception {
+//		return new Customer(1, "Abc");
+//	}
+//
+//	@Override
+//	public Class<?> getObjectType() {
+//		return Customer.class;
+//	}
+//
+//	@Override
+//	public boolean isSingleton() {
+//		return false;
+//	}
 
 }
