@@ -42,16 +42,16 @@ public class AccumulativeCardDiscountTest {
 		
 		// let's put money into the accumulative card less then 300% of the order price
 		// 300% because 10% of the card money should be less then 30% of the order price
-		double money = order.getOrderPrice() * 2; // 200%
+		double money = order.getTotalPrice() * 2; // 200%
 		card.setMoney(money);
 		expected = card.getMoney() / 10; // because this value is less then 30% of order price
 		result = discount.getDiscount();
 		assertEquals(expected, result, 0.0001);
 		
 		// let's put some money into the card that sum will be more then 300% of the order price
-		money = order.getOrderPrice() * 5; // 500%
+		money = order.getTotalPrice() * 5; // 500%
 		card.addMoney(money);
-		expected = order.getOrderPrice() *30 / 100; // because 30% of card money is bigger then 10% of order price
+		expected = order.getTotalPrice() *30 / 100; // because 30% of card money is bigger then 10% of order price
 		result = discount.getDiscount();
 		assertEquals(expected, result, 0.0001);
 	}

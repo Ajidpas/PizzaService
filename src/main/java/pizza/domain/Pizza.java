@@ -1,16 +1,16 @@
 package pizza.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -29,7 +29,7 @@ public class Pizza {
 	@Enumerated(EnumType.STRING)
 	private PizzaType type;
 	
-//	private List<Order> orders = new ArrayList<Order>();
+	private List<Order> orders;
 
 	public Pizza() {}
 
@@ -76,13 +76,14 @@ public class Pizza {
 	}
 	
 //	@ManyToMany(fetch = FetchType.LAZY)
-//	public List<Order> getOrders() {
-//		return orders;
-//	}
-//
-//	public void setOrders(List<Order> orders) {
-//		this.orders = orders;
-//	}
+	@ManyToMany(mappedBy = "pizzas")
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 	
 	public static enum PizzaType {
 		VEGETARIAN,

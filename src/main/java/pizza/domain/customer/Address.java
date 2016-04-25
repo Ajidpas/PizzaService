@@ -1,12 +1,16 @@
 package pizza.domain.customer;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import pizza.domain.order.Order;
 
 @Entity
 @Table(name = "address", catalog = "pizza_service_jpa")
@@ -22,7 +26,9 @@ public class Address {
 	
 	private String flat;
 	
-	private Customer customer;
+	private List<Customer> customers;
+	
+	private List<Order> orders;
 	
 	public Address() {}
 
@@ -33,24 +39,32 @@ public class Address {
 		this.flat = flat;
 	}
 	
-	@ManyToOne()
-	@JoinColumn(name = "customer_id")
-	public Customer getCustomer() {
-		return customer;
-	}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	@ManyToMany(mappedBy = "addresses")
+	public List<Customer> getCustomers() {
+		return customers;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	@OneToMany(targetEntity = Order.class, mappedBy = "address")
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getCity() {

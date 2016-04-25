@@ -1,15 +1,10 @@
 package pizza;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
+import java.util.Calendar;
+import javax.persistence.*;
 import pizza.domain.Pizza;
-import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
+import pizza.domain.order.status.EnumStatusState;
 
 public class JpaWithoutSpring {
 	
@@ -17,14 +12,17 @@ public class JpaWithoutSpring {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa");
 		EntityManager em = emf.createEntityManager();
 		
-		Pizza pizza = new Pizza();
-		pizza.setName("Pizza from JPA 1");
-		pizza.setPrice(74.15);
-		pizza.setType(Pizza.PizzaType.MEAT);
-		
+		Order order = new Order();
+		order.setStatus(EnumStatusState.NEW);
+		order.setDate(Calendar.getInstance());
+
 		try {
 			em.getTransaction().begin();
-			em.persist(pizza);
+			Pizza pizza1 = em.find(Pizza.class, 1);
+			Pizza pizza2 = em.find(Pizza.class, 2);
+			order.addPizza(pizza1);
+			order.addPizza(pizza2);
+			em.persist(order);
 			em.getTransaction().commit();
 		} finally {
 			em.close();

@@ -3,14 +3,7 @@ package pizza.domain.customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import pizza.domain.AccumulativeCard;
 import pizza.domain.order.Order;
@@ -48,8 +41,11 @@ public class Customer /*implements FactoryBean<Customer>*/{
 		addresses = new ArrayList<Address>();
 		addresses.add(new Address(city, street, house, flat));
 	}
-
-	@OneToMany(mappedBy="customer")
+	
+	@ManyToMany
+	@JoinTable(name = "customer_address", 
+			joinColumns = @JoinColumn(name = "customer_id"),
+			inverseJoinColumns = @JoinColumn(name = "address_id"))
 	public List<Address> getAddresses() {
 		return addresses;
 	}
@@ -65,7 +61,7 @@ public class Customer /*implements FactoryBean<Customer>*/{
 		return id;
 	}
 	
-	@OneToMany(mappedBy="customer")
+	@OneToMany(targetEntity = Order.class, mappedBy="customer")
 	public List<Order> getOrders() {
 		return orders;
 	}
@@ -95,10 +91,10 @@ public class Customer /*implements FactoryBean<Customer>*/{
 		this.name = name;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "Customer [id=" + id + ", name=" + name + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-//	}
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", name=" + name + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 //
 //	@Override
 //	public Customer getObject() throws Exception {

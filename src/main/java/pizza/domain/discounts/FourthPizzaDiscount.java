@@ -16,7 +16,7 @@ public class FourthPizzaDiscount implements Discount {
 	}
 
 	public double getDiscount() {
-		List<Pizza> pizzas = order.getPizzaList();
+		List<Pizza> pizzas = order.getPizzas();
 		if (pizzas.size() >= 4) {
 			return getBiggestPricePizza(pizzas) * 30 / 100;
 		} else {

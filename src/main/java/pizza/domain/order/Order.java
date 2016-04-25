@@ -1,25 +1,13 @@
 package pizza.domain.order;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
+import javax.persistence.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import pizza.domain.Pizza;
-import pizza.domain.customer.Customer;
+import pizza.domain.*;
+import pizza.domain.customer.*;
 import pizza.domain.order.status.EnumStatusState;
 
 @Component("order")
@@ -31,11 +19,17 @@ public class Order {
 	
 	private int id;
 	
+	private Calendar date;
+	
 	private Customer customer;
 	
-	private List<Pizza> pizzaList;
-	
+	private List<Pizza> pizzas;
+
 	private EnumStatusState status;
+	
+	private Address address;
+
+	private double totalPrice;
 	
 //	private List<Discount> discounts;
 	
@@ -43,51 +37,34 @@ public class Order {
 	
 	public Order(Customer customer, List<Pizza> pizzas) {
 		this.customer = customer;
-		this.pizzaList = pizzas;
-	}
-
-	public void addPizza(Pizza pizza) {
-		if (pizza != null) {
-			pizzaList.add(pizza);
-		}
+		this.pizzas = pizzas;
 	}
 	
-	public boolean deletePizza(int id) {
-		if (pizzaList.size() >= 1) {
-			for (Pizza pizza : pizzaList) {
-				if (pizza.getId() == id) {
-					pizzaList.remove(pizza);
-					return true;
-				}
-			}
-		}
-		return false;
+	@Temporal(TemporalType.DATE)
+	public Calendar getDate() {
+		return date;
 	}
 
-	@Transient
-	public double getOrderPrice() {
+	public void setDate(Calendar date) {
+		this.date = date;
+	}
+
+	public double getTotalPrice() {
 		double totalPrice = 0;
-		for (Pizza pizza : getPizzaList()) {
+		for (Pizza pizza : getPizzas()) {
 			totalPrice += pizza.getPrice();
 		}
-		return totalPrice;
+		this.totalPrice = totalPrice;
+		return this.totalPrice;
 	}
 	
-//	public boolean addDiscount(Discount discount) {
-//		return discounts.add(discount);
-//	}
-//	
-//	public void cleanDiscounts() {
-//		discounts = new ArrayList<Discount>();
-//	}
-	
-//	public boolean isStatus() {
-//		return status != null;
-//	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "order_id")
+	@Column(name = "id")
 	public int getId() {
 		return id;
 	}
@@ -105,39 +82,84 @@ public class Order {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "order_pizza", 
-	joinColumns = @JoinColumn(name = "order_id"), 
-	inverseJoinColumns = @JoinColumn(name = "pizza_id")
-	)
-	public List<Pizza> getPizzaList() {
-		return pizzaList;
-	}
-
-	public void setPizzaList(List<Pizza> pizzaList) {
-		this.pizzaList = pizzaList;
-	}
-
-//	public List<Discount> getDiscounts() {
-//		return discounts;
-//	}
-
-	public void setStatus(EnumStatusState status) {
-		this.status = status;
-	}
-
-//	public void setDiscounts(List<Discount> discounts) {
-//		this.discounts = discounts;
-//	}
 	
+	@ManyToOne
+	@JoinColumn(name = "address")
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	@ManyToMany
+	@JoinTable(name = "order_pizza",
+		joinColumns = @JoinColumn(name = "pizza_id"),
+		inverseJoinColumns = @JoinColumn(name = "order_id"))
+	public List<Pizza> getPizzas() {
+		return pizzas;
+	}
+
+	public void setPizzas(List<Pizza> pizzas) {
+		this.pizzas = pizzas;
+	}
+	
+	@Transient
+	public void addPizza(Pizza pizza) {
+		if (pizzas == null) {
+			pizzas = new ArrayList<Pizza>();
+		}
+		if (pizza != null) {
+			pizzas.add(pizza);
+		}
+	}
+	
+	@Transient
+	public boolean deletePizza(int id) {
+		if (pizzas.size() >= 1) {
+			for (Pizza pizza : pizzas) {
+				if (pizza.getId() == id) {
+					pizzas.remove(pizza);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Enumerated(EnumType.STRING)
 	public EnumStatusState getStatus() {
 		return status;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "Order [id=" + id + ", customer=" + customer + ", pizzaList=" + pizzaList + "]";    //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
+	public void setStatus(EnumStatusState status) {
+		this.status = status;
+	}
+	
+//	public boolean addDiscount(Discount discount) {
+//		return discounts.add(discount);
 //	}
+//
+//	public void cleanDiscounts() {
+//		discounts = new ArrayList<Discount>();
+//	}
+
+//	public boolean isStatus() {
+//		return status != null;
+//	}
+
+//	public List<Discount> getDiscounts() {
+//		return discounts;
+//	}
+//	
+//	public void setDiscounts(List<Discount> discounts) {
+//		this.discounts = discounts;
+//	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", customer=" + customer + ", pizzaList=" + pizzas + "]";    //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
+	}
 
 }

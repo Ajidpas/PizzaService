@@ -116,7 +116,7 @@ public class SimpleOrderServiceTest {
 //		Customer resultCustomer = order.getCustomer();
 //		assertEquals(expectedCustomer, resultCustomer);
 //		Pizza expectedPizza = pizza;
-//		Pizza resultPizza = order.getPizzaList().get(0);
+//		Pizza resultPizza = order.getPizzas().get(0);
 //		assertEquals(expectedPizza, resultPizza);
 //	}
 	

@@ -57,7 +57,7 @@ public class HibernatePizzaApp {
 		Order order = new Order();
 		order.setId(10);
 		order.setCustomer(customer);
-		order.setPizzaList(pizzas);
+		order.setPizzas(pizzas);
 		
 		List<Order> orders = new ArrayList<Order>();
 		orders.add(order);

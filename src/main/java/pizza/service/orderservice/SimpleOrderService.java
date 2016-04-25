@@ -79,7 +79,7 @@ public class SimpleOrderService implements OrderService {
 	public List<Pizza> addPizzasIntoOrder(Order order, Integer... pizzasID)
 			throws WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
 		checkOrderStatus(order, EnumStatusState.NEW);
-		int orderPizzas = order.getPizzaList().size();
+		int orderPizzas = order.getPizzas().size();
 		int allPizzas = pizzasID.length + orderPizzas;
 		checkPizzasNumber(allPizzas);
 		List<Pizza> pizzas;
@@ -87,7 +87,7 @@ public class SimpleOrderService implements OrderService {
 		for (Pizza pizza : pizzas) {
 			order.addPizza(pizza);
 		}
-		return order.getPizzaList();
+		return order.getPizzas();
 	}
 
 	private void checkOrderStatus(Order order, StatusState expectedStatus) throws WrongStatusException {
@@ -108,7 +108,7 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	public double getOrderPrice(Order order) {
-		return order.getOrderPrice();
+		return order.getTotalPrice();
 	}
 
 	public double getOrderDiscount(Order order) {
@@ -122,7 +122,7 @@ public class SimpleOrderService implements OrderService {
 	@Override
 	public StatusState confirmOrderByUser(Order order)
 			throws WrongStatusException, EmptyOrderException, NullOrderStatusException {
-		if (order.getPizzaList().size() == 0) {
+		if (order.getPizzas().size() == 0) {
 			throw new EmptyOrderException();
 		}
 		StatusState status = EnumStatusState.IN_PROGRESS;
@@ -156,7 +156,7 @@ public class SimpleOrderService implements OrderService {
 	public Order createOrder(Customer customer, List<Pizza> pizzas) {
 		Order order = createOrder();
 		order.setCustomer(customer);
-		order.setPizzaList(pizzas);
+		order.setPizzas(pizzas);
 		return order;
 	}
 	

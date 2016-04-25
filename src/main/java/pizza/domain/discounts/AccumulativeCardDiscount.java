@@ -20,7 +20,7 @@ public class AccumulativeCardDiscount implements Discount {
 	public double getDiscount() {
 		if (card != null) {
 			double cardMoney = card.getMoney();
-			double orderPrice = order.getOrderPrice();
+			double orderPrice = order.getTotalPrice();
 			if (cardMoney / 10 < orderPrice * 30 / 100) {
 				return cardMoney / 10;
 			} else {
