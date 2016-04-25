@@ -42,7 +42,7 @@ public class Customer /*implements FactoryBean<Customer>*/{
 		addresses.add(new Address(city, street, house, flat));
 	}
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "customer_address", 
 			joinColumns = @JoinColumn(name = "customer_id"),
 			inverseJoinColumns = @JoinColumn(name = "address_id"))

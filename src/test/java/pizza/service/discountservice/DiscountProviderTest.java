@@ -8,7 +8,9 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -53,7 +55,9 @@ public class DiscountProviderTest {
 		// set list with 3 discounts as value for this field
 		List<DiscountBuilder> discountBuilderList = new ArrayList<DiscountBuilder>(Arrays.asList(builder, builder, builder));
 		discountBuilders.set(provider, discountBuilderList);
-		provider.getDiscountList(new Order(customer,new ArrayList<Pizza>(Arrays.asList(pizza))));
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza, 1);
+		provider.getDiscountList(new Order(customer, pizzas));
 		int expected = discountBuilderList.size();
 		verify(builder, times(expected)).buildDiscount(any(Order.class));
 	}

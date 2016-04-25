@@ -1,6 +1,7 @@
 package pizza.service;
 
 import java.util.List;
+import java.util.Map;
 
 import pizza.domain.Pizza;
 import pizza.domain.customer.Customer;
@@ -18,11 +19,11 @@ public interface OrderService {
 			throws NotSupportedPizzasNumberException, 
 			NoSuchPizzaException, WrongStatusException;
 
-	List<Pizza> addPizzasIntoOrder(Order order, Integer ... pizzasID) 
+	Map<Pizza, Integer> addPizzasIntoOrder(Order order, Integer ... pizzasID) 
 			throws WrongStatusException, NotSupportedPizzasNumberException, 
 			NoSuchPizzaException;
 	
-	List<Integer> deletePizzasFromOrder(Order order, Integer ... pizzasID);
+	List<Pizza> deletePizzasFromOrder(Order order, Pizza ... pizzasID);
 	
 	StatusState confirmOrderByUser(Order order) 
 			throws WrongStatusException, EmptyOrderException, 

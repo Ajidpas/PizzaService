@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -30,7 +32,14 @@ public class FourthPizzaDiscountTest {
 		Order order;
 		
 		// add three pizzas
-		order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza1, pizza2, pizza3)));
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza1, 1);
+		pizzas.put(pizza2, 1);
+		pizzas.put(pizza3, 1);
+		order = new Order();
+		order.setCustomer(customer);
+		order.setPizzas(pizzas);
+		
 		Discount discount = new FourthPizzaDiscount(order);
 		double expected = 0;
 		double result = discount.getDiscount();
@@ -38,7 +47,7 @@ public class FourthPizzaDiscountTest {
 		
 		// add fourth pizza that has biggest price that is 999999999
 		Pizza pizza4 = new Pizza(999, "Most expencive pizza", 999999999, PizzaType.MEAT);
-		order.addPizza(pizza4);
+		order.addPizza(pizza4, 1);
 		expected = pizza4.getPrice() * 30 / 100;
 		result = discount.getDiscount();
 		assertEquals(expected, result, 0.001);

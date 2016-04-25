@@ -1,20 +1,6 @@
 package pizza.domain;
 
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-import pizza.domain.order.Order;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "pizza", catalog = "pizza_service_jpa")
@@ -28,13 +14,15 @@ public class Pizza {
 
 	@Enumerated(EnumType.STRING)
 	private PizzaType type;
-	
-	private List<Order> orders;
 
 	public Pizza() {}
 
 	public Pizza(int id, String name, double price, PizzaType type) {
+		this(name, price, type);
 		this.id = id;
+	}
+	
+	public Pizza(String name, double price, PizzaType type) {
 		this.name = name;
 		this.price = price;
 		this.type = type;
@@ -75,16 +63,32 @@ public class Pizza {
 		this.type = type;
 	}
 	
-//	@ManyToMany(fetch = FetchType.LAZY)
-	@ManyToMany(mappedBy = "pizzas")
-	public List<Order> getOrders() {
-		return orders;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
 	}
 
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Pizza other = (Pizza) obj;
+		if (id != other.id) {
+			return false;
+		}
+		return true;
 	}
-	
+
 	public static enum PizzaType {
 		VEGETARIAN,
 		SEA,

@@ -1,13 +1,15 @@
 package pizza.domain.order;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import javax.persistence.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import pizza.domain.*;
-import pizza.domain.customer.*;
+import pizza.domain.Pizza;
+import pizza.domain.customer.Address;
+import pizza.domain.customer.Customer;
 import pizza.domain.order.status.EnumStatusState;
 
 @Component("order")
@@ -23,7 +25,7 @@ public class Order {
 	
 	private Customer customer;
 	
-	private List<Pizza> pizzas;
+	private Map<Pizza, Integer> pizzas;
 
 	private EnumStatusState status;
 	
@@ -35,7 +37,7 @@ public class Order {
 	
 	public Order() {}
 	
-	public Order(Customer customer, List<Pizza> pizzas) {
+	public Order(Customer customer, Map<Pizza, Integer> pizzas) {
 		this.customer = customer;
 		this.pizzas = pizzas;
 	}
@@ -51,11 +53,16 @@ public class Order {
 
 	public double getTotalPrice() {
 		double totalPrice = 0;
-		for (Pizza pizza : getPizzas()) {
-			totalPrice += pizza.getPrice();
+		if (pizzas == null) {
+			return this.totalPrice = 0;
 		}
-		this.totalPrice = totalPrice;
-		return this.totalPrice;
+		Set<Pizza> pizzaSet = pizzas.keySet();
+		for (Pizza pizza : pizzaSet) {
+			double pizzaPrice = pizza.getPrice();
+			int pizzaNumber = pizzas.get(pizza);
+			totalPrice += pizzaPrice * pizzaNumber;
+		}
+		return this.totalPrice = totalPrice;
 	}
 	
 	public void setTotalPrice(double totalPrice) {
@@ -92,39 +99,52 @@ public class Order {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-
-	@ManyToMany
-	@JoinTable(name = "order_pizza",
-		joinColumns = @JoinColumn(name = "pizza_id"),
-		inverseJoinColumns = @JoinColumn(name = "order_id"))
-	public List<Pizza> getPizzas() {
+	
+	@ElementCollection
+	@CollectionTable(name = "order_pizza"/*, joinColumns = @JoinColumn(name = "order_id")*/)
+	@MapKeyJoinColumn(name = "pizza_id")
+	@Column(name = "pizza_number")
+	public Map<Pizza, Integer> getPizzas() {
 		return pizzas;
 	}
 
-	public void setPizzas(List<Pizza> pizzas) {
+	public void setPizzas(Map<Pizza, Integer> pizzas) {
 		this.pizzas = pizzas;
 	}
 	
 	@Transient
-	public void addPizza(Pizza pizza) {
+	public void addPizza(Pizza pizza, Integer pizzaNumber) {
 		if (pizzas == null) {
-			pizzas = new ArrayList<Pizza>();
+			pizzas = new HashMap<Pizza, Integer>();
 		}
 		if (pizza != null) {
-			pizzas.add(pizza);
-		}
-	}
-	
-	@Transient
-	public boolean deletePizza(int id) {
-		if (pizzas.size() >= 1) {
-			for (Pizza pizza : pizzas) {
-				if (pizza.getId() == id) {
-					pizzas.remove(pizza);
-					return true;
-				}
+			if (pizzas.containsKey(pizza)) {
+				int newPizzaNumber = pizzas.get(pizza) + pizzaNumber;
+				pizzas.put(pizza, newPizzaNumber);
+			} else {
+				pizzas.put(pizza, pizzaNumber);
 			}
 		}
+	}
+
+	@Transient
+	public boolean deletePizza(Pizza pizza, Integer pizzaNumber) {
+		if (pizzas.size() >= 1 && pizzas.containsKey(pizza) && pizzaNumber > 0) {
+			return deletePizzaFromMap(pizza, pizzaNumber);
+		}
+		return false;
+	}
+
+	private boolean deletePizzaFromMap(Pizza pizza, Integer pizzaNumber) {
+		int newPizzaNumber = pizzas.get(pizza) - pizzaNumber;
+		if (newPizzaNumber == 0) {
+			pizzas.remove(pizza);
+			return true;
+		}
+		if (newPizzaNumber > 0) {
+			pizzas.put(pizza, newPizzaNumber);
+			return true;
+		} 
 		return false;
 	}
 

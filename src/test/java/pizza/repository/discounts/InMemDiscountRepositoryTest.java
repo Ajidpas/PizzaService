@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -22,7 +24,9 @@ public class InMemDiscountRepositoryTest {
 	@Test
 	public void testSaveDiscount() {
 		Pizza pizza1 = new Pizza(1, "First pizza", 1000, PizzaType.MEAT);
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza1)));
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza1, 1);
+		Order order = new Order(customer, pizzas);
 		Discount discount = new FourthPizzaDiscount(order);
 		DiscountRepository discountRepository = new InMemDiscountRepository();
 		Discount expected = discount;

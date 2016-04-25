@@ -1,6 +1,7 @@
 package pizza.domain.discounts;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 import pizza.domain.Discount;
 import pizza.domain.Pizza;
@@ -16,15 +17,19 @@ public class FourthPizzaDiscount implements Discount {
 	}
 
 	public double getDiscount() {
-		List<Pizza> pizzas = order.getPizzas();
-		if (pizzas.size() >= 4) {
-			return getBiggestPricePizza(pizzas) * 30 / 100;
+		int pizzaNumber = 0;
+		Collection<Integer> pizzaNumbers = order.getPizzas().values();
+		for (int number : pizzaNumbers) {
+			pizzaNumber += number;
+		}
+		if (pizzaNumber >= 4) {
+			return getBiggestPricePizza(order.getPizzas().keySet()) * 30 / 100;
 		} else {
 			return 0;
 		}
 	}
 
-	private double getBiggestPricePizza(List<Pizza> pizzas) {
+	private double getBiggestPricePizza(Set<Pizza> pizzas) {
 		double biggerPrice = 0;
 		for (Pizza pizza : pizzas) {
 			double pizzaPrice = pizza.getPrice();

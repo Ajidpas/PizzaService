@@ -2,6 +2,7 @@ package pizza.service.orderservice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
@@ -76,7 +77,7 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public List<Pizza> addPizzasIntoOrder(Order order, Integer... pizzasID)
+	public Map<Pizza, Integer> addPizzasIntoOrder(Order order, Integer... pizzasID)
 			throws WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
 		checkOrderStatus(order, EnumStatusState.NEW);
 		int orderPizzas = order.getPizzas().size();
@@ -85,7 +86,7 @@ public class SimpleOrderService implements OrderService {
 		List<Pizza> pizzas;
 		pizzas = pizzasByArrOfId(pizzasID);
 		for (Pizza pizza : pizzas) {
-			order.addPizza(pizza);
+			order.addPizza(pizza, 1);
 		}
 		return order.getPizzas();
 	}
@@ -97,14 +98,14 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public List<Integer> deletePizzasFromOrder(Order order, Integer... pizzasID) {
-		List<Integer> deletedPizzasId = new ArrayList<Integer>();
-		for (int id : pizzasID) {
-			if (order.deletePizza(id)) {
-				deletedPizzasId.add(id);
+	public List<Pizza> deletePizzasFromOrder(Order order, Pizza... pizzas) {
+		List<Pizza> deletedPizzas = new ArrayList<Pizza>();
+		for (Pizza pizza : pizzas) {
+			if (order.deletePizza(pizza, 1)) {
+				deletedPizzas.add(pizza);
 			}
 		}
-		return deletedPizzasId;
+		return deletedPizzas;
 	}
 
 	public double getOrderPrice(Order order) {
@@ -156,7 +157,9 @@ public class SimpleOrderService implements OrderService {
 	public Order createOrder(Customer customer, List<Pizza> pizzas) {
 		Order order = createOrder();
 		order.setCustomer(customer);
-		order.setPizzas(pizzas);
+		for (Pizza pizza : pizzas) {
+			order.addPizza(pizza, 1);
+		}
 		return order;
 	}
 	

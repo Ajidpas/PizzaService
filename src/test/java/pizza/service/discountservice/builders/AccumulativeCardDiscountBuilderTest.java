@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -45,7 +47,9 @@ public class AccumulativeCardDiscountBuilderTest {
 		
 		// create discount basis on the following order
 		Pizza pizza = new Pizza(1, "Some pizza", 50.0, PizzaType.MEAT);
-		Order order = new Order(customer, new ArrayList<>(Arrays.asList(pizza)));
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza, 1);
+		Order order = new Order(customer, pizzas);
 		
 		// get discount
 		double expected = Optional.ofNullable(new AccumulativeCardDiscount(card, order)).get().getDiscount();
@@ -53,7 +57,9 @@ public class AccumulativeCardDiscountBuilderTest {
 		assertEquals(expected, result, 0.0001);
 		
 		// create order with other customer without card
-		order = new Order(otherCustomer, new ArrayList<>(Arrays.asList(pizza)));
+		Map<Pizza, Integer> pizzas1 = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza, 1);
+		order = new Order(otherCustomer, pizzas1);
 		Optional<Discount> expectedObject = Optional.empty();
 		Optional<Discount> resultObject = discountBuilder.buildDiscount(order);
 		assertEquals(expectedObject, resultObject);

@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -25,7 +27,9 @@ public class FourthPizzaDiscountBuilderTest {
 		
 		// create discount basis on the following order
 		Pizza pizza = new Pizza(1, "Some pizza", 50.0, PizzaType.MEAT);
-		Order order = new Order(customer, new ArrayList<>(Arrays.asList(pizza)));
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza, 1);
+		Order order = new Order(customer, pizzas);
 		
 		// get discount for order with one pizza
 		double expected = Optional.of(new FourthPizzaDiscount(order)).get().getDiscount();
@@ -38,7 +42,13 @@ public class FourthPizzaDiscountBuilderTest {
 		Pizza pizza3 = new Pizza(3, "Some pizza 3", 30.0, PizzaType.MEAT);
 		Pizza pizza4 = new Pizza(4, "Some pizza 4", 40.0, PizzaType.MEAT);
 		Pizza pizza5 = new Pizza(5, "Some pizza 5", 50.0, PizzaType.MEAT);
-		order = new Order(customer, new ArrayList<>(Arrays.asList(pizza1, pizza2, pizza3, pizza4, pizza5)));
+		pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza1, 1);
+		pizzas.put(pizza2, 1);
+		pizzas.put(pizza3, 1);
+		pizzas.put(pizza4, 1);
+		pizzas.put(pizza5, 1);
+		order = new Order(customer, pizzas);
 		expected = Optional.of(new FourthPizzaDiscount(order)).get().getDiscount();
 		result = discountBuilder.buildDiscount(order).get().getDiscount();
 		assertEquals(expected, result, 0.0001);

@@ -2,12 +2,15 @@ package pizza.service.orderservice;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +46,8 @@ public class SimpleOrderServiceTest {
 	private static final int NO_PIZZA_WITH_THIS_ID = 100500;
 	
 	private static final int EXISTING_PIZZA_ID = 5;
+	
+	private Order order;
 
 	@Mock
 	private PizzaRepository pizzaRepository;
@@ -84,7 +89,11 @@ public class SimpleOrderServiceTest {
 //		field.setAccessible(true);
 //		field.set(service, discountService);
 //		
-		doReturn(new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)))).when(serviceSpy).createOrder();
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza, 1);
+		order = new Order(customer, pizzas);
+		
+		doReturn(new Order(customer, pizzas)).when(serviceSpy).createOrder();
 		doReturn(new ArrayList<Pizza>(Arrays.asList(pizza))).when(serviceSpy).pizzasByArrOfId(anyObject());
 		
 		when(pizzaRepository.getPizzaByID(NO_PIZZA_WITH_THIS_ID)).thenThrow(new NoSuchPizzaException());
@@ -121,8 +130,8 @@ public class SimpleOrderServiceTest {
 //	}
 	
 	@Test(expected = WrongStatusException.class)
-	public void testAddPizzasIntoOrderWrongStatus() throws NullOrderStatusException, WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
+	public void testAddPizzasIntoOrderWrongStatus() throws NullOrderStatusException, 
+	WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		status = EnumStatusState.IN_PROGRESS;
@@ -133,18 +142,9 @@ public class SimpleOrderServiceTest {
 	@Test(expected = NotSupportedPizzasNumberException.class)
 	public void testAddPizzasIntoOrderWrongStatusNotSupportedPizzasNumber() throws NullOrderStatusException, 
 			WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
-		List<Pizza> pizzas = new ArrayList<Pizza>();
-		pizzas.add(pizza); // 1
-		pizzas.add(pizza); // 2
-		pizzas.add(pizza); // 3
-		pizzas.add(pizza); // 4
-		pizzas.add(pizza); // 5
-		pizzas.add(pizza); // 6
-		pizzas.add(pizza); // 7
-		pizzas.add(pizza); // 8
-		pizzas.add(pizza); // 9
-		pizzas.add(pizza); // 10 - limit
-		Order order = new Order(customer, pizzas);
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza, 10);
+		order = new Order(customer, pizzas);
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		service.addPizzasIntoOrder(order, EXISTING_PIZZA_ID);
@@ -153,7 +153,6 @@ public class SimpleOrderServiceTest {
 	@Test(expected = NoSuchPizzaException.class)
 	public void testAddPizzasIntoOrderNoSuchPizza() throws NullOrderStatusException, 
 			WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		service.addPizzasIntoOrder(order, NO_PIZZA_WITH_THIS_ID);
@@ -162,46 +161,42 @@ public class SimpleOrderServiceTest {
 	@Test
 	public void testAddPizzasIntoOrder() throws NullOrderStatusException, 
 			WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
-		List<Pizza> pizzas = service.addPizzasIntoOrder(order, EXISTING_PIZZA_ID);
+		Map<Pizza, Integer> pizzas = service.addPizzasIntoOrder(order, EXISTING_PIZZA_ID);
 		int expectedSize = 2; // 1 pizza in order and 1 pizza was added
-		int resultSize = pizzas.size();
+		int resultSize = pizzas.get(pizza);
 		assertEquals(expectedSize, resultSize);
 	}
 	
 	@Test
 	public void testDeletePizzasFromOrder() {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		int expectedDeletedPizzasSize = 0;
-		int resultDeletedPizzasSize = service.deletePizzasFromOrder(order, NO_PIZZA_WITH_THIS_ID).size();
+		int resultDeletedPizzasSize = service.deletePizzasFromOrder(order, new Pizza()).size();
 		assertEquals(expectedDeletedPizzasSize, resultDeletedPizzasSize);
 		
 		// add pizza and delete pizza with the same id
-		order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
-		int thisPizzasId = pizza.getId();
 		expectedDeletedPizzasSize = 1;
-		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, thisPizzasId).size();
+		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, pizza).size();
 		assertEquals(expectedDeletedPizzasSize, resultDeletedPizzasSize);
 		
 		// add two pizzas and delete only one pizza with such id
-		order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza, pizza)));
+		order.addPizza(pizza, 1);
+		order.addPizza(pizza, 1);
 		expectedDeletedPizzasSize = 1;
-		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, thisPizzasId).size();
+		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, pizza).size();
 		assertEquals(expectedDeletedPizzasSize, resultDeletedPizzasSize);
 		
 		// add two pizzas and delete two pizzas with such id
-		order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza, pizza)));
+		order.addPizza(pizza, 1);
 		expectedDeletedPizzasSize = 2;
-		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, thisPizzasId, thisPizzasId).size();
+		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, pizza, pizza).size();
 		assertEquals(expectedDeletedPizzasSize, resultDeletedPizzasSize);
 	}
 	
 	@Test(expected = WrongStatusException.class)
 	public void confirmOrderByUserWrongStatus() throws NullOrderStatusException, 
 			WrongStatusException, EmptyOrderException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		status = EnumStatusState.IN_PROGRESS;
@@ -214,7 +209,7 @@ public class SimpleOrderServiceTest {
 	@Test(expected = EmptyOrderException.class)
 	public void confirmOrderByUserEmptyOrder() throws NullOrderStatusException, 
 			WrongStatusException, EmptyOrderException {
-		Order order = new Order(customer, new ArrayList<Pizza>());
+		Order order = new Order(customer, new HashMap<Pizza, Integer>());
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		service.confirmOrderByUser(order);
@@ -223,14 +218,12 @@ public class SimpleOrderServiceTest {
 	@Test(expected = NullOrderStatusException.class)
 	public void confirmOrderByUserNullOrderStatus() throws WrongStatusException, 
 			EmptyOrderException, NullOrderStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		service.confirmOrderByUser(order);
 	}
 	
 	@Test
 	public void confirmOrderByUser() throws NullOrderStatusException, 
 			WrongStatusException, EmptyOrderException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		StatusState expected = EnumStatusState.IN_PROGRESS;
@@ -241,7 +234,6 @@ public class SimpleOrderServiceTest {
 	@Test(expected = WrongStatusException.class)
 	public void confirmOrderByAdminWrongStatus() throws NullOrderStatusException, 
 			WrongStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		service.confirmOrderByAdmin(order);
@@ -250,14 +242,12 @@ public class SimpleOrderServiceTest {
 	@Test(expected = NullOrderStatusException.class)
 	public void confirmOrderByAdminNullOrderStatus() throws WrongStatusException, 
 			NullOrderStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		service.confirmOrderByAdmin(order);
 	}
 	
 	@Test
 	public void confirmOrderByAdmin() throws NullOrderStatusException, 
 			WrongStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		status = EnumStatusState.IN_PROGRESS;
@@ -270,7 +260,6 @@ public class SimpleOrderServiceTest {
 	@Test(expected = WrongStatusException.class)
 	public void cancelOrderWrongStatus() throws NullOrderStatusException, 
 			WrongStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		status = EnumStatusState.IN_PROGRESS;
@@ -283,14 +272,12 @@ public class SimpleOrderServiceTest {
 	@Test(expected = NullOrderStatusException.class)
 	public void cancelOrderNullOrderStatus() throws WrongStatusException, 
 			NullOrderStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		service.cancelOrder(order);
 	}
 	
 	@Test
 	public void cancelOrder() throws NullOrderStatusException, 
 			WrongStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza)));
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
 		status = EnumStatusState.IN_PROGRESS;

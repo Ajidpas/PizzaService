@@ -1,7 +1,9 @@
 package pizza;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -51,9 +53,9 @@ public class HibernatePizzaApp {
 		pizza2.setName("Pizza from JPA 2");
 		pizza2.setPrice(154.21);
 		pizza2.setType(Pizza.PizzaType.SEA);
-		List<Pizza> pizzas = new ArrayList<Pizza>();
-		pizzas.add(pizza1);
-		pizzas.add(pizza2);
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza1, 8);
+		pizzas.put(pizza2, 12);
 		Order order = new Order();
 		order.setId(10);
 		order.setCustomer(customer);

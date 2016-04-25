@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -21,7 +23,9 @@ public class InMemOrderRepositoryTest {
 	public void testSaveOrder() {
 		OrderRepository orderRepository = new InMemOrderRepository();
 		Pizza pizza1 = new Pizza(1, "First pizza", 1000, PizzaType.MEAT);
-		Order newOrder = new Order(customer, new ArrayList<Pizza>(Arrays.asList(pizza1)));
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza1, 1);
+		Order newOrder = new Order(customer, pizzas);
 		int orderId = 123;
 		newOrder.setId(orderId);
 		long expected = orderId;

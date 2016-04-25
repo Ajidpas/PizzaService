@@ -3,7 +3,8 @@ package pizza.domain.order.status;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -13,7 +14,6 @@ import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
 import pizza.domain.order.StatusState;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
-import pizza.service.orderservice.SimpleOrderService;
 import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 import pizza.service.orderservice.exceptions.WrongStatusException;
 
@@ -29,7 +29,14 @@ public class EnumStatusStateTest {
 		Pizza pizza1 = new Pizza(1, "First pizza", 1000, PizzaType.MEAT);
 		Pizza pizza2 = new Pizza(2, "Second pizza", 2000, PizzaType.SEA);
 		Pizza pizza3 = new Pizza(3, "First pizza", 3000, PizzaType.VEGETABLES);
-		Order order = new Order(customer, Arrays.asList(pizza1, pizza2, pizza3));
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza1, 1);
+		pizzas.put(pizza2, 1);
+		pizzas.put(pizza3, 1);
+		Order order = new Order();
+		order.setCustomer(customer);
+		order.setPizzas(pizzas);
+		
 		
 		// check that order has no status
 		boolean expectedFalse = false;
@@ -71,7 +78,7 @@ public class EnumStatusStateTest {
 	@Test(expected = NullOrderStatusException.class)
 	public void testDoActionSetInProgressStatusWhenStatusIsNull() 
 			throws NullOrderStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>());
+		Order order = new Order(customer, new HashMap<Pizza, Integer>());
 		
 		// try to set IN_PROGRESS status that is wrong
 		status = EnumStatusState.IN_PROGRESS;
@@ -81,7 +88,7 @@ public class EnumStatusStateTest {
 	@Test(expected = NullOrderStatusException.class)
 	public void testDoActionSetDoneStatusWhenStatusIsNull() 
 			throws NullOrderStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>());
+		Order order = new Order(customer, new HashMap<Pizza, Integer>());
 		
 		// try to set IN_PROGRESS status that is wrong
 		status = EnumStatusState.DONE;
@@ -91,7 +98,7 @@ public class EnumStatusStateTest {
 	@Test(expected = NullOrderStatusException.class)
 	public void testDoActionSetCanceledStatusWhenStatusIsNull() 
 			throws NullOrderStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>());
+		Order order = new Order(customer, new HashMap<Pizza, Integer>());
 		
 		// try to set IN_PROGRESS status that is wrong
 		status = EnumStatusState.CANCELED;
@@ -100,7 +107,7 @@ public class EnumStatusStateTest {
 	
 	@Test
 	public void testDoActionSetCanceledStatus() throws NullOrderStatusException {
-		Order order = new Order(customer, new ArrayList<Pizza>());
+		Order order = new Order(customer, new HashMap<Pizza, Integer>());
 		
 		// let's set order into IN_PROGRESS status
 		setAndCheckStatus(order, EnumStatusState.NEW, EnumStatusState.NEW);

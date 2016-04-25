@@ -2,7 +2,8 @@ package pizza.domain.discounts;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -25,7 +26,14 @@ public class AccumulativeCardDiscountTest {
 		Pizza pizza1 = new Pizza(1, "First pizza", 1000, PizzaType.MEAT);
 		Pizza pizza2 = new Pizza(2, "Second pizza", 2000, PizzaType.SEA);
 		Pizza pizza3 = new Pizza(3, "First pizza", 3000, PizzaType.VEGETABLES);
-		Order order = new Order(customer, Arrays.asList(pizza1, pizza2, pizza3));
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza1,  1);
+		pizzas.put(pizza2, 1);
+		pizzas.put(pizza3, 1);
+		Order order = new Order();
+		order.setCustomer(customer);
+		order.setPizzas(pizzas);
+		
 		Discount discount = new AccumulativeCardDiscount(null, order);
 		
 		// accumulative card is null

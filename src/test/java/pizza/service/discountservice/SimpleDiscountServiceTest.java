@@ -7,6 +7,8 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +31,7 @@ public class SimpleDiscountServiceTest {
 	
 	private Pizza pizza = new Pizza(1, "Some pizza", 50.0, PizzaType.MEAT);
 	
-	private Order order = new Order(customer, new ArrayList<>(Arrays.asList(pizza)));
+	private Order order;
 	
 	public static final double DISCOUNT_VALUE = 15.0;
 	
@@ -47,6 +49,9 @@ public class SimpleDiscountServiceTest {
 	
 	@Before
 	public void setUp() {
+		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();
+		pizzas.put(pizza, 1);
+		order = new Order(customer, pizzas);
 		when(discountProvider.getDiscountList(any(Order.class)))
 		.thenReturn(new ArrayList<Discount>(Arrays.asList(discount,discount,discount)));
 		when(discount.getDiscount()).thenReturn(DISCOUNT_VALUE);
