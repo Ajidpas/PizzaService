@@ -1,14 +1,25 @@
 package pizza.repository.pizza;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.springframework.stereotype.Repository;
 
 import pizza.domain.Pizza;
 import pizza.repository.PizzaRepository;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 
+@Repository(value = "pizzaRepository")
 public class JpaPizzaRepository implements PizzaRepository {
 	
+	private EntityManagerFactory emf;
+	
 	private EntityManager em;
+	
+	public JpaPizzaRepository() {}
 
 	public JpaPizzaRepository(EntityManager em) {
 		super();
@@ -45,6 +56,18 @@ public class JpaPizzaRepository implements PizzaRepository {
 		em.getTransaction().begin();
 		em.remove(pizza);
 		em.getTransaction().commit();
+	}
+	
+	@PostConstruct
+	private void initEntityManager() {
+		emf = Persistence.createEntityManagerFactory("jpa");
+		em = emf.createEntityManager();
+	}
+	
+	@PreDestroy
+	private void closeEntityManager() {
+		em.close();
+		emf.close();
 	}
 
 }

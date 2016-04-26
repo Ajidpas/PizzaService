@@ -11,7 +11,7 @@ import pizza.domain.Pizza;
 import pizza.repository.PizzaRepository;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 
-@Repository(value = "pizzaRepository")
+//@Repository(value = "pizzaRepository")
 public class InMemPizzaRepository implements PizzaRepository {
 
 	public List<Pizza> allPizzas;

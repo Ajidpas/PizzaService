@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import pizza.domain.order.Order;
 import pizza.repository.OrderRepository;
 
-@Repository(value = "orderRepository")
+//@Repository(value = "orderRepository")
 public class InMemOrderRepository implements OrderRepository {
 	
 	private List<Order> orders;

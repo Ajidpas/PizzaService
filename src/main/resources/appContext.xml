@@ -7,10 +7,12 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">	
    		
-   		<context:component-scan base-package="pizza.domain" >
+   		<context:component-scan base-package="pizza" >
    			<context:include-filter type="annotation" expression="pizza.infrastructure.Domain"/>
    		</context:component-scan>
    		
    		<context:annotation-config/>
+   		
+   		<bean name="order" class="pizza.domain.Order" scope="prototype" />
    		
 </beans>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import pizza.domain.AccumulativeCard;
 import pizza.repository.CardRepository;
 
-@Repository(value = "cardRepository")
+//@Repository(value = "cardRepository")
 public class InMemCardRepository implements CardRepository {
 	
 	private List<AccumulativeCard> cards;

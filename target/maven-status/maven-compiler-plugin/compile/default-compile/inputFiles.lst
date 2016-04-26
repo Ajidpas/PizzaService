@@ -17,6 +17,7 @@ D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\piz
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\repository\order\InMemOrderRepository.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\repository\PizzaRepository.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\repository\discounts\InMemDiscountRepository.java
+D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\repository\card\JpaCardRepository.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\domain\order\StatusState.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\CardService.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\domain\AccumulativeCard.java
@@ -25,8 +26,10 @@ D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\piz
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\repository\customer\InMemCustomerRepository.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\discountservice\builders\AccumulativeCardDiscountBuilder.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\orderservice\exceptions\WrongStatusException.java
+D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\repository\customer\JpaCustomerRepository.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\JpaWithoutSpring.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\view\console\ConsoleView.java
+D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\repository\pizza\JpaPizzaRepository.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\DiscountService.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\discountservice\DiscountBuilder.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\OrderService.java
@@ -36,7 +39,9 @@ D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\piz
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\orderservice\exceptions\EmptyOrderException.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\domain\order\status\EnumStatusState.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\repository\CustomerRepository.java
+D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\repository\order\JpaOrderRepository.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\discountservice\DiscountProvider.java
+D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\SpringWithJpaApp.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\PizzaApp.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\discountservice\builders\FourthPizzaDiscountBuilder.java
 D:\java\eclipse-jee-mars-2-win32-x86_64\workspace\PizzaService\src\main\java\pizza\service\discountservice\SimpleDiscountService.java

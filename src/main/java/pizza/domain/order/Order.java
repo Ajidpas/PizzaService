@@ -4,15 +4,34 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.persistence.*;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
 import pizza.domain.Pizza;
 import pizza.domain.customer.Address;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.status.EnumStatusState;
+import pizza.infrastructure.Domain;
 
-@Component("order")
+@Component
 @Scope("prototype")
 //@Domain
 @Entity

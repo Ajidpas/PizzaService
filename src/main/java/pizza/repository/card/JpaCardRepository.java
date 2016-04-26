@@ -2,15 +2,26 @@ package pizza.repository.card;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
 
 import pizza.domain.AccumulativeCard;
 import pizza.repository.CardRepository;
 
+@Repository(value = "cardRepository")
 public class JpaCardRepository implements CardRepository {
 	
+	private EntityManagerFactory emf;
+	
 	private EntityManager em;
+	
+	public JpaCardRepository() {}
 
 	public JpaCardRepository(EntityManager em) {
 		super();
@@ -54,6 +65,18 @@ public class JpaCardRepository implements CardRepository {
 		em.getTransaction().begin();
 		em.remove(card);
 		em.getTransaction().commit();
+	}
+	
+	@PostConstruct
+	private void initEntityManager() {
+		emf = Persistence.createEntityManagerFactory("jpa");
+		em = emf.createEntityManager();
+	}
+	
+	@PreDestroy
+	private void closeEntityManager() {
+		em.close();
+		emf.close();
 	}
 
 }

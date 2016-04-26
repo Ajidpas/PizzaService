@@ -1,14 +1,27 @@
 package pizza.repository.order;
 
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
 import pizza.domain.order.Order;
 import pizza.repository.OrderRepository;
 
+@Repository(value = "orderRepository")
 public class JpaOrderRepository implements OrderRepository {
 	
+	private EntityManagerFactory emf;
+	
 	private EntityManager em;
+	
+	public JpaOrderRepository() {}
 
 	public JpaOrderRepository(EntityManager em) {
 		super();
@@ -56,6 +69,18 @@ public class JpaOrderRepository implements OrderRepository {
 		em.getTransaction().begin();
 		em.remove(order);
 		em.getTransaction().commit();		
+	}
+	
+	@PostConstruct
+	private void initEntityManager() {
+		emf = Persistence.createEntityManagerFactory("jpa");
+		em = emf.createEntityManager();
+	}
+	
+	@PreDestroy
+	private void closeEntityManager() {
+		em.close();
+		emf.close();
 	}
 
 }
