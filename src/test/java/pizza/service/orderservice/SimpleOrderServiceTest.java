@@ -62,7 +62,7 @@ public class SimpleOrderServiceTest {
 	private SimpleOrderService service;
 	
 	@Spy
-	private SimpleOrderService serviceSpy = service;
+	private SimpleOrderService serviceSpy = new SimpleOrderService();
 	
 	@Before
 	public void setUp() throws Exception {
@@ -170,27 +170,27 @@ public class SimpleOrderServiceTest {
 	}
 	
 	@Test
-	public void testDeletePizzasFromOrder() {
+	public void testDeletePizzasFromOrder() throws NoSuchPizzaException {
 		int expectedDeletedPizzasSize = 0;
-		int resultDeletedPizzasSize = service.deletePizzasFromOrder(order, new Pizza()).size();
+		int resultDeletedPizzasSize = service.deletePizzasFromOrder(order).size();
 		assertEquals(expectedDeletedPizzasSize, resultDeletedPizzasSize);
 		
 		// add pizza and delete pizza with the same id
 		expectedDeletedPizzasSize = 1;
-		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, pizza).size();
+		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, EXISTING_PIZZA_ID).size();
 		assertEquals(expectedDeletedPizzasSize, resultDeletedPizzasSize);
 		
 		// add two pizzas and delete only one pizza with such id
 		order.addPizza(pizza, 1);
 		order.addPizza(pizza, 1);
 		expectedDeletedPizzasSize = 1;
-		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, pizza).size();
+		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, EXISTING_PIZZA_ID).size();
 		assertEquals(expectedDeletedPizzasSize, resultDeletedPizzasSize);
 		
 		// add two pizzas and delete two pizzas with such id
 		order.addPizza(pizza, 1);
 		expectedDeletedPizzasSize = 2;
-		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, pizza, pizza).size();
+		resultDeletedPizzasSize = service.deletePizzasFromOrder(order, EXISTING_PIZZA_ID, EXISTING_PIZZA_ID).size();
 		assertEquals(expectedDeletedPizzasSize, resultDeletedPizzasSize);
 	}
 	

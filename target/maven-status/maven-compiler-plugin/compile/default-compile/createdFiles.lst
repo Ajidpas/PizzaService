@@ -4,6 +4,7 @@ pizza\repository\DiscountRepository.class
 pizza\repository\customer\InMemCustomerRepository.class
 pizza\repository\pizza\exceptions\NoSuchPizzaException.class
 pizza\domain\order\StatusState.class
+pizza\HibernatePizzaApp.class
 pizza\repository\discounts\InMemDiscountRepository.class
 pizza\service\discountservice\builders\FourthPizzaDiscountBuilder.class
 pizza\service\orderservice\exceptions\WrongStatusException.class
@@ -16,6 +17,7 @@ pizza\domain\order\Order.class
 pizza\domain\Pizza.class
 pizza\service\OrderService.class
 pizza\domain\order\status\EnumStatusState$3.class
+pizza\JpaWithoutSpring.class
 pizza\service\discountservice\DiscountProvider.class
 pizza\service\orderservice\CreateOrderService.class
 pizza\domain\discounts\FourthPizzaDiscount.class

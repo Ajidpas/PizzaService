@@ -23,7 +23,8 @@ public interface OrderService {
 			throws WrongStatusException, NotSupportedPizzasNumberException, 
 			NoSuchPizzaException;
 	
-	List<Pizza> deletePizzasFromOrder(Order order, Pizza ... pizzasID);
+	List<Pizza> deletePizzasFromOrder(Order order, Integer ... pizzasID) 
+			throws NoSuchPizzaException;
 	
 	StatusState confirmOrderByUser(Order order) 
 			throws WrongStatusException, EmptyOrderException, 

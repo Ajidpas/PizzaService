@@ -8,6 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import pizza.domain.Pizza;
+import pizza.domain.Pizza.PizzaType;
 import pizza.domain.customer.Address;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;

@@ -3,6 +3,7 @@ package pizza.service.orderservice;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
@@ -77,18 +78,25 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public Map<Pizza, Integer> addPizzasIntoOrder(Order order, Integer... pizzasID)
+	public Map<Pizza, Integer> addPizzasIntoOrder(Order order, Integer... pizzasId)
 			throws WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
 		checkOrderStatus(order, EnumStatusState.NEW);
-		int orderPizzas = order.getPizzas().size();
-		int allPizzas = pizzasID.length + orderPizzas;
+		int orderPizzas = countPizzasInMap(order.getPizzas());
+		int allPizzas = pizzasId.length + orderPizzas;
 		checkPizzasNumber(allPizzas);
-		List<Pizza> pizzas;
-		pizzas = pizzasByArrOfId(pizzasID);
-		for (Pizza pizza : pizzas) {
+		for (Pizza pizza : pizzasByArrOfId(pizzasId)) {
 			order.addPizza(pizza, 1);
 		}
 		return order.getPizzas();
+	}
+
+	private int countPizzasInMap(Map<Pizza, Integer> pizzas) {
+		int count = 0;
+		Set<Pizza> pizzaSet = pizzas.keySet();
+		for (Pizza pizza : pizzaSet) {
+			count += pizzas.get(pizza);
+		}
+		return count;
 	}
 
 	private void checkOrderStatus(Order order, StatusState expectedStatus) throws WrongStatusException {
@@ -98,9 +106,10 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public List<Pizza> deletePizzasFromOrder(Order order, Pizza... pizzas) {
+	public List<Pizza> deletePizzasFromOrder(Order order, Integer... pizzasId) 
+			throws NoSuchPizzaException {
 		List<Pizza> deletedPizzas = new ArrayList<Pizza>();
-		for (Pizza pizza : pizzas) {
+		for (Pizza pizza : pizzasByArrOfId(pizzasId)) {
 			if (order.deletePizza(pizza, 1)) {
 				deletedPizzas.add(pizza);
 			}
@@ -123,7 +132,7 @@ public class SimpleOrderService implements OrderService {
 	@Override
 	public StatusState confirmOrderByUser(Order order)
 			throws WrongStatusException, EmptyOrderException, NullOrderStatusException {
-		if (order.getPizzas().size() == 0) {
+		if (countPizzasInMap(order.getPizzas()) == 0) {
 			throw new EmptyOrderException();
 		}
 		StatusState status = EnumStatusState.IN_PROGRESS;

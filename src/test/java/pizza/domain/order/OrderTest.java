@@ -39,6 +39,7 @@ public class OrderTest {
 		
 		// let's check that pizza list has size 1
 		int expected = 1;
+		order.addPizza(pizza999, 1);
 		int result = order.getPizzas().size();
 		assertEquals(expected, result);
 		
@@ -59,6 +60,7 @@ public class OrderTest {
 	public void testDeletePizza() {
 		// check the number of pizzas
 		int expected = 1;
+		order.addPizza(pizza999, 1);
 		int result = order.getPizzas().size();
 		assertEquals(expected, result);
 		
@@ -85,6 +87,7 @@ public class OrderTest {
 	public void testGetOrderPrice() {
 		// there is one pizza in the order
 		double expected = pizza999.getPrice();
+		order.addPizza(pizza999, 1);
 		double result = order.getTotalPrice();
 		assertEquals(expected, result, 0.0001);
 		

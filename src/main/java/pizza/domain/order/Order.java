@@ -89,7 +89,7 @@ public class Order {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
+
 	@ManyToOne
 	@JoinColumn(name = "address")
 	public Address getAddress() {
@@ -99,7 +99,7 @@ public class Order {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
+
 	@ElementCollection
 	@CollectionTable(name = "order_pizza"/*, joinColumns = @JoinColumn(name = "order_id")*/)
 	@MapKeyJoinColumn(name = "pizza_id")
