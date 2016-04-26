@@ -12,7 +12,7 @@ import pizza.domain.order.Order;
 @Table(name = "customer", catalog = "pizza_service_jpa")
 public class Customer /*implements FactoryBean<Customer>*/{
 	
-	private long id;
+	private int id;
 	
 	private String name;
 
@@ -20,7 +20,7 @@ public class Customer /*implements FactoryBean<Customer>*/{
 
 	public Customer() {}
 	
-	private Customer(long id, String name) {
+	private Customer(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -53,11 +53,11 @@ public class Customer /*implements FactoryBean<Customer>*/{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "customer_id")
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

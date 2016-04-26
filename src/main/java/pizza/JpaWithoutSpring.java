@@ -2,40 +2,40 @@ package pizza;
 
 import java.util.Arrays;
 import java.util.Calendar;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import pizza.domain.AccumulativeCard;
 import pizza.domain.Pizza;
-import pizza.domain.Pizza.PizzaType;
 import pizza.domain.customer.Address;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
 import pizza.domain.order.status.EnumStatusState;
+import pizza.domain.order.status.NullOrderStatusException;
+import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 
 public class JpaWithoutSpring {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NoSuchPizzaException, NullOrderStatusException {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa");
 		EntityManager em = emf.createEntityManager();
 		
 		Customer customer = new Customer();
-		customer.setName("Vasya with card");
+		customer.setName("Vasya with card for repository");
 		
 		AccumulativeCard accumulativeCard = new AccumulativeCard();
 		accumulativeCard.setCustomer(customer);
 		
-		Address address = new Address("Kiev", "Kudryashova", "456", "64");
-		customer.setAddresses(Arrays.asList(address));
+		Address address1 = new Address("Kiev", "Kudryashova", "456", "64");
+		Address address2 = new Address("Lviv", "Saksaganska", "87", "31");
+		customer.setAddresses(Arrays.asList(address1, address2));
 		
 		Order order = new Order();
 		order.setStatus(EnumStatusState.NEW);
 		order.setDate(Calendar.getInstance());
 		
-//		Pizza pizza1 = new Pizza("Pizza 1", 202.3, PizzaType.MEAT);
-//		Pizza pizza2 = new Pizza("Pizza 2", 654.12, PizzaType.SEA);
+//		Pizza pizza1 = new Pizza("Updated pizza", 5000, PizzaType.SEA);
+//		Pizza pizza2 = new Pizza("Updated pizza too", 3000, PizzaType.SEA);
 
 		try {
 //			em.getTransaction().begin();
@@ -57,6 +57,7 @@ public class JpaWithoutSpring {
 			em.persist(customer);
 			em.persist(accumulativeCard);
 			em.getTransaction().commit();
+			
 		} finally {
 			em.close();
 			emf.close();

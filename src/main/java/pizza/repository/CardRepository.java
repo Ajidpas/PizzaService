@@ -6,8 +6,14 @@ import pizza.domain.AccumulativeCard;
 
 public interface CardRepository {
 	
-	Long saveCard(AccumulativeCard card);
-	
 	List<AccumulativeCard> getAllCards();
+	
+	AccumulativeCard saveCard(AccumulativeCard card);
+	
+	AccumulativeCard getAccumulativeCard(int id);
+	
+	AccumulativeCard updateAccumulativeCard(AccumulativeCard accumulativeCard);
+	
+	void deleteAccumulativeCard(int id);
 
 }

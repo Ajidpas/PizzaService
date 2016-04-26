@@ -6,8 +6,14 @@ import pizza.domain.order.Order;
 
 public interface OrderRepository {
 
-	Long saveOrder(Order newOrder);
-	
 	List<Order> getAllOrders();
+	
+	Order saveOrder(Order newOrder);
+	
+	Order getOrder(int id);
+	
+	Order updateOrder(Order order);
+	
+	void deleteOrder(int id);
 	
 }

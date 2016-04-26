@@ -10,12 +10,12 @@ public class InMemCustomerRepository implements CustomerRepository {
 
 private List<Customer> customers;
 	
-	public Long saveCustomer(Customer customer) {
+	public Customer saveCustomer(Customer customer) {
 		if (customers == null) {
 			customers = new ArrayList<Customer>();
 		}
 		customers.add(customer);
-		return customer.getId();
+		return customer;
 	}
 
 	@Override
@@ -24,6 +24,21 @@ private List<Customer> customers;
 			customers = new ArrayList<Customer>();
 		}
 		return customers;
+	}
+
+	@Override
+	public Customer getCustomer(int id) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Customer updateCustomer(Customer customer) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void deleteCustomer(int id) {
+		throw new UnsupportedOperationException();
 	}
 	
 }

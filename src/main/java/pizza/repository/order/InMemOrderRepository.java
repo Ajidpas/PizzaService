@@ -13,16 +13,32 @@ public class InMemOrderRepository implements OrderRepository {
 	
 	private List<Order> orders;
 
-	public Long saveOrder(Order newOrder) {
+	@Override
+	public Order saveOrder(Order newOrder) {
 		if (orders == null) {
 			orders = new ArrayList<Order>();
 		}
 		orders.add(newOrder);
-		return (long) newOrder.getId();
+		return newOrder;
 	}
 
 	public List<Order> getAllOrders() {
 		return orders;
+	}
+
+	@Override
+	public Order getOrder(int id) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Order updateOrder(Order order) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void deleteOrder(int id) {
+		throw new UnsupportedOperationException();
 	}
 
 }

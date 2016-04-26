@@ -17,13 +17,29 @@ public class InMemCardRepository implements CardRepository {
 		cards = new ArrayList<AccumulativeCard>();
 	}
 	
-	public Long saveCard(AccumulativeCard card) {
+	@Override
+	public AccumulativeCard saveCard(AccumulativeCard card) {
 		cards.add(card);
-		return card.getId();
+		return card;
 	}
 
 	public List<AccumulativeCard> getAllCards() {
 		return cards;
+	}
+
+	@Override
+	public AccumulativeCard getAccumulativeCard(int id) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public AccumulativeCard updateAccumulativeCard(AccumulativeCard accumulativeCard) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void deleteAccumulativeCard(int id) {
+		throw new UnsupportedOperationException();
 	}
 
 }

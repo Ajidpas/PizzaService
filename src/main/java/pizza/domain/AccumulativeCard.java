@@ -1,12 +1,6 @@
 package pizza.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import pizza.domain.customer.Customer;
 
@@ -14,21 +8,21 @@ import pizza.domain.customer.Customer;
 @Table(name = "accumulative_card", catalog = "pizza_service_jpa")
 public class AccumulativeCard {
 	
-	private long id;
+	private int id;
 
 	private double money;
 	
 	private Customer customer;
 	
-	public AccumulativeCard(long id) {
+	public AccumulativeCard(int id) {
+		super();
 		this.id = id;
 	}
 	
 	public AccumulativeCard() {}
 
-	public AccumulativeCard(long id, Customer customer) {
-		super();
-		this.id = id;
+	public AccumulativeCard(int id, Customer customer) {
+		this(id);
 		this.customer = customer;
 	}
 
@@ -44,11 +38,11 @@ public class AccumulativeCard {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -5,9 +5,15 @@ import java.util.List;
 import pizza.domain.customer.Customer;
 
 public interface CustomerRepository {
+
+	List<Customer> getCustomers();
 	
-	public Long saveCustomer(Customer customer);
+	Customer saveCustomer(Customer customer);
 	
-	public List<Customer> getCustomers();
+	Customer getCustomer(int id);
+	
+	Customer updateCustomer(Customer customer);
+	
+	void deleteCustomer(int id);
 
 }

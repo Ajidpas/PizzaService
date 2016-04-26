@@ -29,7 +29,7 @@ public class InMemOrderRepositoryTest {
 		int orderId = 123;
 		newOrder.setId(orderId);
 		long expected = orderId;
-		long result = orderRepository.saveOrder(newOrder);
+		long result = orderRepository.saveOrder(newOrder).getId();
 		assertEquals(expected, result);
 	}
 
