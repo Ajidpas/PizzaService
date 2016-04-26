@@ -15,12 +15,8 @@ public class Customer /*implements FactoryBean<Customer>*/{
 	private long id;
 	
 	private String name;
-	
-	private List<Order> orders = new ArrayList<Order>();
 
 	private List<Address> addresses;
-	
-	private AccumulativeCard accumulativeCard;
 
 	public Customer() {}
 	
@@ -59,24 +55,6 @@ public class Customer /*implements FactoryBean<Customer>*/{
 	@Column(name = "customer_id")
 	public long getId() {
 		return id;
-	}
-	
-	@OneToMany(targetEntity = Order.class, mappedBy="customer")
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
-	
-	@OneToOne(mappedBy = "customer")
-	public AccumulativeCard getAccumulativeCard() {
-		return accumulativeCard;
-	}
-
-	public void setAccumulativeCard(AccumulativeCard accumulativeCard) {
-		this.accumulativeCard = accumulativeCard;
 	}
 
 	public void setId(long id) {

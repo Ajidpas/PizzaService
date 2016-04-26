@@ -64,7 +64,7 @@ public class HibernatePizzaApp {
 		List<Order> orders = new ArrayList<Order>();
 		orders.add(order);
 		
-		customer.setOrders(orders);
+//		customer.setOrders(orders);
 		session.save(customer);
 		
 		session.getTransaction().commit();

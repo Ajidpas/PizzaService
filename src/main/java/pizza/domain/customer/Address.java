@@ -28,8 +28,6 @@ public class Address {
 	
 	private List<Customer> customers;
 	
-	private List<Order> orders;
-	
 	public Address() {}
 
 	public Address(String city, String street, String house, String flat) {
@@ -48,15 +46,6 @@ public class Address {
 	@ManyToMany(mappedBy = "addresses")
 	public List<Customer> getCustomers() {
 		return customers;
-	}
-
-	@OneToMany(targetEntity = Order.class, mappedBy = "address")
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
 	}
 
 	public void setCustomers(List<Customer> customers) {

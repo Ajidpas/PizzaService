@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import pizza.domain.AccumulativeCard;
 import pizza.domain.Pizza;
 import pizza.domain.Pizza.PizzaType;
 import pizza.domain.customer.Address;
@@ -21,7 +22,10 @@ public class JpaWithoutSpring {
 		EntityManager em = emf.createEntityManager();
 		
 		Customer customer = new Customer();
-		customer.setName("Kolya");
+		customer.setName("Vasya with card");
+		
+		AccumulativeCard accumulativeCard = new AccumulativeCard();
+		accumulativeCard.setCustomer(customer);
 		
 		Address address = new Address("Kiev", "Kudryashova", "456", "64");
 		customer.setAddresses(Arrays.asList(address));
@@ -41,8 +45,8 @@ public class JpaWithoutSpring {
 			
 			em.getTransaction().begin();
 			
-			Pizza pizza3 = em.find(Pizza.class, 1);
-			Pizza pizza4 = em.find(Pizza.class, 2);
+			Pizza pizza3 = em.find(Pizza.class, 5);
+			Pizza pizza4 = em.find(Pizza.class, 6);
 			
 //			order.addPizza(pizza1);
 //			order.addPizza(pizza2);
@@ -51,6 +55,7 @@ public class JpaWithoutSpring {
 			
 			em.persist(order);
 			em.persist(customer);
+			em.persist(accumulativeCard);
 			em.getTransaction().commit();
 		} finally {
 			em.close();

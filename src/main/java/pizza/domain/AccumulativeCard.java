@@ -23,6 +23,8 @@ public class AccumulativeCard {
 	public AccumulativeCard(long id) {
 		this.id = id;
 	}
+	
+	public AccumulativeCard() {}
 
 	public AccumulativeCard(long id, Customer customer) {
 		super();
@@ -31,7 +33,7 @@ public class AccumulativeCard {
 	}
 
 	@OneToOne
-	@JoinColumn(name = "customer_id")
+	@JoinColumn(name = "customer_id", unique = true)
 	public Customer getCustomer() {
 		return customer;
 	}
