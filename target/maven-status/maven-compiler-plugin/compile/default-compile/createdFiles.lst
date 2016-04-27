@@ -20,6 +20,7 @@ pizza\service\OrderService.class
 pizza\repository\pizza\JpaPizzaRepository.class
 pizza\domain\order\status\EnumStatusState$3.class
 pizza\JpaWithoutSpring.class
+pizza\infrastructure\PizzaTypeConverter.class
 pizza\service\discountservice\DiscountProvider.class
 pizza\service\orderservice\CreateOrderService.class
 pizza\domain\discounts\FourthPizzaDiscount.class

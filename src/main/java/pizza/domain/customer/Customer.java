@@ -51,7 +51,7 @@ public class Customer /*implements FactoryBean<Customer>*/{
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "customer_id")
 	public int getId() {
 		return id;

@@ -32,7 +32,7 @@ public class SpringWithJpaApp {
 		}
 		
 		try {
-			System.out.println(orderService.placeNewOrder(customer, 5, 6, 33, 34));
+			System.out.println(orderService.placeNewOrder(customer, 1, 2, 3, 3, 3, 4, 4));
 		} catch (NotSupportedPizzasNumberException | NoSuchPizzaException | WrongStatusException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

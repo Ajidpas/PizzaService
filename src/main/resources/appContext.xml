@@ -13,6 +13,4 @@
    		
    		<context:annotation-config/>
    		
-   		<bean name="order" class="pizza.domain.Order" scope="prototype" />
-   		
 </beans>

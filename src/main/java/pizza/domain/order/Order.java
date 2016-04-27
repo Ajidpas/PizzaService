@@ -31,7 +31,7 @@ import pizza.domain.customer.Customer;
 import pizza.domain.order.status.EnumStatusState;
 import pizza.infrastructure.Domain;
 
-@Component
+@Component("order")
 @Scope("prototype")
 //@Domain
 @Entity
@@ -89,7 +89,7 @@ public class Order {
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	public int getId() {
 		return id;

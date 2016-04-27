@@ -2,6 +2,8 @@ package pizza.domain;
 
 import javax.persistence.*;
 
+import pizza.infrastructure.PizzaTypeConverter;
+
 @Entity
 @Table(name = "pizza", catalog = "pizza_service_jpa")
 public class Pizza {
@@ -29,7 +31,7 @@ public class Pizza {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "pizza_id")
 	public int getId() {
 		return id;
@@ -55,6 +57,7 @@ public class Pizza {
 		this.price = price;
 	}
 
+	@Convert(converter = PizzaTypeConverter.class)
 	public PizzaType getType() {
 		return type;
 	}
