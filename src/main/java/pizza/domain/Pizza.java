@@ -5,7 +5,7 @@ import javax.persistence.*;
 import pizza.infrastructure.PizzaTypeConverter;
 
 @Entity
-@Table(name = "pizza", catalog = "pizza_service_jpa")
+@Table(name = "pizza"/*, catalog = "pizza_service_jpa"*/)
 public class Pizza {
 
 	private int id;
@@ -90,6 +90,12 @@ public class Pizza {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Pizza [id=" + id + ", name=" + name + ", price=" + price
+				+ ", type=" + type + "]";
 	}
 
 	public static enum PizzaType {

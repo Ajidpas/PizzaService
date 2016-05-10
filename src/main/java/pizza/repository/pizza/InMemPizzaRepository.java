@@ -48,7 +48,7 @@ public class InMemPizzaRepository implements PizzaRepository {
 	}
 
 	@Override
-	public void deletePizza(int id) {
+	public boolean deletePizza(int id) {
 		throw new UnsupportedOperationException();
 	}
 

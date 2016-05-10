@@ -5,7 +5,7 @@ import javax.persistence.*;
 import pizza.domain.customer.Customer;
 
 @Entity
-@Table(name = "accumulative_card", catalog = "pizza_service_jpa")
+@Table(name = "accumulative_card"/*, catalog = "pizza_service_jpa"*/)
 public class AccumulativeCard {
 	
 	private int id;
@@ -20,6 +20,12 @@ public class AccumulativeCard {
 	}
 	
 	public AccumulativeCard() {}
+
+	public AccumulativeCard(double money, Customer customer) {
+		super();
+		this.money = money;
+		this.customer = customer;
+	}
 
 	public AccumulativeCard(int id, Customer customer) {
 		this(id);

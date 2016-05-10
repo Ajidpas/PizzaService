@@ -14,6 +14,6 @@ public interface CardRepository {
 	
 	AccumulativeCard updateAccumulativeCard(AccumulativeCard accumulativeCard);
 	
-	void deleteAccumulativeCard(int id);
+	boolean deleteAccumulativeCard(int id);
 
 }

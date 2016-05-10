@@ -10,7 +10,8 @@ import pizza.service.discountservice.DiscountBuilder;
 public class FourthPizzaDiscountBuilder implements DiscountBuilder {
 
 	public Optional<Discount> buildDiscount(Order order) {
-		return Optional.of(new FourthPizzaDiscount(order));
+		Discount newDiscount = new FourthPizzaDiscount(order);
+		return Optional.of(newDiscount);
 	}
 
 }

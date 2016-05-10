@@ -2,56 +2,49 @@ package pizza.repository.order;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import pizza.domain.order.Order;
 import pizza.repository.OrderRepository;
 
 @Repository(value = "orderRepository")
+@Transactional
 public class JpaOrderRepository implements OrderRepository {
 	
-	private EntityManagerFactory emf;
-	
+	@PersistenceContext
 	private EntityManager em;
 	
 	public JpaOrderRepository() {}
 
-	public JpaOrderRepository(EntityManager em) {
-		super();
-		this.em = em;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Order> getAllOrders() {
-		Query query = em.createQuery("SELECT orders FROM pizza_service_jpa.order orders", Order.class);
+		TypedQuery<Order> query = em.createQuery("SELECT o FROM t_order o", Order.class);
 		return query.getResultList();
 	}
 
 	@Override
 	public Order saveOrder(Order newOrder) {
-		em.getTransaction().begin();
 		em.persist(newOrder);
-		em.getTransaction().commit();
 		return newOrder;
 	}
-
+	
 	@Override
 	public Order getOrder(int id) {
-		return em.find(Order.class, id);
+		Order order = em.find(Order.class, id);
+//		order.getAddress();
+//		order.getCustomer();
+		return order;
 	}
 
 	@Override
 	public Order updateOrder(Order order) {
 		int id = order.getId();
-		em.getTransaction().begin();
 		Order oldOrder = em.find(Order.class, id);
 		oldOrder.setAddress(order.getAddress());
 		oldOrder.setCustomer(order.getCustomer());
@@ -59,28 +52,31 @@ public class JpaOrderRepository implements OrderRepository {
 		oldOrder.setPizzas(order.getPizzas());
 		oldOrder.setStatus(order.getStatus());
 		oldOrder.setTotalPrice(order.getTotalPrice());
-		em.getTransaction().commit();
 		return oldOrder;
 	}
 
 	@Override
-	public void deleteOrder(int id) {
+	public boolean deleteOrder(int id) {
 		Order order = em.find(Order.class, id);
-		em.getTransaction().begin();
+		if (order == null) {
+			return false;
+		}	
 		em.remove(order);
-		em.getTransaction().commit();		
+		return true;
 	}
-	
-	@PostConstruct
-	private void initEntityManager() {
-		emf = Persistence.createEntityManagerFactory("jpa");
-		em = emf.createEntityManager();
+
+	@Override
+	public Order getOrderWithPizzas(Integer orderId) {
+		Order order = em.find(Order.class, orderId);
+		order.getPizzas().size();
+		return order;
 	}
-	
-	@PreDestroy
-	private void closeEntityManager() {
-		em.close();
-		emf.close();
+
+	@Override
+	public void updateOrderPizzas(Order orderWithPizzas) {
+		int orderId = orderWithPizzas.getId();
+		Order order = em.find(Order.class, orderId);
+		order.setPizzas(orderWithPizzas.getPizzas());
 	}
 
 }

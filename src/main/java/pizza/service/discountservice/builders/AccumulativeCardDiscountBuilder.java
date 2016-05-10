@@ -24,7 +24,9 @@ public class AccumulativeCardDiscountBuilder implements DiscountBuilder {
 		Customer customer = order.getCustomer();
 		Optional<AccumulativeCard> card = cardService.getCardByCustomer(customer);
 		if (card.isPresent()) {
-			return Optional.ofNullable(new AccumulativeCardDiscount(card.get(), order));
+			Discount newDiscount = new AccumulativeCardDiscount(card.get(), order);
+//			return Optional.ofNullable(new AccumulativeCardDiscount(card.get(), order));
+			return Optional.ofNullable(newDiscount);
 		}
 		return Optional.empty();
 	}

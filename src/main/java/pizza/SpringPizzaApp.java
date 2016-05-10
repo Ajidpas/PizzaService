@@ -14,7 +14,8 @@ import pizza.service.orderservice.exceptions.WrongStatusException;
 public class SpringPizzaApp {
 
 	public static void main(String[] args) {
-		Customer customer = new Customer(1, "Vasya", "Kiev", "Chervonoarmiyska", "3", "10");
+		Customer customer = new Customer("Vasya", "Kiev", "Chervonoarmiyska", "3", "10");
+		customer.setId(1);
 		ConfigurableApplicationContext repositoryContext = new ClassPathXmlApplicationContext("repositoryContext.xml");
 		ConfigurableApplicationContext serviceContext = new ClassPathXmlApplicationContext(new String[]{"serviceContext.xml"}, repositoryContext);
 		ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"appContext.xml"}, serviceContext);
@@ -22,8 +23,8 @@ public class SpringPizzaApp {
 		Order order = null;
 		Order order1 = null;
 		try {
-			order = orderService.placeNewOrder(customer, 1, 1, 1);
-			order1 = orderService.placeNewOrder(customer, 1);
+			order = orderService.placeNewOrder(customer, null, 1, 1, 1);
+			order1 = orderService.placeNewOrder(customer, null, 1);
 		} catch (NotSupportedPizzasNumberException e) {
 			e.printStackTrace();
 		} catch (NoSuchPizzaException e) {

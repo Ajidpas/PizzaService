@@ -38,7 +38,7 @@ public class InMemCardRepository implements CardRepository {
 	}
 
 	@Override
-	public void deleteAccumulativeCard(int id) {
+	public boolean deleteAccumulativeCard(int id) {
 		throw new UnsupportedOperationException();
 	}
 

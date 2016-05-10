@@ -7,7 +7,7 @@ public enum EnumStatusState implements StatusState {
 	
 	NEW {
 
-		public EnumStatusState doAction(Order order) {
+		public StatusState doAction(Order order) {
 			if (order.getStatus() == null) {
 				order.setStatus(this);
 				return this;

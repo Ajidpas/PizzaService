@@ -9,7 +9,7 @@ import pizza.domain.AccumulativeCard;
 import pizza.domain.order.Order;
 
 @Entity
-@Table(name = "customer", catalog = "pizza_service_jpa")
+@Table(name = "customer"/*, catalog = "pizza_service_jpa"*/)
 public class Customer /*implements FactoryBean<Customer>*/{
 	
 	private int id;
@@ -20,25 +20,32 @@ public class Customer /*implements FactoryBean<Customer>*/{
 
 	public Customer() {}
 	
-	private Customer(int id, String name) {
-		this.id = id;
+	public Customer(String name) {
 		this.name = name;
 	}
 	
-	public Customer(int id, String name, Address address) {
-		this(id, name);
+	public Customer(String name, Address address) {
+		this(name);
 		addresses = new ArrayList<Address>();
 		addresses.add(address);
 	}
 	
-	public Customer(int id, String name, String city, String street, 
+	public Customer(String name, String city, String street, 
 			String house, String flat) {
-		this(id, name);
+		this(name);
 		addresses = new ArrayList<Address>();
 		addresses.add(new Address(city, street, house, flat));
 	}
 	
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	public Customer(int id, String name, String city, String street, 
+			String house, String flat) {
+		this(name);
+		this.id = id;
+		addresses = new ArrayList<Address>();
+		addresses.add(new Address(city, street, house, flat));
+	}
+	
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinTable(name = "customer_address", 
 			joinColumns = @JoinColumn(name = "customer_id"),
 			inverseJoinColumns = @JoinColumn(name = "address_id"))
@@ -67,6 +74,35 @@ public class Customer /*implements FactoryBean<Customer>*/{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void addAddress(Address address) {
+		if (addresses == null) {
+			addresses = new ArrayList<Address>();
+		}
+		addresses.add(address);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Customer other = (Customer) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 	@Override

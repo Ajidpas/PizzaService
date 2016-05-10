@@ -37,7 +37,17 @@ public class InMemOrderRepository implements OrderRepository {
 	}
 
 	@Override
-	public void deleteOrder(int id) {
+	public boolean deleteOrder(int id) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Order getOrderWithPizzas(Integer orderId) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void updateOrderPizzas(Order orderWithPizzas) {
 		throw new UnsupportedOperationException();
 	}
 

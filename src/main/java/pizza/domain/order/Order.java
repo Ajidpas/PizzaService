@@ -1,16 +1,18 @@
 package pizza.domain.order;
 
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,31 +30,28 @@ import org.springframework.stereotype.Component;
 import pizza.domain.Pizza;
 import pizza.domain.customer.Address;
 import pizza.domain.customer.Customer;
-import pizza.domain.order.status.EnumStatusState;
-import pizza.infrastructure.Domain;
+import pizza.infrastructure.OrderStatusConverter;
 
 @Component("order")
 @Scope("prototype")
 //@Domain
 @Entity
-@Table(name = "order", catalog = "pizza_service_jpa")
+@Table(name = "t_order"/*, catalog = "pizza_service_jpa"*/)
 public class Order {
 	
 	private int id;
 	
-	private Calendar date;
+	private Date date;
 	
 	private Customer customer;
 	
 	private Map<Pizza, Integer> pizzas;
 
-	private EnumStatusState status;
+	private StatusState status;
 	
 	private Address address;
 
 	private double totalPrice;
-	
-//	private List<Discount> discounts;
 	
 	public Order() {}
 	
@@ -61,16 +60,24 @@ public class Order {
 		this.pizzas = pizzas;
 	}
 	
-	@Temporal(TemporalType.DATE)
-	public Calendar getDate() {
+//	@Temporal(TemporalType.DATE)
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Calendar date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
 	public double getTotalPrice() {
+		return totalPrice;
+	}
+	
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	
+	public double countPrice() {
 		double totalPrice = 0;
 		if (pizzas == null) {
 			return this.totalPrice = 0;
@@ -84,10 +91,6 @@ public class Order {
 		return this.totalPrice = totalPrice;
 	}
 	
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -99,7 +102,7 @@ public class Order {
 		this.id = id;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "customer_id")
 	public Customer getCustomer() {
 		return customer;
@@ -109,7 +112,7 @@ public class Order {
 		this.customer = customer;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "address")
 	public Address getAddress() {
 		return address;
@@ -119,8 +122,8 @@ public class Order {
 		this.address = address;
 	}
 
-	@ElementCollection
-	@CollectionTable(name = "order_pizza"/*, joinColumns = @JoinColumn(name = "order_id")*/)
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "order_pizza", joinColumns = @JoinColumn(name = "order_id"))
 	@MapKeyJoinColumn(name = "pizza_id")
 	@Column(name = "pizza_number")
 	public Map<Pizza, Integer> getPizzas() {
@@ -167,34 +170,37 @@ public class Order {
 		return false;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public EnumStatusState getStatus() {
+//	@Enumerated(EnumType.STRING)
+	@Convert(converter = OrderStatusConverter.class)
+	public StatusState getStatus() {
 		return status;
 	}
 
-	public void setStatus(EnumStatusState status) {
+	public void setStatus(StatusState status) {
 		this.status = status;
 	}
-	
-//	public boolean addDiscount(Discount discount) {
-//		return discounts.add(discount);
-//	}
-//
-//	public void cleanDiscounts() {
-//		discounts = new ArrayList<Discount>();
-//	}
 
-//	public boolean isStatus() {
-//		return status != null;
-//	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
 
-//	public List<Discount> getDiscounts() {
-//		return discounts;
-//	}
-//	
-//	public void setDiscounts(List<Discount> discounts) {
-//		this.discounts = discounts;
-//	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 
 	@Override
 	public String toString() {

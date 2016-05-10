@@ -14,6 +14,10 @@ public interface OrderRepository {
 	
 	Order updateOrder(Order order);
 	
-	void deleteOrder(int id);
+	boolean deleteOrder(int id);
+
+	Order getOrderWithPizzas(Integer orderId);
+
+	void updateOrderPizzas(Order orderWithPizzas);
 	
 }

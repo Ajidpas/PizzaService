@@ -1,7 +1,7 @@
 package pizza;
 
+import java.sql.Date;
 import java.util.Arrays;
-import java.util.Calendar;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -55,7 +55,7 @@ public class JpaWithoutSpring {
 	private static void persistOrder(EntityManager em, Customer customer, AccumulativeCard accumulativeCard) {
 		Order order = new Order();
 		order.setStatus(EnumStatusState.NEW);
-		order.setDate(Calendar.getInstance());
+		order.setDate(new Date(new java.util.Date().getTime()));
 		Pizza pizza3 = em.find(Pizza.class, 1); // hard code
 		Pizza pizza4 = em.find(Pizza.class, 2); // hard code
 		em.getTransaction().begin();

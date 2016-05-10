@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import pizza.domain.Pizza;
+import pizza.domain.customer.Address;
 import pizza.domain.customer.Customer;
 import pizza.domain.order.Order;
 import pizza.domain.order.StatusState;
@@ -15,16 +16,15 @@ import pizza.service.orderservice.exceptions.WrongStatusException;
 
 public interface OrderService {
 
-	Order placeNewOrder(Customer customer, Integer... pizzasID) 
+	Order placeNewOrder(Customer customer, Address address, Integer... pizzasID) 
 			throws NotSupportedPizzasNumberException, 
 			NoSuchPizzaException, WrongStatusException;
+	
+	Order getOrder(int id);
 
 	Map<Pizza, Integer> addPizzasIntoOrder(Order order, Integer ... pizzasID) 
 			throws WrongStatusException, NotSupportedPizzasNumberException, 
 			NoSuchPizzaException;
-	
-	List<Pizza> deletePizzasFromOrder(Order order, Integer ... pizzasID) 
-			throws NoSuchPizzaException;
 	
 	StatusState confirmOrderByUser(Order order) 
 			throws WrongStatusException, EmptyOrderException, 
@@ -35,4 +35,13 @@ public interface OrderService {
 	
 	StatusState cancelOrder(Order order) throws WrongStatusException, 
 			NullOrderStatusException;
+
+	void addPizzasIntoOrder(Integer orderId, Integer ... pizzasId) 
+			throws NoSuchPizzaException, WrongStatusException, NotSupportedPizzasNumberException;
+
+	List<Order> getAllOrders();
+
+	List<Pizza> deletePizzasFromOrder(int orderId, Integer ... pizzasId)
+			throws NoSuchPizzaException, WrongStatusException;
+	
 }

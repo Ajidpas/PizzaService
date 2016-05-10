@@ -5,12 +5,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">	
+        http://www.springframework.org/schema/context/spring-context.xsd"
+        profile="prod">
    		
-   		<context:component-scan base-package="pizza" >
+   		<!-- <context:component-scan base-package="pizza" >
    			<context:include-filter type="annotation" expression="pizza.infrastructure.Domain"/>
-   		</context:component-scan>
+   		</context:component-scan> -->
    		
+   		<!-- <context:component-scan base-package="pizza.service" /> -->
+
    		<context:annotation-config/>
    		
 </beans>

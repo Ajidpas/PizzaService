@@ -2,6 +2,7 @@ package pizza.repository;
 
 import java.util.List;
 
+import pizza.domain.customer.Address;
 import pizza.domain.customer.Customer;
 
 public interface CustomerRepository {
@@ -14,6 +15,10 @@ public interface CustomerRepository {
 	
 	Customer updateCustomer(Customer customer);
 	
-	void deleteCustomer(int id);
+	boolean deleteCustomer(int id);
+
+	Customer getCustomerWithAddresses(int customerId);
+
+	void updateAddresses(Customer customer);
 
 }

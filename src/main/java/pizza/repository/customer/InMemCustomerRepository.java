@@ -3,6 +3,7 @@ package pizza.repository.customer;
 import java.util.ArrayList;
 import java.util.List;
 
+import pizza.domain.customer.Address;
 import pizza.domain.customer.Customer;
 import pizza.repository.CustomerRepository;
 
@@ -37,7 +38,18 @@ private List<Customer> customers;
 	}
 
 	@Override
-	public void deleteCustomer(int id) {
+	public boolean deleteCustomer(int id) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Customer getCustomerWithAddresses(int customerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateAddresses(Customer customer) {
 		throw new UnsupportedOperationException();
 	}
 	

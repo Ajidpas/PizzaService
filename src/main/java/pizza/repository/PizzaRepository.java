@@ -11,6 +11,6 @@ public interface PizzaRepository {
 	
 	Pizza updatePizza(Pizza pizza);
 	
-	void deletePizza(int id);
+	boolean deletePizza(int id);
 
 }

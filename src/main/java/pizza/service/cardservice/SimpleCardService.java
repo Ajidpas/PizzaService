@@ -28,4 +28,25 @@ public class SimpleCardService implements CardService {
 		return Optional.empty();
 	}
 
+	@Override
+	public AccumulativeCard insertCard(AccumulativeCard accumulativeCard) {
+		return cardRepository.saveCard(accumulativeCard);
+	}
+
+	@Override
+	public AccumulativeCard getCard(int id) {
+		return cardRepository.getAccumulativeCard(id);
+	}
+
+	@Override
+	public AccumulativeCard updateCard(AccumulativeCard accumulativeCard, int id) {
+		accumulativeCard.setId(id);
+		return cardRepository.updateAccumulativeCard(accumulativeCard);
+	}
+
+	@Override
+	public void deleteCard(int id) {
+		cardRepository.deleteAccumulativeCard(id);
+	}
+
 }
