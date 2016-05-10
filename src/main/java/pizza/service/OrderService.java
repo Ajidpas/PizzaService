@@ -43,5 +43,7 @@ public interface OrderService {
 
 	List<Pizza> deletePizzasFromOrder(int orderId, Integer ... pizzasId)
 			throws NoSuchPizzaException, WrongStatusException;
+
+	Map<Pizza, Integer> getOrderPizzas(int orderId);
 	
 }

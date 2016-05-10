@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>java.com</groupId>
   <artifactId>PizzaService</artifactId>
@@ -20,6 +21,8 @@
 	</properties>
 
   <dependencies>
+  
+  <!-- -->
   		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -35,31 +38,32 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>4.2.5.RELEASE</version>
+			<version>4.2.6.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>4.2.5.RELEASE</version>
+			<version>4.2.6.RELEASE</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>4.2.5.RELEASE</version>
+			<version>4.2.6.RELEASE</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>3.1.1.RELEASE</version>
+			<version>4.2.6.RELEASE</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>4.2.5.RELEASE</version>
-		</dependency>
+		   <groupId>org.springframework</groupId>
+		   <artifactId>spring-test</artifactId>
+		   <version>4.2.6.RELEASE</version>
+		   <scope>test</scope>
+		  </dependency>
 		
 		<!-- hibernate -->
 		<dependency>
@@ -72,7 +76,7 @@
         <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.6</version>
+			<version>5.1.38</version>
 		</dependency>
 		
 		<dependency>
@@ -81,12 +85,15 @@
             <version>1.4</version>
         </dependency>
         
+        <!-- in mem dataBase -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.191</version>
         </dependency>
 		
+		
+		 
   </dependencies>
 
   <reporting>

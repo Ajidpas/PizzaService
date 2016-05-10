@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pizza.domain.Discount;
 import pizza.domain.Pizza;
@@ -28,6 +29,7 @@ import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 import pizza.service.orderservice.exceptions.WrongStatusException;
 
 @Service
+@Transactional
 public class SimpleOrderService implements OrderService {
 
 	private static final int MIN_NUMBER_OF_PIZZAS = 1;
@@ -188,11 +190,6 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	@Override
-	public Order getOrder(int id) {
-		return orderRepository.getOrder(id);
-	}
-
-	@Override
 	public void addPizzasIntoOrder(Integer orderId, Integer ... pizzasId) 
 			throws NoSuchPizzaException, WrongStatusException, NotSupportedPizzasNumberException {
 		Order orderWithPizzas = orderRepository.getOrderWithPizzas(orderId);
@@ -209,6 +206,17 @@ public class SimpleOrderService implements OrderService {
 	@Override
 	public List<Order> getAllOrders() {
 		return orderRepository.getAllOrders();
+	}
+	
+	@Override
+	public Order getOrder(int id) {
+		return orderRepository.getOrder(id);
+	}
+	
+	@Override
+	public Map<Pizza, Integer> getOrderPizzas(int orderId) {
+		Order order = orderRepository.getOrderWithPizzas(orderId);
+		return order.getPizzas();
 	}
 	
 }

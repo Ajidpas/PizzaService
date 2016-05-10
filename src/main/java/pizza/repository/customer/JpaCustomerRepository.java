@@ -25,7 +25,7 @@ public class JpaCustomerRepository implements CustomerRepository {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Customer> getCustomers() {
-		Query query = em.createQuery("SELECT customers FROM pizza_service_jpa.customer customers", Customer.class);
+		Query query = em.createQuery("SELECT c FROM Customer c", Customer.class);
 		return query.getResultList();
 	}
 	
@@ -72,4 +72,9 @@ public class JpaCustomerRepository implements CustomerRepository {
 		customer.setAddresses(customerWithAddresses.getAddresses());
 	}
 	
+	@Override
+	public void insertAddress(Address address) {
+		em.persist(address);
+	}
+
 }

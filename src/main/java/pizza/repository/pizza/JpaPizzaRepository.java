@@ -32,6 +32,7 @@ public class JpaPizzaRepository implements PizzaRepository {
 	public Pizza insertPizza(Pizza pizza) {
 		em.persist(pizza);
 		return pizza;
+//		return em.merge(pizza);
 	}
 
 	@Override

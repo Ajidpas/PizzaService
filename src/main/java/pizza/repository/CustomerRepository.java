@@ -21,4 +21,6 @@ public interface CustomerRepository {
 
 	void updateAddresses(Customer customer);
 
+	void insertAddress(Address address);
+
 }

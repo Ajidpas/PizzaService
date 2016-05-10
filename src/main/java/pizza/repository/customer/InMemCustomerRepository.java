@@ -52,5 +52,10 @@ private List<Customer> customers;
 	public void updateAddresses(Customer customer) {
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public void insertAddress(Address address) {
+		throw new UnsupportedOperationException();
+	}
 	
 }

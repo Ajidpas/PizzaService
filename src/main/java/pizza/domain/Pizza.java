@@ -41,6 +41,7 @@ public class Pizza {
 		this.id = id;
 	}
 
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -49,6 +50,7 @@ public class Pizza {
 		this.name = name;
 	}
 
+	@Column(name = "price")
 	public double getPrice() {
 		return price;
 	}
@@ -58,6 +60,7 @@ public class Pizza {
 	}
 
 	@Convert(converter = PizzaTypeConverter.class)
+	@Column(name = "type")
 	public PizzaType getType() {
 		return type;
 	}
