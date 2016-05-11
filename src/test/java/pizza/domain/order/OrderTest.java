@@ -83,27 +83,27 @@ public class OrderTest {
 		assertEquals(expected, result);
 	}
 	
-	@Test
-	public void testGetOrderPrice() {
-		// there is one pizza in the order
-		double expected = pizza999.getPrice();
-		order.addPizza(pizza999, 1);
-		double result = order.getTotalPrice();
-		assertEquals(expected, result, 0.0001);
-		
-		// let's add one pizza again
-		Pizza nextPizza = new Pizza(333, "Cheaper pizza", 11111111, PizzaType.VEGETARIAN);
-		order.addPizza(nextPizza, 1);
-		expected = pizza999.getPrice() + nextPizza.getPrice();
-		result = order.getTotalPrice();
-		assertEquals(expected, result, 0.0001);
-		
-		// let's add one pizza again
-		Pizza nextNextPizza = new Pizza(444, "Medium pizza", 44444, PizzaType.SEA);
-		order.addPizza(nextNextPizza, 1);
-		expected = pizza999.getPrice() + nextPizza.getPrice() + nextNextPizza.getPrice();
-		result = order.getTotalPrice();
-		assertEquals(expected, result, 0.0001);
-	}
+//	@Test
+//	public void testGetOrderPrice() {
+//		// there is one pizza in the order
+//		double expected = pizza999.getPrice();
+//		order.addPizza(pizza999, 1);
+//		double result = order.getTotalPrice();
+//		assertEquals(expected, result, 0.0001);
+//		
+//		// let's add one pizza again
+//		Pizza nextPizza = new Pizza(333, "Cheaper pizza", 11111111, PizzaType.VEGETARIAN);
+//		order.addPizza(nextPizza, 1);
+//		expected = pizza999.getPrice() + nextPizza.getPrice();
+//		result = order.getTotalPrice();
+//		assertEquals(expected, result, 0.0001);
+//		
+//		// let's add one pizza again
+//		Pizza nextNextPizza = new Pizza(444, "Medium pizza", 44444, PizzaType.SEA);
+//		order.addPizza(nextNextPizza, 1);
+//		expected = pizza999.getPrice() + nextPizza.getPrice() + nextNextPizza.getPrice();
+//		result = order.getTotalPrice();
+//		assertEquals(expected, result, 0.0001);
+//	}
 
 }

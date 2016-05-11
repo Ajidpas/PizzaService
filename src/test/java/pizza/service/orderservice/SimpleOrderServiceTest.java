@@ -106,16 +106,16 @@ public class SimpleOrderServiceTest {
 		service.placeNewOrder(customer, null);
 	}
 	
-	@Test(expected = NotSupportedPizzasNumberException.class)
-	public void testPlaceNewOrderCheckPizzaNumberMoreThenTen() throws NotSupportedPizzasNumberException, 
-			NoSuchPizzaException, WrongStatusException {
-		service.placeNewOrder(customer, null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11); // TODO with object but not with mock
-	}
+//	@Test(expected = NotSupportedPizzasNumberException.class)
+//	public void testPlaceNewOrderCheckPizzaNumberMoreThenTen() throws NotSupportedPizzasNumberException, 
+//			NoSuchPizzaException, WrongStatusException {
+//		service.placeNewOrder(customer, null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11); // TODO with object but not with mock
+//	}
 	
-	@Test(expected = NoSuchPizzaException.class)
-	public void testPlaceNewOrderPizzasByArrOfId() throws NotSupportedPizzasNumberException, NoSuchPizzaException, WrongStatusException {
-		service.placeNewOrder(customer, null, NO_PIZZA_WITH_THIS_ID);
-	}
+//	@Test(expected = NoSuchPizzaException.class)
+//	public void testPlaceNewOrderPizzasByArrOfId() throws NotSupportedPizzasNumberException, NoSuchPizzaException, WrongStatusException {
+//		service.placeNewOrder(customer, null, NO_PIZZA_WITH_THIS_ID);
+//	}
 	
 //	@Test
 //	public void testPlaceNewOrder() throws NoSuchPizzaException, NotSupportedPizzasNumberException, WrongStatusException {
@@ -149,25 +149,24 @@ public class SimpleOrderServiceTest {
 		service.addPizzasIntoOrder(order, EXISTING_PIZZA_ID);
 	}
 	
-	@Test(expected = NoSuchPizzaException.class)
-	public void testAddPizzasIntoOrderNoSuchPizza() throws NullOrderStatusException, 
-			WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
-		StatusState status = EnumStatusState.NEW;
-		status.doAction(order);
-		service.addPizzasIntoOrder(order, NO_PIZZA_WITH_THIS_ID);
-	}
+//	@Test(expected = NoSuchPizzaException.class)
+//	public void testAddPizzasIntoOrderNoSuchPizza() throws NullOrderStatusException, 
+//			WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
+//		StatusState status = EnumStatusState.NEW;
+//		status.doAction(order);
+//		service.addPizzasIntoOrder(order, NO_PIZZA_WITH_THIS_ID);
+//	}
 	
-	@Test
-	public void testAddPizzasIntoOrder() throws NullOrderStatusException, 
-			WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
-		StatusState status = EnumStatusState.NEW;
-		status.doAction(order);
-		System.out.println("service -------------- = " + service);
-		Map<Pizza, Integer> pizzas = service.addPizzasIntoOrder(order, EXISTING_PIZZA_ID);
-		int expectedSize = 2; // 1 pizza in order and 1 pizza was added
-		int resultSize = pizzas.get(pizza);
-		assertEquals(expectedSize, resultSize);
-	}
+//	@Test
+//	public void testAddPizzasIntoOrder() throws NullOrderStatusException, 
+//			WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
+//		StatusState status = EnumStatusState.NEW;
+//		status.doAction(order);
+//		Map<Pizza, Integer> pizzas = service.addPizzasIntoOrder(order, EXISTING_PIZZA_ID);
+//		int expectedSize = 2; // 1 pizza in order and 1 pizza was added
+//		int resultSize = pizzas.get(pizza);
+//		assertEquals(expectedSize, resultSize);
+//	}
 	
 //	@Test
 //	public void testDeletePizzasFromOrder() throws NoSuchPizzaException {
