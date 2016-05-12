@@ -33,12 +33,15 @@ public class SimpleCustomerServiceInMemTest extends InMemTest {
 	
 	@Test
 	public void testGetAllCustomers() {
-		insertCustomerAndGetId();
-		insertCustomerAndGetId();
-		insertCustomerAndGetId();
 		List<Customer> customers = customerService.getAllCustomers();
+		int initialSize = customers.size();
+		insertCustomerAndGetId();
+		insertCustomerAndGetId();
+		insertCustomerAndGetId();
+		customers = customerService.getAllCustomers();
+		int finalSize = customers.size();
 		int expected = 3;
-		int result = customers.size();
+		int result = finalSize - initialSize;
 		assertEquals(expected, result);
 	}
 	
@@ -73,19 +76,23 @@ public class SimpleCustomerServiceInMemTest extends InMemTest {
 	
 	@Test
 	public void testDeleteCustomer() {
+		List<Customer> customers = customerService.getAllCustomers();
+		int initialSize = customers.size();
 		int customerId = insertCustomerAndGetId();
 		Customer customer = getCustomerFromDatabase(customerId);
+		customers = customerService.getAllCustomers();
+		int actualSize = customers.size();
 		assertNotNull(customer);
-		
-		List<Customer> customers = customerService.getAllCustomers();
+
 		int expected = 1;
-		int result = customers.size();
+		int result = actualSize - initialSize;
 		assertEquals(expected, result);
 		
 		customerService.deleteCustomer(customerId);
 		customers = customerService.getAllCustomers();
+		int finalSize = customers.size();
 		expected = 0;
-		result = customers.size();
+		result = finalSize - initialSize;
 		assertEquals(expected, result);
 	}
 	
