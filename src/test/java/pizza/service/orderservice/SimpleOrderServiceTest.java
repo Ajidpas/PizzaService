@@ -13,33 +13,26 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import pizza.domain.Pizza;
-import pizza.domain.Pizza.PizzaType;
+import pizza.domain.*;
 import pizza.domain.customer.Customer;
-import pizza.domain.order.Order;
-import pizza.domain.order.StatusState;
+import pizza.domain.order.*;
 import pizza.domain.order.status.EnumStatusState;
 import pizza.domain.order.status.NullOrderStatusException;
-import pizza.repository.OrderRepository;
 import pizza.repository.PizzaRepository;
+import pizza.repository.Repository;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 import pizza.service.DiscountService;
-import pizza.service.orderservice.exceptions.EmptyOrderException;
-import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
-import pizza.service.orderservice.exceptions.WrongStatusException;
+import pizza.service.orderservice.exceptions.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleOrderServiceTest {
 
 	private Customer customer = new Customer(1, "Vasya", "Kiev", "Chervonoarmiyska", "3", "10");
 	
-	private Pizza pizza = new Pizza(EXISTING_PIZZA_ID, "Some pizza 1", 10.0, PizzaType.MEAT);
+	private Pizza pizza = new Pizza(EXISTING_PIZZA_ID, "Some pizza 1", 10.0, Pizza.PizzaType.MEAT);
 	
 	private static final int NO_PIZZA_WITH_THIS_ID = 100500;
 	
@@ -51,7 +44,7 @@ public class SimpleOrderServiceTest {
 	private PizzaRepository pizzaRepository;
 
 	@Mock
-	private OrderRepository orderRepository;
+	private Repository<Order> orderRepository;
 
 	@Mock
 	private DiscountService discountService;
@@ -97,7 +90,7 @@ public class SimpleOrderServiceTest {
 		
 		when(pizzaRepository.getPizzaByID(NO_PIZZA_WITH_THIS_ID)).thenThrow(new NoSuchPizzaException());
 		when(pizzaRepository.getPizzaByID(EXISTING_PIZZA_ID)).thenReturn(pizza);
-		when(orderRepository.saveOrder(any(Order.class))).thenReturn(null);
+		when(orderRepository.insert(any(Order.class))).thenReturn(null);
 	}
 	
 	@Test(expected = NotSupportedPizzasNumberException.class)
@@ -135,7 +128,7 @@ public class SimpleOrderServiceTest {
 		status.doAction(order);
 		status = EnumStatusState.IN_PROGRESS;
 		status.doAction(order);
-		service.addPizzasIntoOrder(order, EXISTING_PIZZA_ID);
+		service.addPizzasIntoOrder(order.getId(), EXISTING_PIZZA_ID);
 	}
 	
 	@Test(expected = NotSupportedPizzasNumberException.class)
@@ -146,7 +139,7 @@ public class SimpleOrderServiceTest {
 		order = new Order(customer, pizzas);
 		StatusState status = EnumStatusState.NEW;
 		status.doAction(order);
-		service.addPizzasIntoOrder(order, EXISTING_PIZZA_ID);
+		service.addPizzasIntoOrder(order.getId(), EXISTING_PIZZA_ID);
 	}
 	
 //	@Test(expected = NoSuchPizzaException.class)

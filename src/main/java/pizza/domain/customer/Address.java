@@ -2,15 +2,13 @@ package pizza.domain.customer;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import pizza.domain.order.Order;
 
 @Entity
 @Table(name = "address"/*, catalog = "pizza_service_jpa"*/)
@@ -39,6 +37,7 @@ public class Address {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "address_id")
 	public int getId() {
 		return id;
 	}
@@ -56,6 +55,7 @@ public class Address {
 		this.id = id;
 	}
 
+	@Column(name = "city")
 	public String getCity() {
 		return city;
 	}
@@ -64,6 +64,7 @@ public class Address {
 		this.city = city;
 	}
 
+	@Column(name = "street")
 	public String getStreet() {
 		return street;
 	}
@@ -72,6 +73,7 @@ public class Address {
 		this.street = street;
 	}
 
+	@Column(name = "house")
 	public String getHouse() {
 		return house;
 	}
@@ -80,6 +82,7 @@ public class Address {
 		this.house = house;
 	}
 
+	@Column(name = "flat")
 	public String getFlat() {
 		return flat;
 	}

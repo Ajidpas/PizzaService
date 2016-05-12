@@ -3,15 +3,22 @@ package pizza.repository.customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import pizza.domain.customer.Address;
 import pizza.domain.customer.Customer;
-import pizza.repository.CustomerRepository;
+import pizza.repository.Repository;
 
-public class InMemCustomerRepository implements CustomerRepository {
+public class InMemCustomerRepository implements Repository<Customer> {
 
 private List<Customer> customers;
+
+	@Override
+	public List<Customer> getAll() {
+		if (customers == null) {
+			customers = new ArrayList<Customer>();
+		}
+		return customers;
+	}
 	
-	public Customer saveCustomer(Customer customer) {
+	public Customer insert(Customer customer) {
 		if (customers == null) {
 			customers = new ArrayList<Customer>();
 		}
@@ -20,41 +27,17 @@ private List<Customer> customers;
 	}
 
 	@Override
-	public List<Customer> getCustomers() {
-		if (customers == null) {
-			customers = new ArrayList<Customer>();
-		}
-		return customers;
-	}
-
-	@Override
-	public Customer getCustomer(int id) {
+	public Customer get(int id) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Customer updateCustomer(Customer customer) {
+	public Customer update(Customer customer) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean deleteCustomer(int id) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Customer getCustomerWithAddresses(int customerId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateAddresses(Customer customer) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void insertAddress(Address address) {
+	public boolean delete(int id) {
 		throw new UnsupportedOperationException();
 	}
 	

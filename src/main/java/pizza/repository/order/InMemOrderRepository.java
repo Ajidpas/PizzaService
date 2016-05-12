@@ -3,18 +3,16 @@ package pizza.repository.order;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
 import pizza.domain.order.Order;
-import pizza.repository.OrderRepository;
+import pizza.repository.Repository;
 
 //@Repository(value = "orderRepository")
-public class InMemOrderRepository implements OrderRepository {
+public class InMemOrderRepository implements Repository<Order> {
 	
 	private List<Order> orders;
 
 	@Override
-	public Order saveOrder(Order newOrder) {
+	public Order insert(Order newOrder) {
 		if (orders == null) {
 			orders = new ArrayList<Order>();
 		}
@@ -22,33 +20,26 @@ public class InMemOrderRepository implements OrderRepository {
 		return newOrder;
 	}
 
-	public List<Order> getAllOrders() {
+	public List<Order> getAll() {
 		return orders;
 	}
 
 	@Override
-	public Order getOrder(int id) {
+	public Order get(int entityId) {
+		return orders.get(entityId);
+	}
+
+	@Override
+	public Order update(Order entity) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Order updateOrder(Order order) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean deleteOrder(int id) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Order getOrderWithPizzas(Integer orderId) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void updateOrderPizzas(Order orderWithPizzas) {
-		throw new UnsupportedOperationException();
+	public boolean delete(int entityId) {
+		if (orders.remove(entityId) == null) {
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -8,17 +8,11 @@ import javax.persistence.EntityManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import pizza.domain.AccumulativeCard;
-import pizza.domain.Pizza;
-import pizza.domain.customer.Address;
-import pizza.domain.customer.Customer;
-import pizza.domain.order.Order;
-import pizza.repository.OrderRepository;
+import pizza.domain.*;
+import pizza.domain.customer.*;
+import pizza.repository.Repository;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
-import pizza.service.CardService;
-import pizza.service.CustomerService;
-import pizza.service.OrderService;
-import pizza.service.PizzaService;
+import pizza.service.*;
 import pizza.service.orderservice.exceptions.NotSupportedPizzasNumberException;
 import pizza.service.orderservice.exceptions.WrongStatusException;
 
@@ -51,8 +45,8 @@ public class SpringWithJpaApp {
 	}
 
 	private static void getAllPizzas(ConfigurableApplicationContext appContext) {
-		OrderRepository orderRepository = appContext.getBean(OrderRepository.class);
-		orderRepository.getAllOrders();
+		Repository orderRepository = appContext.getBean(Repository.class);
+		orderRepository.getAll();
 	}
 
 	private static void deletePizzaFromOrder(
@@ -120,7 +114,7 @@ public class SpringWithJpaApp {
 		customerService.insertCustomer(customer2);
 		
 		Customer updatedCustomer = new Customer("Updated customer", "Rivne", "Kovalska", "1", "75");
-		customerService.updsteCustomer(updatedCustomer, 1);
+		customerService.updateCustomer(updatedCustomer);
 		
 		Customer getedCustomer = customerService.getCustomer(1);
 		System.out.println(getedCustomer);

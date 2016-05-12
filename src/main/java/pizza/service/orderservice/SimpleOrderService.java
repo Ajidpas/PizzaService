@@ -19,7 +19,7 @@ import pizza.domain.order.Order;
 import pizza.domain.order.StatusState;
 import pizza.domain.order.status.EnumStatusState;
 import pizza.domain.order.status.NullOrderStatusException;
-import pizza.repository.OrderRepository;
+import pizza.repository.Repository;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 import pizza.service.DiscountService;
 import pizza.service.OrderService;
@@ -40,7 +40,7 @@ public class SimpleOrderService implements OrderService {
 	private PizzaService pizzaService;
 
 	@Autowired
-	private OrderRepository orderRepository;
+	private Repository<Order> orderRepository;
 
 	@Autowired
 	private DiscountService discountService;
@@ -54,7 +54,7 @@ public class SimpleOrderService implements OrderService {
 		Order newOrder = createOrder(customer, address, pizzas);
 		setOrderStatus(newOrder);
 		newOrder.setDate(new Date(new java.util.Date().getTime()));
-		orderRepository.saveOrder(newOrder);
+		orderRepository.insert(newOrder);
 		return newOrder;
 	}
 	
@@ -104,6 +104,7 @@ public class SimpleOrderService implements OrderService {
 	}
 
 	public double getOrderPrice(Order order) {
+		order.countPrice();
 		return order.getTotalPrice();
 	}
 
@@ -163,21 +164,24 @@ public class SimpleOrderService implements OrderService {
 	@Override
 	public List<Pizza> deletePizzasFromOrder(int orderId, Integer... pizzasId) 
 			throws NoSuchPizzaException, WrongStatusException {
-		Order orderWithPizzas = orderRepository.getOrderWithPizzas(orderId);
-		checkOrderStatus(orderWithPizzas, EnumStatusState.NEW);
+		Order order = orderRepository.get(orderId);
+		checkOrderStatus(order, EnumStatusState.NEW);
+		order.getPizzas().size(); // for getting order pizzas from database
 		List<Pizza> deletedPizzas = new ArrayList<Pizza>();
 		for (Pizza pizza : pizzasByArrOfId(pizzasId)) {
-			if (orderWithPizzas.deletePizza(pizza, 1)) {
+			if (order.deletePizza(pizza, 1)) {
 				deletedPizzas.add(pizza);
 			}
 		}
-		orderRepository.updateOrderPizzas(orderWithPizzas);
+		orderRepository.update(order);
 		return deletedPizzas;
 	}
 
 	@Override
-	public Map<Pizza, Integer> addPizzasIntoOrder(Order order, Integer... pizzasId)
+	public Map<Pizza, Integer> addPizzasIntoOrder(int orderId, Integer... pizzasId)
 			throws WrongStatusException, NotSupportedPizzasNumberException, NoSuchPizzaException {
+		Order order = orderRepository.get(orderId);
+		order.getPizzas().size(); // for getting pizzas from database
 		checkOrderStatus(order, EnumStatusState.NEW);
 		int orderPizzas = countPizzasInMap(order.getPizzas());
 		int allPizzas = pizzasId.length + orderPizzas;
@@ -185,38 +189,18 @@ public class SimpleOrderService implements OrderService {
 		for (Pizza pizza : pizzasByArrOfId(pizzasId)) {
 			order.addPizza(pizza, 1);
 		}
-		orderRepository.updateOrder(order);
+		orderRepository.update(order);
 		return order.getPizzas();
-	}
-
-	@Override
-	public void addPizzasIntoOrder(Integer orderId, Integer ... pizzasId) 
-			throws NoSuchPizzaException, WrongStatusException, NotSupportedPizzasNumberException {
-		Order orderWithPizzas = orderRepository.getOrderWithPizzas(orderId);
-		checkOrderStatus(orderWithPizzas, EnumStatusState.NEW);
-		int orderPizzas = countPizzasInMap(orderWithPizzas.getPizzas());
-		int allPizzas = pizzasId.length + orderPizzas;
-		checkPizzasNumber(allPizzas);
-		for (Pizza pizza : pizzasByArrOfId(pizzasId)) {
-			orderWithPizzas.addPizza(pizza, 1);
-		}
-		orderRepository.updateOrderPizzas(orderWithPizzas);
 	}
 	
 	@Override
 	public List<Order> getAllOrders() {
-		return orderRepository.getAllOrders();
+		return orderRepository.getAll();
 	}
 	
 	@Override
 	public Order getOrder(int id) {
-		return orderRepository.getOrder(id);
-	}
-	
-	@Override
-	public Map<Pizza, Integer> getOrderPizzas(int orderId) {
-		Order order = orderRepository.getOrderWithPizzas(orderId);
-		return order.getPizzas();
+		return orderRepository.get(id);
 	}
 	
 }

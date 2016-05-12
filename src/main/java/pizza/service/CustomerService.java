@@ -7,16 +7,18 @@ import pizza.domain.customer.Customer;
 
 public interface CustomerService {
 	
-	void insertCustomer(Customer customer);
+	Customer insertCustomer(Customer customer);
 	
 	Customer getCustomer(int id);
 	
-	Customer updsteCustomer(Customer newCustomer, int id);
+	Customer updateCustomer(Customer newCustomer);
 	
-	void deleteCustomer(int id);
+	boolean deleteCustomer(int id);
 
-	Customer getCustomerWithAddresses(int customeerId);
+	List<Address> getCustomerAddresses(int customeerId);
 	
 	void addAddressToCustomer(int customerId, Address newAddress);
+
+	List<Customer> getAllCustomers();
 
 }

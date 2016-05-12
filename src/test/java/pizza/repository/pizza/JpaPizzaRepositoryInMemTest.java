@@ -1,5 +1,7 @@
 package pizza.repository.pizza;
 
+import static org.junit.Assert.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -30,13 +32,6 @@ public class JpaPizzaRepositoryInMemTest extends AbstractTransactionalJUnit4Spri
 	@Test 
 	public void testGetPizza() throws NoSuchPizzaException {
 		final String sql = "INSERT INTO pizza (name, price, type) values ('sql pizza', '100', 'SEA')";
-//		final String sql = "INSERT INTO customer (name) values ('customer')";
-//		final String sql = "INSERT INTO PIZZAS (name, price, pizzaType) VALUES ('Vegan', '5.24' , 'MEAT')";
-        
-//		jdbcTemplate.update(
-//				"INSERT INTO pizza (name, price, type) values (?, ?, ?)",
-//                "name", 100, "SEA");
-		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
         
         jdbcTemplate.update(new PreparedStatementCreator() {
@@ -50,58 +45,58 @@ public class JpaPizzaRepositoryInMemTest extends AbstractTransactionalJUnit4Spri
         int id = keyHolder.getKey().intValue();
 		
 		Pizza pizza = pizzaRepository.getPizzaByID(id);
-		System.out.println(pizza);
+		assertNotNull(pizza);
 	}
 	
-//	@Test
-//	public void testInsertPizzaAndGetPizzaById() throws NoSuchPizzaException {
-//		Pizza pizza = new Pizza("Test pizza", 100, Pizza.PizzaType.SEA);
-//		pizzaRepository.insertPizza(pizza);
-//		Pizza expected = pizza;
-//		Pizza result = pizzaRepository.getPizzaByID(pizza.getId());
-//		assertEquals(expected, result);
-//		assertEquals(expected.getName(), result.getName());
-//		assertEquals(expected.getPrice(), result.getPrice(), 0.001);
-//		assertEquals(expected.getType(), result.getType());
-//	}
-//	
-//	@Test(expected = NoSuchPizzaException.class)
-//	public void testGetPizzaByIdNoSuchPizzaException() throws NoSuchPizzaException {
-//		pizzaRepository.getPizzaByID(100500);
-//	}
-//	
-//	@Test
-//	public void testUpdatePizza() throws NoSuchPizzaException {
-//		Pizza pizza = new Pizza("Before update", 100, Pizza.PizzaType.SEA);
-//		pizzaRepository.insertPizza(pizza);
-//		String updatedName = "After update";
-//		double updatedPrice = 200;
-//		Pizza.PizzaType updatedType = Pizza.PizzaType.VEGETABLES;
-//		pizza.setName(updatedName);
-//		pizza.setPrice(updatedPrice);
-//		pizza.setType(updatedType);
-//		pizzaRepository.updatePizza(pizza);
-//		Pizza expected = pizza;
-//		Pizza result = pizzaRepository.getPizzaByID(pizza.getId());
-//		assertEquals(expected, result);
-//		assertEquals(expected.getName(), result.getName());
-//		assertEquals(expected.getPrice(), result.getPrice(), 0.0001);
-//		assertEquals(expected.getType(), result.getType());
-//	}
-//	
-//	
-//	@Test
-//	public void testDeletePizza() {
-//		boolean expected = false;
-//		boolean result = pizzaRepository.deletePizza(100500);
-//		assertEquals(expected, result);
-//		
-//		Pizza pizza = new Pizza("Deleting pizza", 500, Pizza.PizzaType.SEA);
-//		pizzaRepository.insertPizza(pizza);
-//		int pizzaId = pizza.getId();
-//		expected = true;
-//		result = pizzaRepository.deletePizza(pizzaId);
-//		assertEquals(expected, result);
-//	}
+	@Test
+	public void testInsertPizzaAndGetPizzaById() throws NoSuchPizzaException {
+		Pizza pizza = new Pizza("Test pizza", 100, Pizza.PizzaType.SEA);
+		pizzaRepository.insertPizza(pizza);
+		Pizza expected = pizza;
+		Pizza result = pizzaRepository.getPizzaByID(pizza.getId());
+		assertEquals(expected, result);
+		assertEquals(expected.getName(), result.getName());
+		assertEquals(expected.getPrice(), result.getPrice(), 0.001);
+		assertEquals(expected.getType(), result.getType());
+	}
+	
+	@Test(expected = NoSuchPizzaException.class)
+	public void testGetPizzaByIdNoSuchPizzaException() throws NoSuchPizzaException {
+		pizzaRepository.getPizzaByID(100500);
+	}
+	
+	@Test
+	public void testUpdatePizza() throws NoSuchPizzaException {
+		Pizza pizza = new Pizza("Before update", 100, Pizza.PizzaType.SEA);
+		pizzaRepository.insertPizza(pizza);
+		String updatedName = "After update";
+		double updatedPrice = 200;
+		Pizza.PizzaType updatedType = Pizza.PizzaType.VEGETABLES;
+		pizza.setName(updatedName);
+		pizza.setPrice(updatedPrice);
+		pizza.setType(updatedType);
+		pizzaRepository.updatePizza(pizza);
+		Pizza expected = pizza;
+		Pizza result = pizzaRepository.getPizzaByID(pizza.getId());
+		assertEquals(expected, result);
+		assertEquals(expected.getName(), result.getName());
+		assertEquals(expected.getPrice(), result.getPrice(), 0.0001);
+		assertEquals(expected.getType(), result.getType());
+	}
+	
+	
+	@Test
+	public void testDeletePizza() {
+		boolean expected = false;
+		boolean result = pizzaRepository.deletePizza(100500);
+		assertEquals(expected, result);
+		
+		Pizza pizza = new Pizza("Deleting pizza", 500, Pizza.PizzaType.SEA);
+		pizzaRepository.insertPizza(pizza);
+		int pizzaId = pizza.getId();
+		expected = true;
+		result = pizzaRepository.deletePizza(pizzaId);
+		assertEquals(expected, result);
+	}
 	
 }

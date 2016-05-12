@@ -9,72 +9,30 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import pizza.domain.customer.Address;
 import pizza.domain.customer.Customer;
-import pizza.repository.CustomerRepository;
+import pizza.repository.AbstractRepository;
 
 @Transactional
 @Repository(value = "customerRepository")
-public class JpaCustomerRepository implements CustomerRepository {
+public class JpaCustomerRepository extends AbstractRepository<Customer> {
 	
 	@PersistenceContext
 	private EntityManager em;
-	
-	public JpaCustomerRepository() {}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Customer> getCustomers() {
+	public List<Customer> getAll() {
 		Query query = em.createQuery("SELECT c FROM Customer c", Customer.class);
 		return query.getResultList();
 	}
-	
-	@Override
-	public Customer saveCustomer(Customer customer) {
-		em.persist(customer);
-		return customer;
-	}
 
 	@Override
-	public Customer getCustomer(int id) {
-		return em.find(Customer.class, id);
-	}
-
-	@Override
-	public Customer updateCustomer(Customer customer) {
+	public Customer update(Customer customer) {
 		Customer oldCustomer = em.find(Customer.class, customer.getId());
-//		oldCustomer.setAddresses(customer.getAddresses());
+		oldCustomer.setAddresses(customer.getAddresses());
 		oldCustomer.setName(customer.getName());
+		em.flush();
 		return oldCustomer;
-	}
-
-	@Override
-	public boolean deleteCustomer(int id) {
-		Customer customer = em.find(Customer.class, id);
-		if (customer == null) {
-			return false;
-		}
-		em.remove(customer);
-		return true;
-	}
-	
-	@Override
-	public Customer getCustomerWithAddresses(int customerId) {
-		Customer customer = em.find(Customer.class, customerId);
-		customer.getAddresses().size();
-		return customer;
-	}
-
-	@Override
-	public void updateAddresses(Customer customerWithAddresses) {
-		Integer customerId = customerWithAddresses.getId();
-		Customer customer = em.find(Customer.class, customerId);
-		customer.setAddresses(customerWithAddresses.getAddresses());
-	}
-	
-	@Override
-	public void insertAddress(Address address) {
-		em.persist(address);
 	}
 
 }

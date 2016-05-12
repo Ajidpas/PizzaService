@@ -22,7 +22,7 @@ public interface OrderService {
 	
 	Order getOrder(int id);
 
-	Map<Pizza, Integer> addPizzasIntoOrder(Order order, Integer ... pizzasID) 
+	Map<Pizza, Integer> addPizzasIntoOrder(int orderId, Integer ... pizzasID) 
 			throws WrongStatusException, NotSupportedPizzasNumberException, 
 			NoSuchPizzaException;
 	
@@ -36,14 +36,9 @@ public interface OrderService {
 	StatusState cancelOrder(Order order) throws WrongStatusException, 
 			NullOrderStatusException;
 
-	void addPizzasIntoOrder(Integer orderId, Integer ... pizzasId) 
-			throws NoSuchPizzaException, WrongStatusException, NotSupportedPizzasNumberException;
-
 	List<Order> getAllOrders();
 
 	List<Pizza> deletePizzasFromOrder(int orderId, Integer ... pizzasId)
 			throws NoSuchPizzaException, WrongStatusException;
-
-	Map<Pizza, Integer> getOrderPizzas(int orderId);
 	
 }

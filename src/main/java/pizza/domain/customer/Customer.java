@@ -68,6 +68,7 @@ public class Customer /*implements FactoryBean<Customer>*/{
 		this.id = id;
 	}
 
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
