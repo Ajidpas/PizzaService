@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 
 import pizza.domain.AccumulativeCard;
 import pizza.domain.customer.Customer;
-import pizza.repository.CardRepository;
+import pizza.repository.Repository;
 import pizza.service.CardService;
 
 @Service(value = "cardService")
 public class SimpleCardService implements CardService {
 	
 	@Autowired
-	private CardRepository cardRepository;
+	private Repository<AccumulativeCard> cardRepository;
 
 	@Override
 	public Optional<AccumulativeCard> getCardByCustomer(Customer customer) {
-		List<AccumulativeCard> cards = cardRepository.getAllCards();
+		List<AccumulativeCard> cards = cardRepository.getAll();
 		for (AccumulativeCard card : cards) {
 			if (card.getCustomer().getId() == customer.getId()) {
 				return Optional.of(card);
@@ -27,26 +27,30 @@ public class SimpleCardService implements CardService {
 		}
 		return Optional.empty();
 	}
+	
+	@Override
+	public List<AccumulativeCard> getAllCards() {
+		return cardRepository.getAll();
+	}
 
 	@Override
 	public AccumulativeCard insertCard(AccumulativeCard accumulativeCard) {
-		return cardRepository.saveCard(accumulativeCard);
+		return cardRepository.insert(accumulativeCard);
 	}
 
 	@Override
 	public AccumulativeCard getCard(int id) {
-		return cardRepository.getAccumulativeCard(id);
+		return cardRepository.get(id);
 	}
 
 	@Override
-	public AccumulativeCard updateCard(AccumulativeCard accumulativeCard, int id) {
-		accumulativeCard.setId(id);
-		return cardRepository.updateAccumulativeCard(accumulativeCard);
+	public AccumulativeCard updateCard(AccumulativeCard accumulativeCard) {
+		return cardRepository.update(accumulativeCard);
 	}
 
 	@Override
 	public void deleteCard(int id) {
-		cardRepository.deleteAccumulativeCard(id);
+		cardRepository.delete(id);
 	}
 
 }

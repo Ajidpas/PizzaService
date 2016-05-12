@@ -27,7 +27,7 @@ public class JpaOrderRepositoryInMemTest extends AbstractTransactionalJUnit4Spri
 	private Repository<Order> orderRepository;
 	
 	@Autowired
-	private PizzaRepository pizzaRepository;
+	private Repository<Pizza> pizzaRepository;
 	
 	private Order order;
 	
@@ -39,8 +39,8 @@ public class JpaOrderRepositoryInMemTest extends AbstractTransactionalJUnit4Spri
 	private Order createOrder() {
 		Pizza pizza1 = new Pizza("Pizza 1", 100, Pizza.PizzaType.SEA);
 		Pizza pizza2 = new Pizza("Pizza 2", 200, Pizza.PizzaType.VEGETABLES);
-		pizzaRepository.insertPizza(pizza1);
-		pizzaRepository.insertPizza(pizza2);
+		pizzaRepository.insert(pizza1);
+		pizzaRepository.insert(pizza2);
 		Address address = new Address("Kiev", "Kudryashova", "12", "4");
 		Customer customer = new Customer("Customer name", address);
 		Map<Pizza, Integer> pizzas = new HashMap<Pizza, Integer>();

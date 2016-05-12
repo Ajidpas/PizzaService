@@ -86,7 +86,8 @@ public class SpringWithJpaApp {
 		System.out.println(newCard);
 		newCard.setMoney(100);
 		waitForEnter("Set value but not persisted");
-		cardService.updateCard(newCard, 1);
+		newCard.setId(1);
+		cardService.updateCard(newCard);
 		
 		waitForEnter("Before deleting");
 		cardService.deleteCard(1);
@@ -153,7 +154,8 @@ public class SpringWithJpaApp {
 		
 		// update method
 		Pizza updatePizza = new Pizza("Update pizza", .0, Pizza.PizzaType.VEGETABLES);
-		pizzaService.updatePizza(updatePizza, 1);
+		updatePizza.setId(1);
+		pizzaService.updatePizza(updatePizza);
 		
 		// get method
 		try {

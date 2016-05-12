@@ -5,14 +5,11 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.stereotype.Repository;
-
 import pizza.domain.Pizza;
-import pizza.repository.PizzaRepository;
-import pizza.repository.pizza.exceptions.NoSuchPizzaException;
+import pizza.repository.Repository;
 
 //@Repository(value = "pizzaRepository")
-public class InMemPizzaRepository implements PizzaRepository {
+public class InMemPizzaRepository implements Repository<Pizza> {
 
 	public List<Pizza> allPizzas;
 
@@ -20,13 +17,13 @@ public class InMemPizzaRepository implements PizzaRepository {
 		allPizzas = new ArrayList<Pizza>();
 	}
 
-	public Pizza getPizzaByID(int id) throws NoSuchPizzaException {
+	public Pizza get(int id) {
 		for (Pizza pizza : allPizzas) {
 			if (pizza.getId() == id) {
 				return pizza;
 			}
 		}
-		throw new NoSuchPizzaException();
+		return null;
 	}
 
 	@PostConstruct
@@ -38,17 +35,22 @@ public class InMemPizzaRepository implements PizzaRepository {
 	}
 
 	@Override
-	public Pizza insertPizza(Pizza pizza) {
+	public List<Pizza> getAll() {
+		return allPizzas;
+	}
+
+	@Override
+	public Pizza update(Pizza entity) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Pizza updatePizza(Pizza pizza) {
+	public Pizza insert(Pizza entity) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean deletePizza(int id) {
+	public boolean delete(int entityId) {
 		throw new UnsupportedOperationException();
 	}
 

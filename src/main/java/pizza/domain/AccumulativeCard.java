@@ -52,6 +52,7 @@ public class AccumulativeCard {
 		this.id = id;
 	}
 
+	@Column(name = "money")
 	public double getMoney() {
 		return money;
 	}

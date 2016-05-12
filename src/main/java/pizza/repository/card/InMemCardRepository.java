@@ -3,13 +3,12 @@ package pizza.repository.card;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
 
 import pizza.domain.AccumulativeCard;
-import pizza.repository.CardRepository;
+import pizza.repository.Repository;
 
 //@Repository(value = "cardRepository")
-public class InMemCardRepository implements CardRepository {
+public class InMemCardRepository implements Repository<AccumulativeCard> {
 	
 	private List<AccumulativeCard> cards;
 	
@@ -18,7 +17,7 @@ public class InMemCardRepository implements CardRepository {
 	}
 	
 	@Override
-	public AccumulativeCard saveCard(AccumulativeCard card) {
+	public AccumulativeCard insert(AccumulativeCard card) {
 		cards.add(card);
 		return card;
 	}
@@ -28,18 +27,23 @@ public class InMemCardRepository implements CardRepository {
 	}
 
 	@Override
-	public AccumulativeCard getAccumulativeCard(int id) {
+	public AccumulativeCard get(int id) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public AccumulativeCard updateAccumulativeCard(AccumulativeCard accumulativeCard) {
+	public AccumulativeCard update(AccumulativeCard accumulativeCard) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean deleteAccumulativeCard(int id) {
+	public boolean delete(int id) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public List<AccumulativeCard> getAll() {
+		return cards;
 	}
 
 }

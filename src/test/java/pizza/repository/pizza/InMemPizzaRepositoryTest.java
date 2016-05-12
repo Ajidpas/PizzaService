@@ -10,33 +10,27 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 
 import pizza.domain.Pizza;
-import pizza.repository.PizzaRepository;
+import pizza.repository.Repository;
 import pizza.repository.pizza.exceptions.NoSuchPizzaException;
 
 public class InMemPizzaRepositoryTest {
 	
-	@Test(expected = NoSuchPizzaException.class)
-	public void getPizzaByID() throws NoSuchPizzaException {
-		InMemPizzaRepository repository = new InMemPizzaRepository();
-		repository.getPizzaByID(-1);
-	}
-	
 	@Test
 	public void getPizzaByIDNonException() throws Exception {
-		PizzaRepository repository = createBeanForPizzaRepository();
-		Pizza result = repository.getPizzaByID(1);
+		Repository<Pizza> repository = createBeanForPizzaRepository();
+		Pizza result = repository.get(1);
 		Pizza nonExpected = null;
 		assertThat(result, is(not(nonExpected)));
 	}
 
-	private PizzaRepository createBeanForPizzaRepository()
+	private Repository<Pizza> createBeanForPizzaRepository()
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		PizzaRepository repository = new InMemPizzaRepository();
+		Repository<Pizza> repository = new InMemPizzaRepository();
 		invokeInitMethod(repository);
 		return repository;
 	}
 
-	private void invokeInitMethod(PizzaRepository repository)
+	private void invokeInitMethod(Repository<Pizza> repository)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		Method method = repository.getClass().getDeclaredMethod("cookPizzas");
 		method.setAccessible(true);

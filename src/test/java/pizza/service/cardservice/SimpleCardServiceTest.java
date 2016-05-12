@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import pizza.domain.AccumulativeCard;
 import pizza.domain.customer.Customer;
-import pizza.repository.CardRepository;
+import pizza.repository.Repository;
 import pizza.repository.card.InMemCardRepository;
 import pizza.service.CardService;
 
@@ -22,10 +22,10 @@ public class SimpleCardServiceTest {
 	@Test
 	public void testGetCardByCustomer() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		AccumulativeCard card = new AccumulativeCard(1, customer1);
-		CardRepository repository = new InMemCardRepository();
+		Repository<AccumulativeCard> repository = new InMemCardRepository();
 		
 		// add into repository card with customer1
-		repository.saveCard(card);
+		repository.insert(card);
 		
 		// create service with this repository (setting repository by reflection)
 		CardService service = new SimpleCardService();

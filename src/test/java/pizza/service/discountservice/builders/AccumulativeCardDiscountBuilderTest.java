@@ -18,7 +18,7 @@ import pizza.domain.Pizza.PizzaType;
 import pizza.domain.customer.Customer;
 import pizza.domain.discounts.AccumulativeCardDiscount;
 import pizza.domain.order.Order;
-import pizza.repository.CardRepository;
+import pizza.repository.Repository;
 import pizza.repository.card.InMemCardRepository;
 import pizza.service.CardService;
 import pizza.service.cardservice.SimpleCardService;
@@ -33,9 +33,9 @@ public class AccumulativeCardDiscountBuilderTest {
 	@Test
 	public void testBuildDiscount() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		// create repository with one card with some customer
-		CardRepository cardRepository = new InMemCardRepository();
+		Repository<AccumulativeCard> cardRepository = new InMemCardRepository();
 		AccumulativeCard card = new AccumulativeCard(50, customer);
-		cardRepository.saveCard(card);
+		cardRepository.insert(card);
 		CardService cardService = new SimpleCardService();
 		
 		// setting repository by reflection
