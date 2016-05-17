@@ -12,15 +12,15 @@ import pizza.service.PizzaService;
 
 @Service
 public class SimplePizzaService implements PizzaService {
-	
+
 	@Autowired
 	private Repository<Pizza> pizzaRepository;
-	
+
 	@Override
 	public List<Pizza> getAllPizzas() {
 		return pizzaRepository.getAll();
 	}
-	
+
 	@Override
 	public Pizza insertPizza(Pizza pizza) {
 		return pizzaRepository.insert(pizza);
