@@ -14,6 +14,14 @@
 	<!-- <context:component-scan base-package="pizza.service" /> -->
 	<!-- <context:component-scan base-package="pizza.repository" /> -->
 	
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean" >
+		<property name="converters">
+			<set>
+				<bean class="pizza.web.converters.PizzaConverter" />
+				<bean class="pizza.web.converters.PizzaTypeConverter" />
+			</set>
+		</property>
+	</bean>
 	
 	<context:annotation-config/>
  
@@ -22,6 +30,10 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<!-- <mvc:view-resolvers>
+		<mvc:jsp prefix="/WEB-INF/jsp/" suffix=".jsp" view-class="org.springframeword.web.servlet.view.JstlView"/>
+	</mvc:view-resolvers> -->
 	
 	<!-- <bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">

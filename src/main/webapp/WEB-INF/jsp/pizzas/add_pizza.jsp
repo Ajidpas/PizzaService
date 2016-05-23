@@ -7,12 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Here is our pizza:</h1>
-	
-	<h2>${error}</h2>
-
-	<h2>Pizza name = ${pizza.name}</h2>
-	<h2>Pizza price = ${pizza.price}</h2>
-	<h2>Pizza type = ${pizza.type}</h2>
+	<form action="/PizzaService/pizzas/insert_pizza" method = "POST" >
+		Pizza name: <input type="text" name="pizza_name"><br>
+		Pizza type: <input type="text" name="pizza_type"><br>
+		Pizza price: <input type="text" name="pizza_price"><br>
+		<input type="submit" value="Add pizza">
+	</form>
 </body>
 </html>

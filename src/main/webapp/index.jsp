@@ -19,8 +19,10 @@
 	<p>To prove that they work, you can execute either of the following links:
 	<ul>
 		<!-- <li>To a <a href="hello.jsp">JSP page</a>. -->
-		<li>To a <a href="/PizzaService/hello">servlet</a>.
+		<li>To a <a href="/PizzaService/hello">servlet</a>
 	</ul>
-	
+	<a href="/PizzaService/pizzas/1">Get pizza with id = 1</a>
+	<a href="/PizzaService/pizzas/add_pizza">Add pizza</a>
+	<a href="/PizzaService/pizzas">Show menu</a>
 	</body>
 </html>
