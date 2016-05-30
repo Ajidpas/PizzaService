@@ -1,0 +1,32 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+
+	<!-- <http auto-config="true"> 
+	</http> -->
+	
+	<!-- <http> 
+		<form-login/>
+		<intercept-url pattern="/**" access="hasRole" ></intercept-url>
+		<intercept-url pattern="/**" access="ROLE_USER" />
+	</http> -->
+	
+	<http>
+        <form-login/>
+        <intercept-url pattern="/**"  access="hasRole('USER')"/>
+
+    </http>
+	
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="andrii" password="123" authorities="ROLE_USER,ROLE_ADMIN"/> <!-- rolenaming is ROLE_USER - mandatory convention, then role is USER -->
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+	
+</beans:beans>
