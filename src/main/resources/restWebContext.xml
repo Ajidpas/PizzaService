@@ -13,5 +13,11 @@
 	
 	<mvc:annotation-driven/> 
 	<context:component-scan base-package="pizza.web" />
+	
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="org.springframework.security.web.method.annotation.CsrfTokenArgumentResolver"/>
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
  
 </beans>

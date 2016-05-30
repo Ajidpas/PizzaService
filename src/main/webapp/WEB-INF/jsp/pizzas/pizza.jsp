@@ -14,7 +14,7 @@
 	<h2>Pizza name = ${pizza.name}</h2>
 	<h2>Pizza price = ${pizza.price}</h2>
 	<h2>Pizza type = ${pizza.type}</h2>
-	<form action="/PizzaService/pizzas/edit" method="get" >
+	<form action="/PizzaService/app/pizzas/edit" method="get" >
 		<input type="submit" value="Edit pizza">
 		<input type="hidden" name="pizza_id" value="${pizza.id}">
 	</form>

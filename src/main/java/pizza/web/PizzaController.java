@@ -4,10 +4,12 @@ import java.beans.PropertyEditorSupport;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,9 +27,15 @@ public class PizzaController {
 	@Autowired
 	private PizzaService pizzaService;
 	
+	@Secured("ROLE_USER")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getAllPizzas() {
 		List<Pizza> pizzas = pizzaService.getAllPizzas();
+		
+		// security
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("PizzaController.getAllPizzas(): role name: " + auth.getName());
+		
 		ModelAndView model = new ModelAndView("pizzas/all_pizzas");
 		model.addObject("pizzas", pizzas);
 		return model;
@@ -47,6 +55,7 @@ public class PizzaController {
 		return model;
 	}
 	
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "/insert_pizza", method = RequestMethod.POST)
 	public String insertPizza(@RequestParam("pizza_name") String name, 
 			@RequestParam("pizza_type") Pizza.PizzaType type,
@@ -59,6 +68,7 @@ public class PizzaController {
 		return "redirect:/pizzas/" + Integer.toString(id);
 	}
 	
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "/delete")
 	public String deletePizza(@RequestParam("pizza_id") Integer pizzaId) {
 		pizzaService.deletePizza(pizzaId);

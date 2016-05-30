@@ -15,10 +15,18 @@
 		<intercept-url pattern="/**" access="ROLE_USER" />
 	</http> -->
 	
-	<http>
+	<!-- <http>
         <form-login/>
-        <intercept-url pattern="/**"  access="hasRole('USER')"/>
-
+        <intercept-url pattern="/app/*"  access="hasRole('USER')"/> pattern may be /app/** so in web.xml change pattern
+        <csrf />
+    </http> -->
+    
+    <http create-session="stateless">
+        <http-basic/>
+        <intercept-url pattern="/rest/**"  access="hasRole('USER')"/> <!-- pattern may be /app/** so in web.xml change pattern -->
+        <csrf/>
+        
+        
     </http>
 	
 	<authentication-manager>
@@ -28,5 +36,7 @@
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>
+	
+	
 	
 </beans:beans>

@@ -39,7 +39,7 @@
 	                <c:out value="${pizza.id}"/><p>
 	            </td>
 	            <td>
-	                <a href="/PizzaService/pizzas/${pizza.id}">
+	                <a href="/PizzaService/app/pizzas/${pizza.id}">
 	                	<c:out value="${pizza.name}"/><p>
 	                </a>
 	            </td>
@@ -50,7 +50,7 @@
 	                <c:out value="${pizza.price}"/><p>
 	            </td>
 	            <td>
-	            	<form action="/PizzaService/pizzas/delete" method="POST" >
+	            	<form action="/PizzaService/app/pizzas/delete" method="POST" >
 	            		<input type="submit" value="Delete pizza">
 	            		<input type="hidden" name="pizza_id" value="${pizza.id}" />
             		</form>

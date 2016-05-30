@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/PizzaService/pizzas/insert_pizza" method = "POST" >
+	<form action="/PizzaService/app/pizzas/insert_pizza" method = "POST" >
 		Pizza name: <input type="text" name="pizza_name"><br>
 		Pizza type: <input type="text" name="pizza_type"><br>
 		Pizza price: <input type="text" name="pizza_price"><br>
